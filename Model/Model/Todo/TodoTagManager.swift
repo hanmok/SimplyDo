@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-public struct TodoManager {
+public struct TodoTagManager {
     let mainContext: NSManagedObjectContext
     public init(mainContext: NSManagedObjectContext = TodoCoreDataStack.shared.mainContext) {
         self.mainContext = mainContext
@@ -16,16 +16,14 @@ public struct TodoManager {
 }
 
 
-extension TodoManager {
+extension TodoTagManager {
     @discardableResult
-    public func createTodo(title: String, targetDate: Date = Date()) -> Todo? {
-        let todo = Todo(context: mainContext)
-        todo.title = title
-        todo.targetDate = targetDate
-        todo.isDone = false
+    public func createTag(title: String ) -> TodoTag? {
+        let todoTag = TodoTag(context: mainContext)
+        todoTag.title = title
         do {
             try mainContext.save()
-            return todo
+            return todoTag
         } catch let error {
             print("Failed to create todo with title: \(title), error: \(error.localizedDescription)")
             return nil

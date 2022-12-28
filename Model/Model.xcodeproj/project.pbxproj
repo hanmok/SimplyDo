@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A5630E7295CA1E200BDE7EB /* Tag+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630E3295CA1E100BDE7EB /* Tag+Helper.swift */; };
+		9A5630E7295CA1E200BDE7EB /* TodoTag+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630E3295CA1E100BDE7EB /* TodoTag+Helper.swift */; };
 		9A5630E8295CA1E200BDE7EB /* TodoCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630E4295CA1E100BDE7EB /* TodoCoreDataStack.swift */; };
 		9A5630E9295CA1E200BDE7EB /* TodoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630E5295CA1E200BDE7EB /* TodoManager.swift */; };
 		9A5630EA295CA1E200BDE7EB /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630E6295CA1E200BDE7EB /* Todo+Helper.swift */; };
 		9A5630ED295CA36400BDE7EB /* Todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630EB295CA36400BDE7EB /* Todo.xcdatamodeld */; };
+		9A5630EF295CA6F600BDE7EB /* TodoTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5630EE295CA6F600BDE7EB /* TodoTagManager.swift */; };
 		9ADD01D02959EE5B00532DA5 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD01C72959EE5B00532DA5 /* Model.framework */; };
 		9ADD01D52959EE5B00532DA5 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01D42959EE5B00532DA5 /* ModelTests.swift */; };
 		9ADD01D62959EE5B00532DA5 /* Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ADD01CA2959EE5B00532DA5 /* Model.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,11 +30,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9A5630E3295CA1E100BDE7EB /* Tag+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Tag+Helper.swift"; path = "../../../SimplyDo/Todo/Tag+Helper.swift"; sourceTree = "<group>"; };
+		9A5630E3295CA1E100BDE7EB /* TodoTag+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TodoTag+Helper.swift"; path = "../../../SimplyDo/Todo/TodoTag+Helper.swift"; sourceTree = "<group>"; };
 		9A5630E4295CA1E100BDE7EB /* TodoCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoCoreDataStack.swift; path = ../../../SimplyDo/Todo/TodoCoreDataStack.swift; sourceTree = "<group>"; };
 		9A5630E5295CA1E200BDE7EB /* TodoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoManager.swift; path = ../../../SimplyDo/Todo/TodoManager.swift; sourceTree = "<group>"; };
 		9A5630E6295CA1E200BDE7EB /* Todo+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Todo+Helper.swift"; path = "../../../SimplyDo/Todo/Todo+Helper.swift"; sourceTree = "<group>"; };
 		9A5630EC295CA36400BDE7EB /* Todo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Todo.xcdatamodel; sourceTree = "<group>"; };
+		9A5630EE295CA6F600BDE7EB /* TodoTagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTagManager.swift; sourceTree = "<group>"; };
 		9ADD01C72959EE5B00532DA5 /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD01CA2959EE5B00532DA5 /* Model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		9ADD01CF2959EE5B00532DA5 /* ModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,9 +66,10 @@
 			isa = PBXGroup;
 			children = (
 				9A5630E6295CA1E200BDE7EB /* Todo+Helper.swift */,
-				9A5630E3295CA1E100BDE7EB /* Tag+Helper.swift */,
+				9A5630E3295CA1E100BDE7EB /* TodoTag+Helper.swift */,
 				9A5630EB295CA36400BDE7EB /* Todo.xcdatamodeld */,
 				9A5630E5295CA1E200BDE7EB /* TodoManager.swift */,
+				9A5630EE295CA6F600BDE7EB /* TodoTagManager.swift */,
 				9A5630E4295CA1E100BDE7EB /* TodoCoreDataStack.swift */,
 				9ADD0215295A05C200532DA5 /* TodoSection.swift */,
 			);
@@ -222,7 +225,8 @@
 				9A5630ED295CA36400BDE7EB /* Todo.xcdatamodeld in Sources */,
 				9A5630EA295CA1E200BDE7EB /* Todo+Helper.swift in Sources */,
 				9A5630E9295CA1E200BDE7EB /* TodoManager.swift in Sources */,
-				9A5630E7295CA1E200BDE7EB /* Tag+Helper.swift in Sources */,
+				9A5630E7295CA1E200BDE7EB /* TodoTag+Helper.swift in Sources */,
+				9A5630EF295CA6F600BDE7EB /* TodoTagManager.swift in Sources */,
 				9ADD0216295A05C200532DA5 /* TodoSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -354,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -380,6 +384,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -410,6 +415,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

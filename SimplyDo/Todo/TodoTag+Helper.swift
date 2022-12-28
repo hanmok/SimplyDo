@@ -7,13 +7,21 @@
 
 import Foundation
 
-extension Tag {
+extension TodoTag {
     public var id: UUID {
         get {
             self.id_ ?? UUID()
         }
         set {
             self.id_ = UUID()
+        }
+    }
+    public var title: String {
+        get {
+            self.title_ ?? ""
+        }
+        set {
+            self.title_ = newValue
         }
     }
 }

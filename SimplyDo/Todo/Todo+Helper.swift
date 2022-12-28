@@ -23,7 +23,7 @@ extension Todo {
             self.title_ ?? ""
         }
         set {
-            self.title_ = ""
+            self.title_ = newValue
         }
     }
 }
