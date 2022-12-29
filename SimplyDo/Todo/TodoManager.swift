@@ -18,11 +18,14 @@ public struct TodoManager {
 
 extension TodoManager {
     @discardableResult
-    public func createTodo(title: String, targetDate: Date = Date()) -> Todo? {
+    public func createTodo(title: String, targetDate: Date = Date(), tag: TodoTag? = nil) -> Todo? {
         let todo = Todo(context: mainContext)
         todo.title = title
         todo.targetDate = targetDate
         todo.isDone = false
+        if let tag = tag {
+            todo.tag = tag.title
+        }
         do {
             try mainContext.save()
             return todo
@@ -32,6 +35,7 @@ extension TodoManager {
         }
     }
     
+    @discardableResult
     public func toggleDoneState(todo: Todo) -> Todo? {
         todo.isDone = !todo.isDone
         do {
@@ -40,6 +44,15 @@ extension TodoManager {
         } catch let error {
             print("Failed to create todo with title: \(todo.title), error: \(error.localizedDescription)")
             return nil
+        }
+    }
+    
+    public func delete(todo: Todo) {
+        mainContext.delete(todo)
+        do {
+            try mainContext.save()
+        } catch let error {
+            print("Failed to delete todo with title: \(todo.title), error: \(error.localizedDescription)")
         }
     }
 }

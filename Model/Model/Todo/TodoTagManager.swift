@@ -18,7 +18,7 @@ public struct TodoTagManager {
 
 extension TodoTagManager {
     @discardableResult
-    public func createTag(title: String ) -> TodoTag? {
+    public func createTag(title: String) -> TodoTag? {
         let todoTag = TodoTag(context: mainContext)
         todoTag.title = title
         do {
@@ -30,14 +30,18 @@ extension TodoTagManager {
         }
     }
     
-    public func toggleDoneState(todo: Todo) -> Todo? {
-        todo.isDone = !todo.isDone
+    public func changeTitle(of todoTag: TodoTag, to name: String) {
+        let tag = todoTag
+        tag.title = name
         do {
             try mainContext.save()
-                return todo
         } catch let error {
-            print("Failed to create todo with title: \(todo.title), error: \(error.localizedDescription)")
-            return nil
+            print("Failed to change todo tag title: \(tag.title), error: \(error.localizedDescription)")
         }
+    }
+    
+    public func addTodo(todo: Todo, to tag: TodoTag) {
+//        tag.todos
+        
     }
 }
