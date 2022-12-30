@@ -6,10 +6,21 @@
 //
 
 import XCTest
+import CoreData
 @testable import Model
 
 final class ModelTests: XCTestCase {
 
+    var todoManager: TodoManager!
+//    var stack: TodoDataTestStack?
+    
+    override func setUp() {
+        super.setUp()
+        let stack = TodoDataTestStack()
+        
+        todoManager = TodoManager(mainContext: stack.mainContext)
+    }
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -31,5 +42,22 @@ final class ModelTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+//    func test_unitTest() {
+//        XCTAssertEqual(1 + 2, 3)
+//        XCTAssertEqual(1 + 2, 4)
+//    }
+    
+    func test_makeTodo() {
+        
+        do {
+            let newTodo = try todoManager.createTodo(title: "Test")
+            XCTAssertEqual(newTodo.title, "Test")
+        } catch let e {
+            print(e)
+            
+        }
+        //        newTodo
     }
 }

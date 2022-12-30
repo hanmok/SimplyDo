@@ -5,9 +5,6 @@
       location = "group:Util/Util.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Model/Model.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:ControllerModule/ControllerModule.xcodeproj">
    </FileRef>
    <FileRef

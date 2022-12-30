@@ -9,28 +9,29 @@
 import Foundation
 import CoreData
 
-public class TodoCoreDataStack {
+class TodoCoreDataStack {
     public static let shared = TodoCoreDataStack()
 
     let persistentContainer: NSPersistentContainer
-    let backgroundContext: NSManagedObjectContext
+//    let backgroundContext: NSManagedObjectContext
+    
     public let mainContext: NSManagedObjectContext
 
+    
     public init() {
+        
         persistentContainer = NSPersistentContainer(name: "Todo")
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType
-
         persistentContainer.loadPersistentStores { description, error in
             guard error == nil else {
                 fatalError("was unable to load store \(error!)")
             }
         }
-
         mainContext = persistentContainer.viewContext
 
-        backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        backgroundContext.parent = self.mainContext
+//        backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+//        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+//        backgroundContext.parent = self.mainContext
     }
 }

@@ -7,8 +7,13 @@
 
 import UIKit
 import SnapKit
+import CoreData
+//import Model
 
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
+    
+//    var todoManager: TodoManager?
+    var todoManager = TodoManager()
     
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
@@ -17,10 +22,12 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         setupLayouts()
         setupTargets()
         setupNotifications()
+        
+//        todoManager = TodoManager()
     }
     
     func configureViewControllers() {
-        let todoController = TodoController()
+        
         
         let todo = templateNavigationController(
             unselectedImage: UIImage(systemName: "checkmark.circle")!.withTintColor(.magenta),
@@ -89,6 +96,12 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     func makeTodo(title: String = "empty", targetDate: Date = Date()) {
         print("todo with title \(title) has created")
+        do {
+            let todo = try todoManager.createTodo(title: title, targetDate: targetDate)
+            print("todo with title \(title) has created 2, todo created: \(todo)")
+        } catch let e {
+            print(e.localizedDescription)
+        }
     }
     
     @objc func makeTapped() {
@@ -174,8 +187,8 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
 
 extension MainTabController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let title = textField.text
-        makeTodo()
+        let title = textField.text!
+        makeTodo(title: title)
         textField.text = ""
         return true
     }

@@ -11,3 +11,5 @@ public enum TodoSection: Int {
     case todo
     case done
 }
+
+//class NSEn: NSEntityDescription

@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+
 extension Todo {
     public var id: UUID {
         get {
@@ -27,3 +28,18 @@ extension Todo {
         }
     }
 }
+
+extension NSManagedObject {
+    public static var entityName: String {
+         let className = NSStringFromClass(self) // As alternative can be used `self.description()` or `String(describing: self)`
+         let entityName = className.components(separatedBy: ".").last!
+        print("core flag: \(entityName)")
+         return entityName
+     }
+
+     public static var entityClassName: String {
+         let className = NSStringFromClass(self)
+         return className
+     }
+}
+

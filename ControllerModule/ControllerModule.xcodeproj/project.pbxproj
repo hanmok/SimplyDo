@@ -12,8 +12,6 @@
 		9ADD019B2959E40F00532DA5 /* ControllerModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ADD018F2959E40E00532DA5 /* ControllerModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9ADD01A62959E44C00532DA5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9ADD01A52959E44C00532DA5 /* SnapKit */; };
 		9ADD01A92959E47300532DA5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9ADD01A82959E47300532DA5 /* Then */; };
-		9ADD01E32959EE9D00532DA5 /* Model.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD01E22959EE9D00532DA5 /* Model.framework */; };
-		9ADD01E42959EE9D00532DA5 /* Model.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD01E22959EE9D00532DA5 /* Model.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; };
 		9ADD02122959FBC800532DA5 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -36,7 +34,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9ADD02122959FBC800532DA5 /* Util.framework in Embed Frameworks */,
-				9ADD01E42959EE9D00532DA5 /* Model.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,7 +56,6 @@
 			files = (
 				9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */,
 				9ADD01A62959E44C00532DA5 /* SnapKit in Frameworks */,
-				9ADD01E32959EE9D00532DA5 /* Model.framework in Frameworks */,
 				9ADD01A92959E47300532DA5 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 import Then
-import Model
+//import Model
 
 // MARK: - Delegate
 
