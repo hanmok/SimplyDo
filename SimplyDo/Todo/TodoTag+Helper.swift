@@ -24,4 +24,15 @@ extension TodoTag {
             self.title_ = newValue
         }
     }
+    
+    var todos: Set<Todo> {
+        get {
+            self.todos_ as? Set<Todo> ?? []
+        }
+        set {
+            self.todos_ = newValue as NSSet
+        }
+    }
 }
+
+
