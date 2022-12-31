@@ -32,6 +32,7 @@
 		9ADD01BC2959E9F300532DA5 /* MemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01BB2959E9F300532DA5 /* MemoController.swift */; };
 		9ADD01EB2959F7C900532DA5 /* TodoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */; };
 		9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */; };
+		9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC9BC22960847E0082800E /* FetchingEnum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		9ADD01BB2959E9F300532DA5 /* MemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoController.swift; sourceTree = "<group>"; };
 		9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableCell.swift; sourceTree = "<group>"; };
 		9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTableCell.swift; sourceTree = "<group>"; };
+		9AFC9BC22960847E0082800E /* FetchingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingEnum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				9AD4375E295F21DB00156D47 /* TodoError.swift */,
 				9AD4375A295F21DB00156D47 /* TodoTag+Helper.swift */,
 				9AD43759295F21DB00156D47 /* TodoTagManager.swift */,
+				9AFC9BC22960847E0082800E /* FetchingEnum.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				9ADD01B02959E58300532DA5 /* MainTabController.swift in Sources */,
 				9ADD01552951ACD800532DA5 /* SceneDelegate.swift in Sources */,
 				9AD4376E295F228500156D47 /* Todo.xcdatamodeld in Sources */,
+				9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */,
 				9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */,
 				9AD43766295F21DB00156D47 /* TodoManager.swift in Sources */,
 				9AD43768295F21DB00156D47 /* TodoCoreDataStack.swift in Sources */,

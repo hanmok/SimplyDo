@@ -10,13 +10,9 @@ import CoreData
 import Util
 
 public struct TodoManager {
-    
     let mainContext: NSManagedObjectContext
-    
     init(mainContext: NSManagedObjectContext = TodoCoreDataStack.shared.mainContext) {
-        
         self.mainContext = mainContext
-        print("todoManager initialized")
     }
 }
 
@@ -24,13 +20,13 @@ public struct TodoManager {
 // static 으로 하는게 낫지 않나??
 extension TodoManager {
     @discardableResult
-    public func createTodo(title: String, targetDate: Date = Date()) throws -> Todo {
+    func createTodo(title: String, targetDate: Date = Date()) throws -> Todo {
         let todo = Todo(context: mainContext)
         todo.title = title
         todo.targetDate = targetDate
         todo.isDone = false
         todo.createdAt = Date()
-       
+        
         do {
             try mainContext.save()
             return todo
@@ -40,17 +36,18 @@ extension TodoManager {
     }
     
     @discardableResult
-    public func toggleDoneState(todo: Todo) throws -> Todo? {
+    func toggleDoneState(todo: Todo) throws -> Todo? {
         todo.isDone = !todo.isDone
+        
         do {
             try mainContext.save()
-                return todo
+            return todo
         } catch let error {
             throw TodoError.update(error.localizedDescription)
         }
     }
     
-    public func delete(todo: Todo) throws {
+    func delete(todo: Todo) throws {
         mainContext.delete(todo)
         do {
             try mainContext.save()
@@ -60,10 +57,18 @@ extension TodoManager {
     }
     
     // TODO: add fetching conditions like specific date, or month, all done lists
-    func fetchTodos() throws -> [Todo] {
+    func fetchTodos(predicate: FetchingPredicate = (FetchingPredicate())) throws -> [Todo] {
         let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
-        // inverse order
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.createdAt, ascending: false)]
+        
+        switch (predicate.shouldSortAscendingOrder, predicate.completion) {
+            case (let isAscending, let status):
+                if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
+                    let arg = status == .done ? true : false
+                    fetchRequest.predicate = NSPredicate(format: "isDone == %@", NSNumber(value: arg))
+                    print("arg: \(arg)")
+                }
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.createdAt, ascending: isAscending)]
+        }
         do {
             let todos = try mainContext.fetch(fetchRequest)
             return todos

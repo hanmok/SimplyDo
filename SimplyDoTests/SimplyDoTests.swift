@@ -54,10 +54,34 @@ final class SimplyDoTests: XCTestCase {
         do {
             let _ = try todoManager.createTodo(title: "newTest")
             let _ = try todoManager.createTodo(title: "newTest2")
-            let allTodos = todoManager.fetchTodos()
+            let allTodos = try todoManager.fetchTodos()
             XCTAssertEqual(allTodos.count, 2)
         } catch {
             XCTFail()
+        }
+    }
+    
+    func test_advancedFetch() {
+        do {
+            let todo = try todoManager.createTodo(title: "newTest", targetDate: Date(timeIntervalSince1970: 100))
+            let done = try todoManager.createTodo(title: "done", targetDate: Date(timeIntervalSince1970: 200))
+            try todoManager.toggleDoneState(todo: done)
+            
+            let doneTodo = try todoManager.fetchTodos(predicate: FetchingPredicate(shouldSortAscendingOrder: true, completion: .done))
+            let notDoneTodo = try todoManager.fetchTodos(predicate: FetchingPredicate(shouldSortAscendingOrder: true, completion: .todo))
+
+            let allTodos = try todoManager.fetchTodos()
+            
+            XCTAssertEqual(doneTodo.count, 1)
+            XCTAssertEqual(doneTodo[0].isDone, true)
+            
+            XCTAssertEqual(notDoneTodo.count, 1)
+            XCTAssertEqual(notDoneTodo[0].isDone, false)
+            
+            XCTAssertEqual(allTodos.count, 2)
+            
+        } catch let error {
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -65,7 +89,7 @@ final class SimplyDoTests: XCTestCase {
         do {
             let newTodo = try todoManager.createTodo(title: "newTest")
             XCTAssertEqual(newTodo.isDone, false)
-            todoManager.toggleDoneState(todo: newTodo)
+            try todoManager.toggleDoneState(todo: newTodo)
             XCTAssertEqual(newTodo.isDone, true)
         } catch {
             XCTFail()
@@ -75,8 +99,8 @@ final class SimplyDoTests: XCTestCase {
     func test_delete() {
         do {
             let newTodo = try todoManager.createTodo(title: "newTest")
-            todoManager.delete(todo: newTodo)
-            let allTodos = todoManager.fetchTodos()
+            try todoManager.delete(todo: newTodo)
+            let allTodos = try todoManager.fetchTodos()
             XCTAssertEqual(allTodos.count, 0)
         } catch {
             XCTFail()
