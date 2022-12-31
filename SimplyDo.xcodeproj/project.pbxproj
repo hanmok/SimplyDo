@@ -140,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				9ADD01AF2959E58300532DA5 /* MainTabController.swift */,
+				9AD4377A295FD4B500156D47 /* Todo */,
 				9ADD01BA2959E9EC00532DA5 /* Memo */,
 			);
 			path = Flow;
@@ -238,7 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				9ADD01BB2959E9F300532DA5 /* MemoController.swift */,
-				9AD4377A295FD4B500156D47 /* Todo */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
