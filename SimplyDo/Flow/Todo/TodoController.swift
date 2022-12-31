@@ -24,6 +24,14 @@ class TodoController: UIViewController {
         setupNotifications()
         setupTargets()
         setupLayout()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func viewTapped() {
+        print("viewTapped!")
+        view.endEditing(true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -34,6 +42,7 @@ class TodoController: UIViewController {
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setupTargets() {
@@ -49,7 +58,11 @@ class TodoController: UIViewController {
     }
     
     private func addSubViews() {
+//        self.view.insertSubview(todoTableView, at: 0)
+        
         [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
+        todoTableView.layer.zPosition = 0
+        todoInputBoxView.layer.zPosition = 1
     }
     
     private func setupFloatingButton() {
@@ -63,21 +76,21 @@ class TodoController: UIViewController {
     }
     
     private func setupTextInputBoxView() {
-        [textField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
+        [todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
         todoInputBoxView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.snp.bottom)
             make.height.equalTo(40)
         }
-        textField.delegate = self
-        textField.snp.makeConstraints { make in
+        todoTitleTextField.delegate = self
+        todoTitleTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(30)
             make.trailing.equalToSuperview().inset(60)
             make.top.bottom.equalToSuperview().inset(6)
         }
         makeButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(10)
-            make.leading.equalTo(textField.snp.trailing).offset(5)
+            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(5)
             make.top.bottom.equalToSuperview().inset(6)
         }
     }
@@ -111,7 +124,7 @@ class TodoController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
-        guard let title = textField.text, title != "" else {
+        guard let title = todoTitleTextField.text, title != "" else {
             self.view.makeToast("empty string", position: .top)
             return
         }
@@ -132,6 +145,23 @@ class TodoController: UIViewController {
                 make.bottom.equalToSuperview().offset(-keyboardHeight)
                 make.leading.trailing.equalToSuperview()
             }
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            todoInputBoxView.snp.remakeConstraints { make in
+                make.top.equalTo(self.view.snp.bottom)
+                make.leading.trailing.equalToSuperview()
+            }
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
@@ -142,38 +172,37 @@ class TodoController: UIViewController {
             make.top.equalTo(self.view.snp.bottom)
             make.height.equalTo(40)
         }
-        textField.resignFirstResponder()
+        todoTitleTextField.resignFirstResponder()
         
-        guard let title = textField.text else { return }
+        guard let title = todoTitleTextField.text else { return }
         makeTodo(title: title)
     }
     
     @objc func addTapped() {
-        textField.becomeFirstResponder()
+        todoTitleTextField.becomeFirstResponder()
     }
+    
     // MARK: - Views
     
     private let todoTableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = .magenta
         view.register(TodoTableCell.self, forCellReuseIdentifier: TodoTableCell.reuseIdentifier)
+        view.backgroundColor = .white
         return view
     }()
     
     public let makeButton: UIButton = {
         let view = UIButton()
-        
         let imgView = UIImageView(image: UIImage(systemName: "paperplane.fill"))
         imgView.contentMode = .scaleAspectFit
         imgView.tintColor = .blue
         view.addSubview(imgView)
         imgView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
+            make.top.bottom.leading.trailing.equalToSuperview().inset(10)
         }
         view.layer.cornerRadius = 5
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor(white: 0.3, alpha: 0.5).cgColor
-        
         return view
     }()
     
@@ -194,14 +223,27 @@ class TodoController: UIViewController {
     
     public let todoInputBoxView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        view.backgroundColor = UIColor(white: 0.9, alpha: 1)
         return view
     }()
     
-    public let textField: UITextField = {
+    public let todoTitleTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "Input todo title"
+        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
         view.autocorrectionType = .no
+        
+        // FIXME: Need to hide some bar..
+        
+//        var item = view.inputAssistantItem
+//        item.leadingBarButtonGroups = []
+//        item.trailingBarButtonGroups = []
+        
+//        view.inputAccessoryView = nil
+//        view.textContentType = .oneTimeCode
+//        view.hi
+//        view.inputView = nil
+        
         return view
     }()
 }
@@ -215,6 +257,18 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableCell.reuseIdentifier, for: indexPath) as! TodoTableCell
         cell.todoItem = todos[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            do {
+                try todoManager.delete(todo: todos[indexPath.row])
+                self.view.makeToast("delete")
+                self.updateTodoTable()
+            } catch {
+                self.view.makeToast("failed to delete todo ")
+            }
+        }
     }
 }
 

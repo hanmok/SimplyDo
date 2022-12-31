@@ -27,6 +27,7 @@ class TodoTableCell: UITableViewCell {
         contentView.addSubview(todoIcon)
         contentView.addSubview(titleLabel)
         contentView.clipsToBounds = true
+        backgroundColor = .white
     }
     
     public lazy var todoIcon: UIButton = {
