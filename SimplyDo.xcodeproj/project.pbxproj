@@ -136,6 +136,25 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		9AD43779295FD4A800156D47 /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				9ADD01AF2959E58300532DA5 /* MainTabController.swift */,
+				9ADD01BA2959E9EC00532DA5 /* Memo */,
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
+		9AD4377A295FD4B500156D47 /* Todo */ = {
+			isa = PBXGroup;
+			children = (
+				9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */,
+				9AD43776295FD43900156D47 /* TodoController.swift */,
+				9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */,
+			);
+			path = Todo;
+			sourceTree = "<group>";
+		};
 		9ADD01462951ACD800532DA5 = {
 			isa = PBXGroup;
 			children = (
@@ -160,12 +179,10 @@
 		9ADD01512951ACD800532DA5 /* SimplyDo */ = {
 			isa = PBXGroup;
 			children = (
-				9AD43754295F21CE00156D47 /* Model */,
 				9ADD01522951ACD800532DA5 /* AppDelegate.swift */,
 				9ADD01542951ACD800532DA5 /* SceneDelegate.swift */,
-				9ADD01AF2959E58300532DA5 /* MainTabController.swift */,
-				9ADD01BA2959E9EC00532DA5 /* Memo */,
-				9ADD01B32959E8F200532DA5 /* Todo */,
+				9AD43754295F21CE00156D47 /* Model */,
+				9AD43779295FD4A800156D47 /* Flow */,
 				9ADD01B22959E8DE00532DA5 /* Register */,
 				9ADD01B12959E8D700532DA5 /* Login */,
 				9ADD015B2951ACDA00532DA5 /* Assets.xcassets */,
@@ -217,20 +234,11 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
-		9ADD01B32959E8F200532DA5 /* Todo */ = {
-			isa = PBXGroup;
-			children = (
-				9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */,
-				9AD43776295FD43900156D47 /* TodoController.swift */,
-				9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */,
-			);
-			path = Todo;
-			sourceTree = "<group>";
-		};
 		9ADD01BA2959E9EC00532DA5 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
 				9ADD01BB2959E9F300532DA5 /* MemoController.swift */,
+				9AD4377A295FD4B500156D47 /* Todo */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
