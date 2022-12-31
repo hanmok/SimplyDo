@@ -14,6 +14,7 @@
 		9ADD01A92959E47300532DA5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9ADD01A82959E47300532DA5 /* Then */; };
 		9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; };
 		9ADD02122959FBC800532DA5 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AFC9BC1296077130082800E /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 9AFC9BC0296077130082800E /* Toast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AFC9BC1296077130082800E /* Toast in Frameworks */,
 				9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */,
 				9ADD01A62959E44C00532DA5 /* SnapKit in Frameworks */,
 				9ADD01A92959E47300532DA5 /* Then in Frameworks */,
@@ -147,6 +149,7 @@
 			packageProductDependencies = (
 				9ADD01A52959E44C00532DA5 /* SnapKit */,
 				9ADD01A82959E47300532DA5 /* Then */,
+				9AFC9BC0296077130082800E /* Toast */,
 			);
 			productName = ControllerModule;
 			productReference = 9ADD018C2959E40E00532DA5 /* ControllerModule.framework */;
@@ -200,6 +203,7 @@
 			packageReferences = (
 				9ADD01A42959E44C00532DA5 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9ADD01A72959E47300532DA5 /* XCRemoteSwiftPackageReference "Then" */,
+				9AFC9BBF296077130082800E /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
 			productRefGroup = 9ADD018D2959E40E00532DA5 /* Products */;
 			projectDirPath = "";
@@ -514,6 +518,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		9AFC9BBF296077130082800E /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -526,6 +538,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9ADD01A72959E47300532DA5 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		9AFC9BC0296077130082800E /* Toast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AFC9BBF296077130082800E /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			productName = Toast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

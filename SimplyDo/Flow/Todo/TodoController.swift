@@ -10,6 +10,7 @@ import SnapKit
 import Then
 import Util
 import CoreData
+import Toast
 
 class TodoController: UIViewController {
     
@@ -110,8 +111,13 @@ class TodoController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
+        guard let title = textField.text, title != "" else {
+            self.view.makeToast("empty string", position: .top)
+            return
+        }
+        
         do {
-            let todo = try todoManager.createTodo(title: title, targetDate: targetDate)
+            try todoManager.createTodo(title: title, targetDate: targetDate)
             updateTodoTable()
         } catch let e {
             print(e.localizedDescription)
@@ -138,7 +144,7 @@ class TodoController: UIViewController {
         }
         textField.resignFirstResponder()
         
-        guard let title = textField.text, title != "" else { return }
+        guard let title = textField.text else { return }
         makeTodo(title: title)
     }
     
