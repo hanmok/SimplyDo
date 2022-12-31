@@ -7,9 +7,14 @@
 
 import Foundation
 
+public typealias ErrorMessaage = String
 enum TodoError: Error {
-    case create
-    case update
-    case delete
-    case read
+    case create(ErrorMessaage)
+    case update(ErrorMessaage)
+    case delete(ErrorMessaage)
+    case read(ErrorMessaage)
+    
+    var message: String {
+        return self.localizedDescription
+    }
 }

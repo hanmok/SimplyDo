@@ -21,6 +21,7 @@ public struct TodoManager {
 }
 
 
+// static 으로 하는게 낫지 않나??
 extension TodoManager {
     @discardableResult
     public func createTodo(title: String, targetDate: Date = Date()) throws -> Todo {
@@ -28,47 +29,45 @@ extension TodoManager {
         todo.title = title
         todo.targetDate = targetDate
         todo.isDone = false
+        todo.createdAt = Date()
        
         do {
             try mainContext.save()
             return todo
         } catch let error {
-            print("Failed to create todo with title: \(title), error: \(error.localizedDescription)")
-            throw TodoError.create
+            throw TodoError.create(error.localizedDescription)
         }
     }
     
     @discardableResult
-    public func toggleDoneState(todo: Todo) -> Todo? {
+    public func toggleDoneState(todo: Todo) throws -> Todo? {
         todo.isDone = !todo.isDone
         do {
             try mainContext.save()
                 return todo
         } catch let error {
-            print("Failed to create todo with title: \(todo.title), error: \(error.localizedDescription)")
-            return nil
+            throw TodoError.update(error.localizedDescription)
         }
     }
     
-    public func delete(todo: Todo) {
+    public func delete(todo: Todo) throws {
         mainContext.delete(todo)
         do {
             try mainContext.save()
         } catch let error {
-            print("Failed to delete todo with title: \(todo.title), error: \(error.localizedDescription)")
+            throw TodoError.delete(error.localizedDescription)
         }
     }
     
-    func fetchTodos() -> [Todo] {
+    func fetchTodos() throws -> [Todo] {
         let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
         // inverse order
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.id, ascending: false)]
-        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.createdAt, ascending: false)]
         do {
             let todos = try mainContext.fetch(fetchRequest)
             return todos
         } catch let error {
-            fatalError("fail to get gatherings, \(error.localizedDescription)")
+            throw TodoError.read(error.localizedDescription)
         }
     }
 }

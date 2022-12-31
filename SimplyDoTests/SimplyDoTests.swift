@@ -6,18 +6,25 @@
 //
 
 import XCTest
+import CoreData
 @testable import SimplyDo
 
 final class SimplyDoTests: XCTestCase {
-
+    
+    var todoManager: TodoManager!
+    var coreDataStack: TodoDataTestStack!
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        coreDataStack = TodoDataTestStack()
+        todoManager = TodoManager(mainContext: coreDataStack.mainContext)
     }
-
+    
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -25,12 +32,54 @@ final class SimplyDoTests: XCTestCase {
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
-
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-
+    
+    // MARK: - Todo
+    func test_creation() {
+        do {
+            let newTodo = try todoManager.createTodo(title: "newTest")
+            XCTAssertEqual(newTodo.title, "newTest")
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_fetch() {
+        do {
+            let _ = try todoManager.createTodo(title: "newTest")
+            let _ = try todoManager.createTodo(title: "newTest2")
+            let allTodos = todoManager.fetchTodos()
+            XCTAssertEqual(allTodos.count, 2)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_updateDone() {
+        do {
+            let newTodo = try todoManager.createTodo(title: "newTest")
+            XCTAssertEqual(newTodo.isDone, false)
+            todoManager.toggleDoneState(todo: newTodo)
+            XCTAssertEqual(newTodo.isDone, true)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func test_delete() {
+        do {
+            let newTodo = try todoManager.createTodo(title: "newTest")
+            todoManager.delete(todo: newTodo)
+            let allTodos = todoManager.fetchTodos()
+            XCTAssertEqual(allTodos.count, 0)
+        } catch {
+            XCTFail()
+        }
+    }
 }
