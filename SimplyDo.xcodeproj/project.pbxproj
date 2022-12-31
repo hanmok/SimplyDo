@@ -33,6 +33,8 @@
 		9ADD01EB2959F7C900532DA5 /* TodoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */; };
 		9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */; };
 		9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC9BC22960847E0082800E /* FetchingEnum.swift */; };
+		9AFC9BDB296096EF0082800E /* Resource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFC9BDA296096EF0082800E /* Resource.framework */; };
+		9AFC9BDC296096EF0082800E /* Resource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFC9BDA296096EF0082800E /* Resource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9AFC9BDC296096EF0082800E /* Resource.framework in Embed Frameworks */,
 				9ADD01AD2959E49C00532DA5 /* ControllerModule.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -97,6 +100,7 @@
 		9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableCell.swift; sourceTree = "<group>"; };
 		9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTableCell.swift; sourceTree = "<group>"; };
 		9AFC9BC22960847E0082800E /* FetchingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingEnum.swift; sourceTree = "<group>"; };
+		9AFC9BDA296096EF0082800E /* Resource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Resource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AFC9BDB296096EF0082800E /* Resource.framework in Frameworks */,
 				9ADD01AC2959E49C00532DA5 /* ControllerModule.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +224,7 @@
 		9ADD01AA2959E49C00532DA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9AFC9BDA296096EF0082800E /* Resource.framework */,
 				9A5630F0295CAE8C00BDE7EB /* Model.framework */,
 				9ADD01AB2959E49C00532DA5 /* ControllerModule.framework */,
 			);

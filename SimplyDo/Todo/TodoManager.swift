@@ -64,10 +64,9 @@ extension TodoManager {
             case (let isAscending, let status):
                 if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
                     let arg = status == .done ? true : false
-                    fetchRequest.predicate = NSPredicate(format: "isDone == %@", NSNumber(value: arg))
-                    print("arg: \(arg)")
+                    fetchRequest.predicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
                 }
-                fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.createdAt, ascending: isAscending)]
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: .TodoAttributes.createdAt, ascending: isAscending)]
         }
         do {
             let todos = try mainContext.fetch(fetchRequest)

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import CoreData
 //import Model
-
+import Resource
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     var todoManager = TodoManager()
@@ -23,13 +23,13 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     func configureViewControllers() {
         let todo = templateNavigationController(
-            unselectedImage: UIImage(systemName: "checkmark.circle")!.withTintColor(.magenta),
-            selectedImage: UIImage(systemName: "checkmark.circle.fill")!,
+            unselectedImage: UIImage.uncheckedImage.withTintColor(.magenta),
+            selectedImage: UIImage.checkedImage,
             rootViewController: TodoController())
         
         let memo = templateNavigationController(
-            unselectedImage: UIImage(systemName: "bubble.right")!,
-            selectedImage: UIImage(systemName: "bubble.right.fill")!,
+            unselectedImage: UIImage.unselectedMessageImage,
+            selectedImage: UIImage.selectedMessageImage,
             rootViewController: MemoController())
         
         viewControllers = [todo, memo]

@@ -15,5 +15,6 @@ extension String {
         public static let id = "id_"
         public static let title = "title_"
         public static let createdAt = "createdAt"
+        public static let isDone = "isDone"
     }
 }

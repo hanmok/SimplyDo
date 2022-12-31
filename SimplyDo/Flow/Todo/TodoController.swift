@@ -71,7 +71,6 @@ class TodoController: UIViewController {
             make.trailing.equalToSuperview().inset(30)
             make.height.width.equalTo(50)
             make.bottom.equalToSuperview().inset(tabbarHeight + 20)
-            make.bottom.equalToSuperview().inset(50)
         }
     }
     
@@ -162,6 +161,7 @@ class TodoController: UIViewController {
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
             }
+            todoTitleTextField.text = ""
         }
     }
     
@@ -229,10 +229,14 @@ class TodoController: UIViewController {
     
     public let todoTitleTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = "Input todo title"
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
         view.autocorrectionType = .no
-        
+        view.textColor = UIColor(white: 1, alpha: 1)
+        let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
+        view.attributedPlaceholder = attr
+                                                                       
+                                                                       
+//        view.attributedPlaceholder = NSMutableAttributedString(attributedString: NSAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)]))
         // FIXME: Need to hide some bar..
         
 //        var item = view.inputAssistantItem
@@ -255,6 +259,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableCell.reuseIdentifier, for: indexPath) as! TodoTableCell
+        cell.todoCellDelegate = self
         cell.todoItem = todos[indexPath.row]
         return cell
     }
@@ -278,5 +283,22 @@ extension TodoController: UITextFieldDelegate {
         makeTodo(title: title)
         textField.text = ""
         return true
+    }
+}
+
+extension TodoController: TodoTableCellDelegate {
+    func checkmarkTapped(_ cell: TodoTableCell) {
+        guard let todoItem = cell.todoItem else { return }
+        do {
+            try todoManager.toggleDoneState(todo: todoItem)
+            updateTodoTable()
+        } catch {
+            self.view.makeToast("failed to toggle done state")
+        }
+    }
+    
+    func titleTapped(_ cell: TodoTableCell) {
+        guard let todoItem = cell.todoItem else { return }
+        // TODO: show Up subView for editing todo
     }
 }
