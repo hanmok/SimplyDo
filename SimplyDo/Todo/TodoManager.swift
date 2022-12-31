@@ -59,6 +59,7 @@ extension TodoManager {
         }
     }
     
+    // TODO: add fetching conditions like specific date, or month, all done lists
     func fetchTodos() throws -> [Todo] {
         let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
         // inverse order

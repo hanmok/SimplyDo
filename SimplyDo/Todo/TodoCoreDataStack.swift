@@ -13,7 +13,7 @@ class TodoCoreDataStack {
     public static let shared = TodoCoreDataStack()
 
     let persistentContainer: NSPersistentContainer
-//    let backgroundContext: NSManagedObjectContext
+    let backgroundContext: NSManagedObjectContext
     
     public let mainContext: NSManagedObjectContext
 
@@ -30,8 +30,8 @@ class TodoCoreDataStack {
         }
         mainContext = persistentContainer.viewContext
 
-//        backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-//        backgroundContext.parent = self.mainContext
+        backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        backgroundContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        backgroundContext.parent = self.mainContext
     }
 }
