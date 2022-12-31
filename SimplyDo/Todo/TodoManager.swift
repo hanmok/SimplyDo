@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import Util
 
 public struct TodoManager {
     
@@ -55,6 +56,19 @@ extension TodoManager {
             try mainContext.save()
         } catch let error {
             print("Failed to delete todo with title: \(todo.title), error: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchTodos() -> [Todo] {
+        let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
+        // inverse order
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.TodoAttributes.id, ascending: false)]
+        
+        do {
+            let todos = try mainContext.fetch(fetchRequest)
+            return todos
+        } catch let error {
+            fatalError("fail to get gatherings, \(error.localizedDescription)")
         }
     }
 }

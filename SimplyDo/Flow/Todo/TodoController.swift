@@ -21,7 +21,6 @@ class TodoController: UIViewController {
         setupLayout()
     }
 
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         fetchTodos()
@@ -36,7 +35,13 @@ class TodoController: UIViewController {
     }()
     
     private func fetchTodos() {
-        
+        todos = todoManager.fetchTodos()
+        todoTableView.reloadData()
+        todoTableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.height.equalTo(self.todos.count * 40 + 40)
+        }
     }
     
     private func setupLayout() {
