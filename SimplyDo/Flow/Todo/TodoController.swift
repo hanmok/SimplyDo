@@ -141,15 +141,25 @@ class TodoController: UIViewController {
             make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
             make.height.equalTo(self.checkedTodos.count * 40 + 40)
         }
+        
     }
     
-    private func updateTodoTable() {
+    private func updateTodoTable(target: [TodoSection] = [.todo, .done]) {
         
 //        todoTableView.reloadData()
-        todoTableView.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
+        if target.contains(.todo) {
+            todoTableView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(self.view.safeAreaLayoutGuide)
+                make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
+            }
+        }
+        if target.contains(.done) {
+            doneTableView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+                make.height.equalTo(self.checkedTodos.count * 40 + 40)
+            }
         }
     }
     
@@ -165,7 +175,7 @@ class TodoController: UIViewController {
             uncheckedTodos.insert(newTodo, at: 0)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             todoTableView.insertRows(at: [firstIndexPath], with: .top)
-            updateTodoTable()
+            updateTodoTable(target: [.todo])
             todoTableView.endUpdates()
         } catch let e {
             print(e.localizedDescription)
@@ -270,18 +280,28 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
             cell.todoCellDelegate = self
-            cell.todoItem = uncheckedTodos[indexPath.row]
+            cell.todoItem = checkedTodos[indexPath.row]
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            var deletingTodo: Todo
+            
+            let isDeletingUnchecked = tableView == todoTableView
+            deletingTodo = isDeletingUnchecked ? uncheckedTodos[indexPath.row] : checkedTodos[indexPath.row]
+            
             do {
-                try todoManager.delete(todo: uncheckedTodos[indexPath.row])
-                uncheckedTodos.remove(at: indexPath.row)
+                try todoManager.delete(todo: deletingTodo)
+                if isDeletingUnchecked {
+                    uncheckedTodos.remove(at: indexPath.row)
+                } else {
+                    checkedTodos.remove(at: indexPath.row)
+                }
+                
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.updateTodoTable()
+                self.updateTodoTable(target: isDeletingUnchecked ? [.todo] : [.done])
                 self.view.makeToast("delete")
             } catch {
                 self.view.makeToast("failed to delete todo ")
@@ -318,6 +338,17 @@ extension TodoController: UncheckedTableCellDelegate {
 }
 
 
+extension TodoController: CheckedTableCellDelegate {
+    func checkmarkTapped(_ cell: CheckedTableCell) {
+        print("checkmark tapped!")
+    }
+    
+    func titleTapped(_ cell: CheckedTableCell) {
+        
+    }
+}
+
+
 // reference for updating tableView
 //func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 //    switch type {
@@ -343,13 +374,3 @@ extension TodoController: UncheckedTableCellDelegate {
 //              tableView.reloadData()
 //          }
 //  }
-
-extension TodoController: CheckedTableCellDelegate {
-    func checkmarkTapped(_ cell: CheckedTableCell) {
-        print("checkmark tapped!")
-    }
-    
-    func titleTapped(_ cell: CheckedTableCell) {
-        
-    }
-}
