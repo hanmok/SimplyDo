@@ -1,2 +1,24 @@
 
 ControllerModule 에서 DesignKit 을 갖다가 쓰면 왜 에러가 날까?
+
+Thread 1: "Invalid update: invalid number of rows in section 0.
+The number of rows contained in an existing section after the update (1)
+must be equal to the number of rows contained in that section before the update (1),
+plus or minus the number of rows inserted or deleted from that section (0 inserted, 0 deleted)
+and plus or minus the number of rows moved into or out of that section (0 moved in, 1 moved out).
+
+// add
+Invalid update: invalid number of rows in section 1.
+The number of rows contained in an existing section after the update (1)
+must be equal to the number of rows contained in that section before the update (0),
+plus or minus the number of rows inserted or deleted from that section (0 inserted, 0 deleted) and plus or minus the number of rows moved into or out of that section (0 moved in, 0 moved out).
+
+
+// uncheck
+"Invalid update: invalid number of rows in section 0. The number of rows contained in an existing section after the update (2) must be equal to the number of rows contained in that section before the update (2), plus or minus the number of rows inserted or deleted from that section (0 inserted, 0 deleted) and plus or minus the number of rows moved into or out of that section (0 moved in, 1 moved out).
+
+// uncheck, after adding beginUpdates and endUpdate
+attempt to perform a delete and a move from the same index path (<NSIndexPath: 0xececee2edc637faf> {length = 2, path = 0 - 0})"
+
+
+attempt to move index path (<NSIndexPath: 0xe157b21093c2634b> {length = 2, path = 0 - 0}) to index path (<NSIndexPath: 0xe157b21093c2624b> {length = 2, path = 1 - 0}) that does not exist - there are only 0 rows in section 1 after the update'
