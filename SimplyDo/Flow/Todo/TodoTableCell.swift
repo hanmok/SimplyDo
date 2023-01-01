@@ -35,7 +35,7 @@ class TodoTableCell: UITableViewCell {
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         contentView.addSubview(titleLabel)
         contentView.clipsToBounds = true
-        backgroundColor = .white
+        backgroundColor = .cyan
     }
     
     @objc func checkmarkTapped() {

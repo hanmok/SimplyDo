@@ -40,7 +40,7 @@ class TodoController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        updateTodoTable()
+        setupTableData()
     }
     
     
@@ -104,18 +104,19 @@ class TodoController: UIViewController {
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(self.uncheckedTodos.count * 30 + 40)
+            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
         }
     }
     
     // MARK: - Actions
     
-    private func updateTodoTable() {
+    private func setupTableData() {
         do {
             uncheckedTodos = try todoManager.fetchTodos()
         } catch let error{
             print(error.localizedDescription)
         }
+        
         todoTableView.reloadData()
         todoTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
@@ -124,18 +125,32 @@ class TodoController: UIViewController {
         }
     }
     
+    private func updateTodoTable() {
+        
+//        todoTableView.reloadData()
+        todoTableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
+        }
+    }
+    
     private func makeTodo(title: String, targetDate: Date = Date()) {
-        guard let title = todoTitleTextField.text, title != "" else {
+        
+        print("makeTodo called, title: \(title)")
+        
+        guard title != "" else {
             self.view.makeToast("empty string", position: .top)
             return
         }
         
         do {
             let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
-//            updateTodoTable()
-            
             todoTableView.beginUpdates()
-            uncheckedTodos.append(newTodo)
+            uncheckedTodos.insert(newTodo, at: 0)
+            let firstIndexPath = IndexPath(row: 0, section: 0)
+            todoTableView.insertRows(at: [firstIndexPath], with: .top)
+            updateTodoTable()
             todoTableView.endUpdates()
         } catch let e {
             print(e.localizedDescription)
@@ -172,6 +187,7 @@ class TodoController: UIViewController {
     }
     
     @objc func makeTapped() {
+        guard let title = todoTitleTextField.text else { return }
         view.endEditing(true)
         todoInputBoxView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview()
@@ -180,8 +196,11 @@ class TodoController: UIViewController {
         }
         todoTitleTextField.resignFirstResponder()
         
-        guard let title = todoTitleTextField.text else { return }
+        
+        
+        
         makeTodo(title: title)
+        
     }
     
     @objc func addTapped() {
@@ -193,7 +212,7 @@ class TodoController: UIViewController {
     private let todoTableView: UITableView = {
         let view = UITableView()
         view.register(TodoTableCell.self, forCellReuseIdentifier: TodoTableCell.reuseIdentifier)
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(white: 0.5, alpha: 1)
         return view
     }()
     
@@ -210,8 +229,17 @@ class TodoController: UIViewController {
         return self.designKit.View(color: UIColor(white: 0.9, alpha: 1))
     }()
     
-    public lazy var todoTitleTextField: UITextField = {
-        let view = self.designKit.PaddedTextField()
+//    public lazy var todoTitleTextField: UITextField = {
+//        let view = self.designKit.PaddedTextField()
+//        let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
+//        view.attributedPlaceholder = attr
+//        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
+//        return view
+//    }()
+    
+    public let todoTitleTextField: UITextField = {
+//        let view = self.designKit.PaddedTextField()
+        let view = UITextField()
         let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
