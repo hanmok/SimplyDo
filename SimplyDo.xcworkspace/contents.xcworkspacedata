@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:DesignKit/DesignKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Util/Util.xcodeproj">
    </FileRef>
    <FileRef

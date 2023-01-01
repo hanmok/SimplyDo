@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2747622961B4FA004F9731 /* DesignKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747612961B4FA004F9731 /* DesignKit.framework */; };
+		9A2747632961B4FA004F9731 /* DesignKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747612961B4FA004F9731 /* DesignKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9ADD01952959E40F00532DA5 /* ControllerModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD018C2959E40E00532DA5 /* ControllerModule.framework */; };
 		9ADD019A2959E40F00532DA5 /* ControllerModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01992959E40F00532DA5 /* ControllerModuleTests.swift */; };
 		9ADD019B2959E40F00532DA5 /* ControllerModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 9ADD018F2959E40E00532DA5 /* ControllerModule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9ADD01A62959E44C00532DA5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9ADD01A52959E44C00532DA5 /* SnapKit */; };
 		9ADD01A92959E47300532DA5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9ADD01A82959E47300532DA5 /* Then */; };
 		9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; };
 		9ADD02122959FBC800532DA5 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD02102959FBC700532DA5 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -35,6 +36,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9ADD02122959FBC800532DA5 /* Util.framework in Embed Frameworks */,
+				9A2747632961B4FA004F9731 /* DesignKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,6 +44,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9A2747532961B25B004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A2747562961B305004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A2747612961B4FA004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD018C2959E40E00532DA5 /* ControllerModule.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ControllerModule.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD018F2959E40E00532DA5 /* ControllerModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ControllerModule.h; sourceTree = "<group>"; };
 		9ADD01942959E40F00532DA5 /* ControllerModuleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ControllerModuleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,8 +61,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AFC9BC1296077130082800E /* Toast in Frameworks */,
+				9A2747622961B4FA004F9731 /* DesignKit.framework in Frameworks */,
 				9ADD02112959FBC700532DA5 /* Util.framework in Frameworks */,
-				9ADD01A62959E44C00532DA5 /* SnapKit in Frameworks */,
 				9ADD01A92959E47300532DA5 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,6 +116,9 @@
 		9ADD01E12959EE9C00532DA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A2747612961B4FA004F9731 /* DesignKit.framework */,
+				9A2747562961B305004F9731 /* DesignKit.framework */,
+				9A2747532961B25B004F9731 /* DesignKit.framework */,
 				9ADD02102959FBC700532DA5 /* Util.framework */,
 				9ADD01E22959EE9D00532DA5 /* Model.framework */,
 			);
@@ -147,7 +155,6 @@
 			);
 			name = ControllerModule;
 			packageProductDependencies = (
-				9ADD01A52959E44C00532DA5 /* SnapKit */,
 				9ADD01A82959E47300532DA5 /* Then */,
 				9AFC9BC0296077130082800E /* Toast */,
 			);
@@ -201,7 +208,6 @@
 			);
 			mainGroup = 9ADD01822959E40E00532DA5;
 			packageReferences = (
-				9ADD01A42959E44C00532DA5 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9ADD01A72959E47300532DA5 /* XCRemoteSwiftPackageReference "Then" */,
 				9AFC9BBF296077130082800E /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
@@ -502,14 +508,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9ADD01A42959E44C00532DA5 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		9ADD01A72959E47300532DA5 /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then";
@@ -529,11 +527,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9ADD01A52959E44C00532DA5 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9ADD01A42959E44C00532DA5 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
 		9ADD01A82959E47300532DA5 /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9ADD01A72959E47300532DA5 /* XCRemoteSwiftPackageReference "Then" */;

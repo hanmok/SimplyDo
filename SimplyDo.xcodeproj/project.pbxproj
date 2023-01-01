@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A27475A2961B325004F9731 /* Memo in Resources */ = {isa = PBXBuildFile; fileRef = 9A2747592961B325004F9731 /* Memo */; };
+		9A2747662961B52E004F9731 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2747652961B52E004F9731 /* SnapKit */; };
+		9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; };
+		9A2747692961B55B004F9731 /* DesignKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
 		9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43756295F21DB00156D47 /* Todo+Helper.swift */; };
 		9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43759295F21DB00156D47 /* TodoTagManager.swift */; };
@@ -33,8 +37,6 @@
 		9ADD01EB2959F7C900532DA5 /* TodoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */; };
 		9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */; };
 		9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC9BC22960847E0082800E /* FetchingEnum.swift */; };
-		9AFC9BDB296096EF0082800E /* Resource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFC9BDA296096EF0082800E /* Resource.framework */; };
-		9AFC9BDC296096EF0082800E /* Resource.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFC9BDA296096EF0082800E /* Resource.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +63,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9AFC9BDC296096EF0082800E /* Resource.framework in Embed Frameworks */,
 				9ADD01AD2959E49C00532DA5 /* ControllerModule.framework in Embed Frameworks */,
+				9A2747692961B55B004F9731 /* DesignKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,6 +72,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9A2747592961B325004F9731 /* Memo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Memo; sourceTree = "<group>"; };
+		9A2747672961B55B004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5630F0295CAE8C00BDE7EB /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = Model/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
 		9AD43756295F21DB00156D47 /* Todo+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Todo+Helper.swift"; path = "SimplyDo/Todo/Todo+Helper.swift"; sourceTree = SOURCE_ROOT; };
@@ -108,8 +112,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AFC9BDB296096EF0082800E /* Resource.framework in Frameworks */,
+				9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */,
 				9ADD01AC2959E49C00532DA5 /* ControllerModule.framework in Frameworks */,
+				9A2747662961B52E004F9731 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,6 +174,7 @@
 		9ADD01462951ACD800532DA5 = {
 			isa = PBXGroup;
 			children = (
+				9A2747592961B325004F9731 /* Memo */,
 				9ADD01512951ACD800532DA5 /* SimplyDo */,
 				9ADD01682951ACDB00532DA5 /* SimplyDoTests */,
 				9ADD01722951ACDB00532DA5 /* SimplyDoUITests */,
@@ -224,6 +230,7 @@
 		9ADD01AA2959E49C00532DA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A2747672961B55B004F9731 /* DesignKit.framework */,
 				9AFC9BDA296096EF0082800E /* Resource.framework */,
 				9A5630F0295CAE8C00BDE7EB /* Model.framework */,
 				9ADD01AB2959E49C00532DA5 /* ControllerModule.framework */,
@@ -272,6 +279,9 @@
 			dependencies = (
 			);
 			name = SimplyDo;
+			packageProductDependencies = (
+				9A2747652961B52E004F9731 /* SnapKit */,
+			);
 			productName = SimplyDo;
 			productReference = 9ADD014F2951ACD800532DA5 /* SimplyDo.app */;
 			productType = "com.apple.product-type.application";
@@ -344,6 +354,9 @@
 				Base,
 			);
 			mainGroup = 9ADD01462951ACD800532DA5;
+			packageReferences = (
+				9A2747642961B52E004F9731 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 9ADD01502951ACD800532DA5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -361,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ADD015F2951ACDA00532DA5 /* LaunchScreen.storyboard in Resources */,
+				9A27475A2961B325004F9731 /* Memo in Resources */,
 				9ADD015C2951ACDA00532DA5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -740,6 +754,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9A2747642961B52E004F9731 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9A2747652961B52E004F9731 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A2747642961B52E004F9731 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9AD4376C295F228500156D47 /* Todo.xcdatamodeld */ = {

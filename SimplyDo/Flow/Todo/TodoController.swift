@@ -11,6 +11,7 @@ import Then
 import Util
 import CoreData
 import Toast
+import DesignKit
 
 class TodoController: UIViewController {
     
@@ -58,8 +59,6 @@ class TodoController: UIViewController {
     }
     
     private func addSubViews() {
-//        self.view.insertSubview(todoTableView, at: 0)
-        
         [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
         todoTableView.layer.zPosition = 0
         todoInputBoxView.layer.zPosition = 1
@@ -206,20 +205,11 @@ class TodoController: UIViewController {
         return view
     }()
     
-    public lazy var floatingAddBtn: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        let imgView = UIImageView(image: UIImage.plusInCircle)
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        imgView.tintColor = .magenta
-        
-        btn.addSubview(imgView)
-        imgView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalToSuperview()
-        }
-        return btn
-    }()
+//    public var floatingAddBtn: FloatingButton = {
+//        let floatingButton = FloatingButton(image: UIImage.plusInCircle)
+//        return floatingButton
+//    }()
+    public var floatingAddBtn = DesignKitImp().floatingButton(image: UIImage.plusInCircle)
     
     public let todoInputBoxView: UIView = {
         let view = UIView()

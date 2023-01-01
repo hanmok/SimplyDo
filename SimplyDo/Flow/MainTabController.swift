@@ -8,8 +8,7 @@
 import UIKit
 import SnapKit
 import CoreData
-//import Model
-import Resource
+
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     var todoManager = TodoManager()
