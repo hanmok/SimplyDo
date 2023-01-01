@@ -17,6 +17,7 @@ class TodoController: UIViewController {
     
     let todoManager = TodoManager()
     var todos = [Todo]()
+//    let designKit: DesignKit = DesignKitImp()
     let designKit = DesignKitImp()
     // MARK: - Life cycle
     
@@ -191,33 +192,23 @@ class TodoController: UIViewController {
     }()
     
     
-    public lazy var makeButton: UIButton = designKit.makeRequestButton(image: UIImage.inputCompleted)
+    public lazy var makeButton: UIButton = {
+        return self.designKit.SedingRequestButton(image: UIImage.inputCompleted)
+    }()
     
-    public lazy var floatingAddBtn = designKit.floatingButton(image: UIImage.plusInCircle)
+    public lazy var floatingAddBtn: UIButton = {
+        return self.designKit.FloatingButton(image: UIImage.plusInCircle)
+    }()
     
-    public lazy var todoInputBoxView = designKit.uiView(color: UIColor(white: 0.9, alpha: 1))
+    public lazy var todoInputBoxView: UIView = {
+        return self.designKit.View(color: UIColor(white: 0.9, alpha: 1))
+    }()
     
-    public let todoTitleTextField: UITextField = {
-        let view = UITextField()
-        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
-        view.autocorrectionType = .no
-        view.textColor = UIColor(white: 1, alpha: 1)
+    public lazy var todoTitleTextField: UITextField = {
+        let view = self.designKit.PaddedTextField()
         let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
-                                                                       
-                                                                       
-//        view.attributedPlaceholder = NSMutableAttributedString(attributedString: NSAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)]))
-        // FIXME: Need to hide some bar..
-        
-//        var item = view.inputAssistantItem
-//        item.leadingBarButtonGroups = []
-//        item.trailingBarButtonGroups = []
-        
-//        view.inputAccessoryView = nil
-//        view.textContentType = .oneTimeCode
-//        view.hi
-//        view.inputView = nil
-        
+        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
         return view
     }()
 }

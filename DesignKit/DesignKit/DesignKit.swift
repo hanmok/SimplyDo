@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 import SnapKit
 
-protocol DesignKit {
+public protocol DesignKit {
 //    func buildView(themeColor: ThemeColor) -> UIView
 //    func buildRedView() -> UIView
-    func makeRequestButton(image: UIImage) -> UIButton
-    func uiView(color: UIColor) -> UIView
+    func FloatingButton(image: UIImage, color: UIColor) -> UIButton
+    func SedingRequestButton(image: UIImage) -> UIButton
+    func View(color: UIColor) -> UIView
+    func PaddedTextField(leftSpacing: CGFloat, rightSpacing: CGFloat) -> UITextField
 }
 
 // Some Codes are for pratice.
@@ -35,7 +37,7 @@ public class DesignKitImp: DesignKit {
     
     public init() {}
     
-    public func floatingButton(image: UIImage, color: UIColor = UIColor.black) -> UIButton {
+    public func FloatingButton(image: UIImage, color: UIColor = .black) -> UIButton {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
@@ -50,7 +52,7 @@ public class DesignKitImp: DesignKit {
         return btn
     }
     
-    public func makeRequestButton(image: UIImage) -> UIButton {
+    public func SedingRequestButton(image: UIImage) -> UIButton {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
@@ -67,13 +69,35 @@ public class DesignKitImp: DesignKit {
         return view
     }
     
-    public func uiView(color: UIColor) -> UIView {
+    public func View(color: UIColor) -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = color
         return view
     }
     
+    public func PaddedTextField(leftSpacing: CGFloat = 10.0, rightSpacing: CGFloat = 10.0) -> UITextField {
+        let view = UITextField()
+        
+        view.leftView = UIView(frame: CGRect(x: 0, y: 0, width: leftSpacing, height: view.frame.size.height))
+        view.rightView = UIView(frame: CGRect(x: 0, y: 0, width: rightSpacing, height: view.frame.size.height))
+        view.leftViewMode = .always
+        view.rightViewMode = .always
+        view.autocorrectionType = .no
+        
+        // FIXME: Need to hide some bar..
+        
+        //        var item = view.inputAssistantItem
+        //        item.leadingBarButtonGroups = []
+        //        item.trailingBarButtonGroups = []
+        
+        //        view.inputAccessoryView = nil
+        //        view.textContentType = .oneTimeCode
+        //        view.hi
+        //        view.inputView = nil
+        ///
+        return view
+    }
 //    public func buildView(themeColor: ThemeColor) -> UIView {
 //        let view = UIView()
 //        view.backgroundColor = themeColor.color
