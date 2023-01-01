@@ -62,11 +62,13 @@ class TodoController: UIViewController {
     }
     
     private func addSubViews() {
-        [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
+        [floatingAddBtn, todoInputBoxView, todoTableView, doneTableView].forEach { self.view.addSubview($0)}
         todoTableView.layer.zPosition = 0
         floatingAddBtn.layer.zPosition = 1
         todoInputBoxView.layer.zPosition = 2
     }
+    
+    
     
     private func setupFloatingButton() {
         let tabbarHeight = self.tabBarController?.tabBar.frame.height ?? 83
@@ -98,14 +100,22 @@ class TodoController: UIViewController {
     }
     
     private func setupTableViewLayout() {
-        [todoTableView].forEach { self.view.addSubview($0) }
+        [todoTableView, doneTableView].forEach { self.view.addSubview($0) }
         todoTableView.delegate = self
         todoTableView.dataSource = self
+        
+        doneTableView.delegate = self
+        doneTableView.dataSource = self
         
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
+        }
+        doneTableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+            make.height.equalTo(self.checkedTodos.count * 40 + 40)
         }
     }
     
@@ -113,7 +123,8 @@ class TodoController: UIViewController {
     
     private func setupInitialTableData() {
         do {
-            uncheckedTodos = try todoManager.fetchTodos()
+            uncheckedTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: .todo))
+            checkedTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: .done))
         } catch let error{
             print(error.localizedDescription)
         }
@@ -123,6 +134,12 @@ class TodoController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
+        }
+        doneTableView.reloadData()
+        doneTableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+            make.height.equalTo(self.checkedTodos.count * 40 + 40)
         }
     }
     
@@ -170,7 +187,6 @@ class TodoController: UIViewController {
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             todoInputBoxView.snp.remakeConstraints { make in
                 make.top.equalTo(self.view.snp.bottom)
                 make.leading.trailing.equalToSuperview()
@@ -179,7 +195,6 @@ class TodoController: UIViewController {
                 self.view.layoutIfNeeded()
             }
             todoTitleTextField.text = ""
-        }
     }
     
     @objc func makeTapped() {
@@ -203,14 +218,20 @@ class TodoController: UIViewController {
     
     private let todoTableView: UITableView = {
         let view = UITableView()
-        view.register(TodoTableCell.self, forCellReuseIdentifier: TodoTableCell.reuseIdentifier)
+        view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.backgroundColor = UIColor(white: 0.5, alpha: 1)
         return view
     }()
     
+    private let doneTableView: UITableView = {
+        let view = UITableView()
+        view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
+        view.backgroundColor = UIColor(white: 0.5, alpha: 1)
+        return view
+    }()
     
     public lazy var makeButton: UIButton = {
-        return self.designKit.SedingRequestButton(image: UIImage.inputCompleted)
+        return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: true)
     }()
     
     public lazy var floatingAddBtn: UIButton = {
@@ -232,14 +253,26 @@ class TodoController: UIViewController {
 
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uncheckedTodos.count
+        if tableView == todoTableView {
+            return uncheckedTodos.count
+        } else {
+            return checkedTodos.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableCell.reuseIdentifier, for: indexPath) as! TodoTableCell
-        cell.todoCellDelegate = self
-        cell.todoItem = uncheckedTodos[indexPath.row]
-        return cell
+        if tableView == todoTableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
+            cell.todoCellDelegate = self
+            cell.todoItem = uncheckedTodos[indexPath.row]
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
+            cell.todoCellDelegate = self
+            cell.todoItem = uncheckedTodos[indexPath.row]
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -266,8 +299,9 @@ extension TodoController: UITextFieldDelegate {
     }
 }
 
-extension TodoController: TodoTableCellDelegate {
-    func checkmarkTapped(_ cell: TodoTableCell) {
+extension TodoController: UncheckedTableCellDelegate {
+    func checkmarkTapped(_ cell: UncheckedTableCell) {
+        print("checkmark Tapped!")
         guard let todoItem = cell.todoItem else { return }
         do {
             try todoManager.toggleDoneState(todo: todoItem)
@@ -277,8 +311,8 @@ extension TodoController: TodoTableCellDelegate {
         }
     }
     
-    func titleTapped(_ cell: TodoTableCell) {
-        guard let todoItem = cell.todoItem else { return }
+    func titleTapped(_ cell: UncheckedTableCell) {
+//        guard let todoItem = cell.todoItem else { return }
         // TODO: show Up subView for editing todo
     }
 }
@@ -309,3 +343,13 @@ extension TodoController: TodoTableCellDelegate {
 //              tableView.reloadData()
 //          }
 //  }
+
+extension TodoController: CheckedTableCellDelegate {
+    func checkmarkTapped(_ cell: CheckedTableCell) {
+        print("checkmark tapped!")
+    }
+    
+    func titleTapped(_ cell: CheckedTableCell) {
+        
+    }
+}

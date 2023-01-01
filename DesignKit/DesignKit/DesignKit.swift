@@ -13,7 +13,7 @@ public protocol DesignKit {
 //    func buildView(themeColor: ThemeColor) -> UIView
 //    func buildRedView() -> UIView
     func FloatingButton(image: UIImage, color: UIColor) -> UIButton
-    func SedingRequestButton(image: UIImage) -> UIButton
+    func Button(image: UIImage, hasBoundary: Bool, hasInset: Bool) -> UIButton
     func View(color: UIColor) -> UIView
     func PaddedTextField(leftSpacing: CGFloat, rightSpacing: CGFloat) -> UITextField
 }
@@ -52,7 +52,7 @@ public class DesignKitImp: DesignKit {
         return btn
     }
     
-    public func SedingRequestButton(image: UIImage) -> UIButton {
+    public func Button(image: UIImage, hasBoundary: Bool = false, hasInset: Bool = false) -> UIButton {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
@@ -61,11 +61,17 @@ public class DesignKitImp: DesignKit {
         imgView.tintColor = .blue
         view.addSubview(imgView)
         imgView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview().inset(10)
+            if hasInset {
+                make.top.bottom.leading.trailing.equalToSuperview().inset(10)
+            } else {
+                make.top.bottom.leading.trailing.equalToSuperview()
+            }
         }
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor(white: 0.3, alpha: 0.5).cgColor
+        if hasBoundary {
+            view.layer.cornerRadius = 5
+            view.layer.borderWidth = 1
+            view.layer.borderColor = UIColor(white: 0.3, alpha: 0.5).cgColor
+        }
         return view
     }
     

@@ -34,8 +34,8 @@
 		9ADD01B72959E9A700532DA5 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01B62959E9A700532DA5 /* RegisterController.swift */; };
 		9ADD01B92959E9B500532DA5 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01B82959E9B500532DA5 /* LoginController.swift */; };
 		9ADD01BC2959E9F300532DA5 /* MemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01BB2959E9F300532DA5 /* MemoController.swift */; };
-		9ADD01EB2959F7C900532DA5 /* TodoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */; };
-		9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */; };
+		9ADD01EB2959F7C900532DA5 /* UncheckedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01EA2959F7C900532DA5 /* UncheckedTableCell.swift */; };
+		9ADD02142959FD9D00532DA5 /* CheckedTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02132959FD9D00532DA5 /* CheckedTableCell.swift */; };
 		9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFC9BC22960847E0082800E /* FetchingEnum.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,8 +101,8 @@
 		9ADD01B62959E9A700532DA5 /* RegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		9ADD01B82959E9B500532DA5 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		9ADD01BB2959E9F300532DA5 /* MemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoController.swift; sourceTree = "<group>"; };
-		9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTableCell.swift; sourceTree = "<group>"; };
-		9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneTableCell.swift; sourceTree = "<group>"; };
+		9ADD01EA2959F7C900532DA5 /* UncheckedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncheckedTableCell.swift; sourceTree = "<group>"; };
+		9ADD02132959FD9D00532DA5 /* CheckedTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckedTableCell.swift; sourceTree = "<group>"; };
 		9AFC9BC22960847E0082800E /* FetchingEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingEnum.swift; sourceTree = "<group>"; };
 		9AFC9BDA296096EF0082800E /* Resource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Resource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -164,9 +164,9 @@
 		9AD4377A295FD4B500156D47 /* Todo */ = {
 			isa = PBXGroup;
 			children = (
-				9ADD01EA2959F7C900532DA5 /* TodoTableCell.swift */,
+				9ADD01EA2959F7C900532DA5 /* UncheckedTableCell.swift */,
 				9AD43776295FD43900156D47 /* TodoController.swift */,
-				9ADD02132959FD9D00532DA5 /* DoneTableCell.swift */,
+				9ADD02132959FD9D00532DA5 /* CheckedTableCell.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -403,13 +403,13 @@
 				9ADD01BC2959E9F300532DA5 /* MemoController.swift in Sources */,
 				9ADD01532951ACD800532DA5 /* AppDelegate.swift in Sources */,
 				9ADD01B72959E9A700532DA5 /* RegisterController.swift in Sources */,
-				9ADD01EB2959F7C900532DA5 /* TodoTableCell.swift in Sources */,
+				9ADD01EB2959F7C900532DA5 /* UncheckedTableCell.swift in Sources */,
 				9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */,
 				9ADD01B02959E58300532DA5 /* MainTabController.swift in Sources */,
 				9ADD01552951ACD800532DA5 /* SceneDelegate.swift in Sources */,
 				9AD4376E295F228500156D47 /* Todo.xcdatamodeld in Sources */,
 				9AFC9BC32960847E0082800E /* FetchingEnum.swift in Sources */,
-				9ADD02142959FD9D00532DA5 /* DoneTableCell.swift in Sources */,
+				9ADD02142959FD9D00532DA5 /* CheckedTableCell.swift in Sources */,
 				9AD43766295F21DB00156D47 /* TodoManager.swift in Sources */,
 				9AD43768295F21DB00156D47 /* TodoCoreDataStack.swift in Sources */,
 				9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */,

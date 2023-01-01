@@ -4,7 +4,7 @@
 //
 //  Created by Mac mini on 2022/12/27.
 //
-
+import DesignKit
 import Foundation
 import UIKit
 import SnapKit
@@ -12,8 +12,14 @@ import Then
 //import Model
 
 // MARK: - Delegate
+protocol CheckedTableCellDelegate: AnyObject {
+    func checkmarkTapped(_ cell: CheckedTableCell)
+    func titleTapped(_ cell: CheckedTableCell)
+}
 
-class DoneTableCell: UITableViewCell {
+class CheckedTableCell: UITableViewCell {
+    
+    let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
         didSet {
@@ -23,28 +29,23 @@ class DoneTableCell: UITableViewCell {
         }
     }
     
+    public weak var todoCellDelegate: CheckedTableCellDelegate?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(todoIcon)
         contentView.addSubview(titleLabel)
         contentView.clipsToBounds = true
-        
+        todoIcon.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         accessoryType = .none
     }
     
+    @objc func checkmarkTapped() {
+        todoCellDelegate?.checkmarkTapped(self)
+    }
+    
     public lazy var todoIcon: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        let imgView = UIImageView(image: UIImage.checked)
-        imgView.contentMode = .scaleAspectFit
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        
-        btn.addSubview(imgView)
-        imgView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalToSuperview()
-        }
-        return btn
+        return self.designKit.Button(image: UIImage.checked)
     }()
     
     private let titleLabel = UILabel().then {

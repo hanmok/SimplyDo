@@ -9,32 +9,33 @@ import Foundation
 import UIKit
 import SnapKit
 import Then
+import DesignKit
 
 // MARK: - Delegate
 
-protocol TodoTableCellDelegate: AnyObject {
-    func checkmarkTapped(_ cell: TodoTableCell)
-    func titleTapped(_ cell: TodoTableCell)
+protocol UncheckedTableCellDelegate: AnyObject {
+    func checkmarkTapped(_ cell: UncheckedTableCell)
+    func titleTapped(_ cell: UncheckedTableCell)
 }
 
-class TodoTableCell: UITableViewCell {
+class UncheckedTableCell: UITableViewCell {
+    
+    let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
         didSet {
             guard let item = todoItem else { return }
             self.titleLabel.text = item.title
-            setToggleImage()
         }
     }
-    weak var todoCellDelegate: TodoTableCellDelegate?
+    weak var todoCellDelegate: UncheckedTableCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(checkmarkButton)
-        layoutToggleImage()
-        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         contentView.addSubview(titleLabel)
         contentView.clipsToBounds = true
+        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         backgroundColor = .cyan
     }
     
@@ -42,30 +43,8 @@ class TodoTableCell: UITableViewCell {
         todoCellDelegate?.checkmarkTapped(self)
     }
     
-    var toggleImageView: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
-        return view
-    }()
-    
-    func setToggleImage() {
-        guard let todoItem = todoItem else {return }
-        let image = todoItem.isDone ? UIImage.unchecked : UIImage.checked
-        toggleImageView.image = image
-    }
-    
-    func layoutToggleImage() {
-        checkmarkButton.addSubview(toggleImageView)
-        toggleImageView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-    
     public lazy var checkmarkButton: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+        return self.designKit.Button(image: UIImage.unchecked, hasInset: false)
     }()
     
     private let titleLabel = UILabel().then {
