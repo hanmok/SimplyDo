@@ -16,9 +16,11 @@ import DesignKit
 class TodoController: UIViewController {
     
     let todoManager = TodoManager()
-    var todos = [Todo]()
-//    let designKit: DesignKit = DesignKitImp()
     let designKit = DesignKitImp()
+    
+    var uncheckedTodos = [Todo]()
+    var checkedTodos = [Todo]()
+
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -102,7 +104,7 @@ class TodoController: UIViewController {
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(self.todos.count * 40 + 40)
+            make.height.equalTo(self.uncheckedTodos.count * 30 + 40)
         }
     }
     
@@ -110,7 +112,7 @@ class TodoController: UIViewController {
     
     private func updateTodoTable() {
         do {
-            todos = try todoManager.fetchTodos()
+            uncheckedTodos = try todoManager.fetchTodos()
         } catch let error{
             print(error.localizedDescription)
         }
@@ -118,7 +120,7 @@ class TodoController: UIViewController {
         todoTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(self.todos.count * 40 + 40)
+            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
         }
     }
     
@@ -129,8 +131,12 @@ class TodoController: UIViewController {
         }
         
         do {
-            try todoManager.createTodo(title: title, targetDate: targetDate)
-            updateTodoTable()
+            let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
+//            updateTodoTable()
+            
+            todoTableView.beginUpdates()
+            uncheckedTodos.append(newTodo)
+            todoTableView.endUpdates()
         } catch let e {
             print(e.localizedDescription)
         }
@@ -215,22 +221,24 @@ class TodoController: UIViewController {
 
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todos.count
+        return uncheckedTodos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableCell.reuseIdentifier, for: indexPath) as! TodoTableCell
         cell.todoCellDelegate = self
-        cell.todoItem = todos[indexPath.row]
+        cell.todoItem = uncheckedTodos[indexPath.row]
         return cell
     }
+    
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             do {
-                try todoManager.delete(todo: todos[indexPath.row])
+                try todoManager.delete(todo: uncheckedTodos[indexPath.row])
+                uncheckedTodos.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.view.makeToast("delete")
-                self.updateTodoTable()
             } catch {
                 self.view.makeToast("failed to delete todo ")
             }
@@ -263,3 +271,30 @@ extension TodoController: TodoTableCellDelegate {
         // TODO: show Up subView for editing todo
     }
 }
+
+
+// reference for updating tableView
+//func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//    switch type {
+//          case .update:
+//                 if let indexPath = indexPath {
+//                 tableView.reloadRows(at: [indexPath], with: .none)
+//            }
+//          case .move:
+//             if let indexPath = indexPath {
+//                tableView.moveRow(at: indexPath, to: newIndexPath)
+//              }
+//         case .delete:
+//              if let indexPath = indexPath {
+//                 tableView.deleteRows(at: [indexPath], with: .none)
+//               tableView.reloadData()    // << May be needed
+//             }
+//         case .insert:
+//              if let newIndexPath = newIndexPath {
+//                 tableView.insertRows(at: [newIndexPath], with: .none)
+//                 tableView.reloadData()    // << May be needed
+//              }
+//         default:
+//              tableView.reloadData()
+//          }
+//  }
