@@ -51,7 +51,7 @@ class TodoTableCell: UITableViewCell {
     
     func setToggleImage() {
         guard let todoItem = todoItem else {return }
-        let image = todoItem.isDone ? UIImage.uncheckedImage : UIImage.checkedImage
+        let image = todoItem.isDone ? UIImage.unchecked : UIImage.checked
         toggleImageView.image = image
     }
     

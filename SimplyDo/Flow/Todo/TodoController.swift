@@ -193,7 +193,7 @@ class TodoController: UIViewController {
     
     public let makeButton: UIButton = {
         let view = UIButton()
-        let imgView = UIImageView(image: UIImage(systemName: "paperplane.fill"))
+        let imgView = UIImageView(image: UIImage.inputCompleted)
         imgView.contentMode = .scaleAspectFit
         imgView.tintColor = .blue
         view.addSubview(imgView)
@@ -209,7 +209,7 @@ class TodoController: UIViewController {
     public lazy var floatingAddBtn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        let imgView = UIImageView(image: UIImage(systemName: "plus.circle"))
+        let imgView = UIImageView(image: UIImage.plusInCircle)
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.tintColor = .magenta
         

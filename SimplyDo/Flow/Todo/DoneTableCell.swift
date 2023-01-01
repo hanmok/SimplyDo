@@ -35,7 +35,7 @@ class DoneTableCell: UITableViewCell {
     public lazy var todoIcon: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        let imgView = UIImageView(image: UIImage(systemName: "checkmark.circle.fill"))
+        let imgView = UIImageView(image: UIImage.checked)
         imgView.contentMode = .scaleAspectFit
         imgView.translatesAutoresizingMaskIntoConstraints = false
         
