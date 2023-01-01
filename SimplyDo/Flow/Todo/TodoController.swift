@@ -17,7 +17,7 @@ class TodoController: UIViewController {
     
     let todoManager = TodoManager()
     var todos = [Todo]()
-    
+    let designKit = DesignKitImp()
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -190,32 +190,12 @@ class TodoController: UIViewController {
         return view
     }()
     
-    public let makeButton: UIButton = {
-        let view = UIButton()
-        let imgView = UIImageView(image: UIImage.inputCompleted)
-        imgView.contentMode = .scaleAspectFit
-        imgView.tintColor = .blue
-        view.addSubview(imgView)
-        imgView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview().inset(10)
-        }
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor(white: 0.3, alpha: 0.5).cgColor
-        return view
-    }()
     
-//    public var floatingAddBtn: FloatingButton = {
-//        let floatingButton = FloatingButton(image: UIImage.plusInCircle)
-//        return floatingButton
-//    }()
-    public var floatingAddBtn = DesignKitImp().floatingButton(image: UIImage.plusInCircle)
+    public lazy var makeButton: UIButton = designKit.makeRequestButton(image: UIImage.inputCompleted)
     
-    public let todoInputBoxView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.9, alpha: 1)
-        return view
-    }()
+    public lazy var floatingAddBtn = designKit.floatingButton(image: UIImage.plusInCircle)
+    
+    public lazy var todoInputBoxView = designKit.uiView(color: UIColor(white: 0.9, alpha: 1))
     
     public let todoTitleTextField: UITextField = {
         let view = UITextField()
