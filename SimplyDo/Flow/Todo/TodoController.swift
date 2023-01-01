@@ -62,8 +62,8 @@ class TodoController: UIViewController {
     }
     
     private func addSubViews() {
-        [floatingAddBtn, todoInputBoxView, todoTableView, doneTableView].forEach { self.view.addSubview($0)}
-        todoTableView.layer.zPosition = 0
+        [floatingAddBtn, todoInputBoxView, uncheckedTableView, checkedTableView].forEach { self.view.addSubview($0)}
+        uncheckedTableView.layer.zPosition = 0
         floatingAddBtn.layer.zPosition = 1
         todoInputBoxView.layer.zPosition = 2
     }
@@ -100,21 +100,21 @@ class TodoController: UIViewController {
     }
     
     private func setupTableViewLayout() {
-        [todoTableView, doneTableView].forEach { self.view.addSubview($0) }
-        todoTableView.delegate = self
-        todoTableView.dataSource = self
+        [uncheckedTableView, checkedTableView].forEach { self.view.addSubview($0) }
+        uncheckedTableView.delegate = self
+        uncheckedTableView.dataSource = self
         
-        doneTableView.delegate = self
-        doneTableView.dataSource = self
+        checkedTableView.delegate = self
+        checkedTableView.dataSource = self
         
-        todoTableView.snp.makeConstraints { make in
+        uncheckedTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
         }
-        doneTableView.snp.remakeConstraints { make in
+        checkedTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+            make.top.equalTo(self.uncheckedTableView.snp.bottom).offset(10)
             make.height.equalTo(self.checkedTodos.count * 40 + 40)
         }
     }
@@ -129,16 +129,16 @@ class TodoController: UIViewController {
             print(error.localizedDescription)
         }
         
-        todoTableView.reloadData()
-        todoTableView.snp.remakeConstraints { make in
+        uncheckedTableView.reloadData()
+        uncheckedTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
         }
-        doneTableView.reloadData()
-        doneTableView.snp.remakeConstraints { make in
+        checkedTableView.reloadData()
+        checkedTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+            make.top.equalTo(self.uncheckedTableView.snp.bottom).offset(10)
             make.height.equalTo(self.checkedTodos.count * 40 + 40)
         }
         
@@ -148,16 +148,16 @@ class TodoController: UIViewController {
         
 //        todoTableView.reloadData()
         if target.contains(.todo) {
-            todoTableView.snp.remakeConstraints { make in
+            uncheckedTableView.snp.remakeConstraints { make in
                 make.leading.trailing.equalToSuperview().inset(16)
                 make.top.equalTo(self.view.safeAreaLayoutGuide)
                 make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
             }
         }
         if target.contains(.done) {
-            doneTableView.snp.remakeConstraints { make in
+            checkedTableView.snp.remakeConstraints { make in
                 make.leading.trailing.equalToSuperview().inset(16)
-                make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
+                make.top.equalTo(self.uncheckedTableView.snp.bottom).offset(10)
                 make.height.equalTo(self.checkedTodos.count * 40 + 40)
             }
         }
@@ -171,12 +171,12 @@ class TodoController: UIViewController {
         
         do {
             let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
-            todoTableView.beginUpdates()
+            uncheckedTableView.beginUpdates()
             uncheckedTodos.insert(newTodo, at: 0)
             let firstIndexPath = IndexPath(row: 0, section: 0)
-            todoTableView.insertRows(at: [firstIndexPath], with: .top)
+            uncheckedTableView.insertRows(at: [firstIndexPath], with: .top)
             updateTodoTable(target: [.todo])
-            todoTableView.endUpdates()
+            uncheckedTableView.endUpdates()
         } catch let e {
             print(e.localizedDescription)
         }
@@ -226,14 +226,14 @@ class TodoController: UIViewController {
     
     // MARK: - Views
     
-    private let todoTableView: UITableView = {
+    private let uncheckedTableView: UITableView = {
         let view = UITableView()
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.backgroundColor = UIColor(white: 0.5, alpha: 1)
         return view
     }()
     
-    private let doneTableView: UITableView = {
+    private let checkedTableView: UITableView = {
         let view = UITableView()
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = UIColor(white: 0.5, alpha: 1)
@@ -263,7 +263,7 @@ class TodoController: UIViewController {
 
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == todoTableView {
+        if tableView == uncheckedTableView {
             return uncheckedTodos.count
         } else {
             return checkedTodos.count
@@ -271,7 +271,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == todoTableView {
+        if tableView == uncheckedTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
             cell.todoCellDelegate = self
             cell.todoItem = uncheckedTodos[indexPath.row]
@@ -289,7 +289,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             var deletingTodo: Todo
             
-            let isDeletingUnchecked = tableView == todoTableView
+            let isDeletingUnchecked = tableView == uncheckedTableView
             deletingTodo = isDeletingUnchecked ? uncheckedTodos[indexPath.row] : checkedTodos[indexPath.row]
             
             do {
@@ -325,6 +325,7 @@ extension TodoController: UncheckedTableCellDelegate {
         guard let todoItem = cell.todoItem else { return }
         do {
             try todoManager.toggleDoneState(todo: todoItem)
+            
             updateTodoTable()
         } catch {
             self.view.makeToast("failed to toggle done state")
