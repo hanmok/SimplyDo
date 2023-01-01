@@ -77,12 +77,10 @@ class TodoTableCell: UITableViewCell {
         checkmarkButton.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview().inset(5)
         }
-        
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(checkmarkButton.snp.trailing).offset(10)
             make.trailing.top.bottom.equalToSuperview()
         }
-        
         checkmarkButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     

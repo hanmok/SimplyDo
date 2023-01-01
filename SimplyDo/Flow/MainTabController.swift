@@ -44,7 +44,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     private func setupLayouts() {
         view.backgroundColor = .white
-        self.tabBar.backgroundColor = UIColor(white: 0.85, alpha: 0.5)
-        self.tabBar.unselectedItemTintColor = UIColor(white: 0.5, alpha: 0.85)
+        self.tabBar.backgroundColor = UIColor(white: 0.85, alpha: 1)
+        self.tabBar.unselectedItemTintColor = UIColor(white: 0.5, alpha: 1)
     }
 }

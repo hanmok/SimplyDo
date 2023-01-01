@@ -40,7 +40,7 @@ class TodoController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        setupTableData()
+        setupInitialTableData()
     }
     
     
@@ -64,7 +64,8 @@ class TodoController: UIViewController {
     private func addSubViews() {
         [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
         todoTableView.layer.zPosition = 0
-        todoInputBoxView.layer.zPosition = 1
+        floatingAddBtn.layer.zPosition = 1
+        todoInputBoxView.layer.zPosition = 2
     }
     
     private func setupFloatingButton() {
@@ -110,7 +111,7 @@ class TodoController: UIViewController {
     
     // MARK: - Actions
     
-    private func setupTableData() {
+    private func setupInitialTableData() {
         do {
             uncheckedTodos = try todoManager.fetchTodos()
         } catch let error{
@@ -136,9 +137,6 @@ class TodoController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
-        
-        print("makeTodo called, title: \(title)")
-        
         guard title != "" else {
             self.view.makeToast("empty string", position: .top)
             return
@@ -173,8 +171,6 @@ class TodoController: UIViewController {
     
     @objc func keyboardWillHide(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
             todoInputBoxView.snp.remakeConstraints { make in
                 make.top.equalTo(self.view.snp.bottom)
                 make.leading.trailing.equalToSuperview()
@@ -196,11 +192,7 @@ class TodoController: UIViewController {
         }
         todoTitleTextField.resignFirstResponder()
         
-        
-        
-        
         makeTodo(title: title)
-        
     }
     
     @objc func addTapped() {
@@ -229,17 +221,8 @@ class TodoController: UIViewController {
         return self.designKit.View(color: UIColor(white: 0.9, alpha: 1))
     }()
     
-//    public lazy var todoTitleTextField: UITextField = {
-//        let view = self.designKit.PaddedTextField()
-//        let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
-//        view.attributedPlaceholder = attr
-//        view.backgroundColor = UIColor(white: 0.8, alpha: 1)
-//        return view
-//    }()
-    
-    public let todoTitleTextField: UITextField = {
-//        let view = self.designKit.PaddedTextField()
-        let view = UITextField()
+    public lazy var todoTitleTextField: UITextField = {
+        let view = self.designKit.PaddedTextField()
         let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
@@ -259,13 +242,13 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             do {
                 try todoManager.delete(todo: uncheckedTodos[indexPath.row])
                 uncheckedTodos.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
+                self.updateTodoTable()
                 self.view.makeToast("delete")
             } catch {
                 self.view.makeToast("failed to delete todo ")
