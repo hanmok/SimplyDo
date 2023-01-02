@@ -20,7 +20,6 @@ class TodoController: UIViewController {
     
     var uncheckedTodos = [Todo]()
     var checkedTodos = [Todo]()
-//    var allTodos = [Todo]()
     
     // MARK: - Life cycle
     
@@ -44,15 +43,8 @@ class TodoController: UIViewController {
     }
     
     @objc func viewTapped() {
-        print("viewTapped!")
         view.endEditing(true)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        //        setupInitialTableData()
-    }
-    
     
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -72,12 +64,11 @@ class TodoController: UIViewController {
     }
     
     private func addSubViews() {
-        //        [floatingAddBtn, todoInputBoxView, todoTableView, checkedTableView].forEach { self.view.addSubview($0)}
         [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
         todoTableView.layer.zPosition = 0
         floatingAddBtn.layer.zPosition = 1
         todoInputBoxView.layer.zPosition = 2
-        makeButton.layer.zPosition = 3
+        makeButton.layer.zPosition = 3  // FIXME: Button not working.
     }
     
     private func setupFloatingButton() {
@@ -132,29 +123,6 @@ class TodoController: UIViewController {
         } catch let error{
             print(error.localizedDescription)
         }
-    }
-    
-    private func updateTodoTable(target: [TodoSection] = [.todo, .done]) {
-        
-        //        todoTableView.reloadData()
-        //        let allTodos = uncheckedTodos + checkedTodos
-        //        if target.contains(.todo) {
-        
-        //            todoTableView.reloadData()
-        //            todoTableView.snp.remakeConstraints { make in
-        //                make.leading.trailing.equalToSuperview().inset(16)
-        //                make.top.equalTo(self.view.safeAreaLayoutGuide)
-        //                make.height.equalTo(allTodos.count * 40 + 40)
-        //            }
-        //        }
-        
-        //        if target.contains(.done) {
-        //            checkedTableView.snp.remakeConstraints { make in
-        //                make.leading.trailing.equalToSuperview().inset(16)
-        //                make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
-        //                make.height.equalTo(self.checkedTodos.count * 40 + 40)
-        //            }
-        //        }
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
@@ -234,21 +202,10 @@ class TodoController: UIViewController {
         return view
     }()
     
-    //    private let checkedTableView: UITableView = {
-    //        let view = UITableView()
-    //        view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
-    //        view.backgroundColor = UIColor(white: 0.5, alpha: 1)
-    //        return view
-    //    }()
-    
     public lazy var makeButton: UIButton = {
         return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: true)
     }()
-    
-//    public var makeButton: UIButton = {
-//        let btn = UIButton()
-//        return btn
-//    }()
+//    let makeButton = DesignKitImp().Button(image: UIImage.inputCompleted, hasBoundary: true)
     
     public lazy var floatingAddBtn: UIButton = {
         return self.designKit.FloatingButton(image: UIImage.plusInCircle)
@@ -267,11 +224,11 @@ class TodoController: UIViewController {
     }()
 }
 
+// MARK: - TableView Delegate, DataSource
+
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         let section = makeTodoSection(using: section)
-        
         switch section {
             case .todo:
                 return uncheckedTodos.count
@@ -279,18 +236,8 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 return checkedTodos.count
         }
     }
-    
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
-    }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        guard let section = TodoSection(rawValue: indexPath.section) else { return UITableViewCell() }
         let section = makeTodoSection(using: indexPath.section)
         
         switch section {
@@ -307,6 +254,53 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let section = makeTodoSection(using: indexPath.section)
+        if editingStyle == .delete {
+            switch section {
+                case .todo:
+                    let deletingTodo = uncheckedTodos[indexPath.row]
+                    do {
+                        try todoManager.delete(todo: deletingTodo)
+                        uncheckedTodos.remove(at: indexPath.row)
+                        
+                        todoTableView.performBatchUpdates {
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
+                        } completion: { _ in
+                            self.updateTableHeight()
+                        }
+                        self.view.makeToast("delete")
+                    } catch {
+                        self.view.makeToast("failed to delete todo ")
+                    }
+                case .done:
+                    let deletingTodo = checkedTodos[indexPath.row]
+                    do {
+                        try todoManager.delete(todo: deletingTodo)
+                        checkedTodos.remove(at: indexPath.row)
+                        todoTableView.performBatchUpdates {
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
+                        } completion: { _ in
+                            self.updateTableHeight()
+                        }
+                        self.view.makeToast("delete")
+                    } catch {
+                        self.view.makeToast("failed to delete todo ")
+                    }
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
+    
+    // MARK: - Table Section
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -330,46 +324,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let section = makeTodoSection(using: indexPath.section)
-        if editingStyle == .delete {
-            switch section {
-                case .todo:
-                    let deletingTodo = uncheckedTodos[indexPath.row]
-                    do {
-                        try todoManager.delete(todo: deletingTodo)
-                        
-                        uncheckedTodos.remove(at: indexPath.row)
-                        
-                        todoTableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            self.updateTableHeight()
-                        }
-                        
-                        self.view.makeToast("delete")
-                    } catch {
-                        self.view.makeToast("failed to delete todo ")
-                    }
-                case .done:
-                    let deletingTodo = checkedTodos[indexPath.row]
-                    do {
-                        try todoManager.delete(todo: deletingTodo)
-                        checkedTodos.remove(at: indexPath.row)
-                        
-                        todoTableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            self.updateTableHeight()
-                        }
-                        
-                        self.view.makeToast("delete")
-                    } catch {
-                        self.view.makeToast("failed to delete todo ")
-                    }
-            }
-        }
-    }
+    
 }
 
 
@@ -389,23 +344,13 @@ extension TodoController: UncheckedTableCellDelegate {
         let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
         uncheckedTodos.remove(at: targetIndexRow)
         checkedTodos.insert(targetTodo, at: 0)
-//        todoTableView.beginUpdates()
-        
-//        todoTableView.insertRows(at: [targetIndexPath, newIndexPath], with: .automatic)
-//        todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
-//        todoTableView.endUpdates()
-        
-//        todoTableView.performBatchUpdates {
-//            <#code#>
-//        }
-        
+
         todoTableView.performBatchUpdates {
             let newIndexPath = IndexPath(row: 0, section: 1)
             todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
         } completion: { _ in
             self.todoTableView.reloadData()
         }
-
     }
     
     func titleTapped(_ cell: UncheckedTableCell) {
@@ -444,32 +389,3 @@ extension TodoController {
         fatalError()
     }
 }
-
-
-// reference for updating tableView
-//func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//    switch type {
-//          case .update:
-//                 if let indexPath = indexPath {
-//                 tableView.reloadRows(at: [indexPath], with: .none)
-//            }
-//          case .move:
-//             if let indexPath = indexPath {
-//                tableView.moveRow(at: indexPath, to: newIndexPath)
-//              }
-//         case .delete:
-//              if let indexPath = indexPath {
-//                 tableView.deleteRows(at: [indexPath], with: .none)
-//               tableView.reloadData()    // << May be needed
-//             }
-//         case .insert:
-//              if let newIndexPath = newIndexPath {
-//                 tableView.insertRows(at: [newIndexPath], with: .none)
-//                 tableView.reloadData()    // << May be needed
-//              }
-//         default:
-//              tableView.reloadData()
-//          }
-//  }
-
-
