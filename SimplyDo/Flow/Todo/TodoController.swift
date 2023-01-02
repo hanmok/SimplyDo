@@ -20,7 +20,7 @@ class TodoController: UIViewController {
     
     var uncheckedTodos = [Todo]()
     var checkedTodos = [Todo]()
-    var allTodos = [Todo]()
+//    var allTodos = [Todo]()
     
     // MARK: - Life cycle
     
@@ -105,12 +105,12 @@ class TodoController: UIViewController {
         
         todoTableView.delegate = self
         todoTableView.dataSource = self
-        
+        let numberOfTodos = (uncheckedTodos + checkedTodos).count
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             //            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
-            make.height.equalTo(self.allTodos.count * 40 + 40)
+            make.height.equalTo(numberOfTodos * 40 + 40)
         }
         //        checkedTableView.snp.remakeConstraints { make in
         //            make.leading.trailing.equalToSuperview().inset(16)
@@ -123,29 +123,20 @@ class TodoController: UIViewController {
     
     private func setupInitialTableData() {
         do {
-            //            uncheckedTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: .todo))
-            //            checkedTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: .done))
-            allTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: CompletionStatus.none))
+            let allTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
-            
         } catch let error{
             print(error.localizedDescription)
         }
         
         todoTableView.reloadData()
+        let numberOfTodos = (uncheckedTodos + checkedTodos).count
         todoTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(self.allTodos.count * 40 + 40)
+            make.height.equalTo(numberOfTodos * 40 + 40)
         }
-        
-        //        checkedTableView.reloadData()
-        //        checkedTableView.snp.remakeConstraints { make in
-        //            make.leading.trailing.equalToSuperview().inset(16)
-        //            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
-        //            make.height.equalTo(self.checkedTodos.count * 40 + 40)
-        //        }
     }
     
     private func updateTodoTable(target: [TodoSection] = [.todo, .done]) {
@@ -181,7 +172,6 @@ class TodoController: UIViewController {
             let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
             todoTableView.beginUpdates()
             let firstIndexPath = IndexPath(row: 0, section: 0)
-            allTodos.insert(newTodo, at: 0)
             uncheckedTodos.insert(newTodo, at: 0)
             todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             todoTableView.endUpdates()
@@ -272,6 +262,7 @@ class TodoController: UIViewController {
 
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         //        guard let section = TodoSection(rawValue: section) else { return 0 }
         //
         //        switch section {
@@ -288,6 +279,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         //            print("checkedTableView, section: \(section)")
         //            return checkedTodos.count
         //        }
+        
         guard let section = TodoSection(rawValue: section) else { return 0 }
         
         switch section {
@@ -305,7 +297,6 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = TodoSection(rawValue: indexPath.section) else { return UITableViewCell() }
-        
         
         switch section {
             case .done:
@@ -372,29 +363,28 @@ extension TodoController: UITextFieldDelegate {
 
 extension TodoController: UncheckedTableCellDelegate {
     func checkmarkTapped(_ cell: UncheckedTableCell) {
-        print("checkmark Tapped!")
-        guard let todoItem = cell.todoItem else { return }
-        do {
-            //            guard let idx = uncheckedTodos.firstIndex(of: todoItem) else { return }
-            //            try todoManager.toggleDoneState(todo: todoItem)
-            //            let fromIndexPath = IndexPath(row: idx, section: 0)
-            //            let toIndexPath = IndexPath(row: 0, section: 1)
-            //            todoTableView.beginUpdates()
-            ////            checkedTableView.beginUpdates()
-            //
-            //            todoTableView.moveRow(at: fromIndexPath, to: toIndexPath)
-            ////            todoTableView.deleteRows(at: [fromIndexPath], with: .automatic)
-            ////            checkedTableView.insertRows(at: [toIndexPath], with: .top)
-            //            uncheckedTodos.remove(at: idx)
-            //            checkedTodos.insert(todoItem, at: 0)
-            
-            //            todoTableView.endUpdates()
-            //            checkedTableView.endUpdates()
-            
-            //            updateTodoTable()
-        } catch {
-            self.view.makeToast("failed to toggle done state")
+        guard let targetTodo = cell.todoItem else { return }
+        guard let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
+        let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
+        uncheckedTodos.remove(at: targetIndexRow)
+        checkedTodos.insert(targetTodo, at: 0)
+//        todoTableView.beginUpdates()
+        
+//        todoTableView.insertRows(at: [targetIndexPath, newIndexPath], with: .automatic)
+//        todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
+//        todoTableView.endUpdates()
+        
+//        todoTableView.performBatchUpdates {
+//            <#code#>
+//        }
+        
+        todoTableView.performBatchUpdates {
+            let newIndexPath = IndexPath(row: 0, section: 1)
+            todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+        } completion: { _ in
+            self.todoTableView.reloadData()
         }
+
     }
     
     func titleTapped(_ cell: UncheckedTableCell) {
@@ -406,7 +396,18 @@ extension TodoController: UncheckedTableCellDelegate {
 
 extension TodoController: CheckedTableCellDelegate {
     func checkmarkTapped(_ cell: CheckedTableCell) {
-        print("checkmark tapped!")
+        guard let targetTodo = cell.todoItem else { return }
+        guard let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
+        let targetIndexPath = IndexPath(row: targetIndexRow, section: 1)
+        
+        uncheckedTodos.insert(targetTodo, at: 0)
+        checkedTodos.remove(at: targetIndexRow)
+        
+        todoTableView.performBatchUpdates {
+            todoTableView.moveRow(at: targetIndexPath, to: IndexPath(row: 0, section: 0))
+        } completion: { _ in
+            self.todoTableView.reloadData()
+        }
     }
     
     func titleTapped(_ cell: CheckedTableCell) {
