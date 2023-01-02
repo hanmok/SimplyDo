@@ -100,7 +100,6 @@ class TodoController: UIViewController {
     }
     
     private func setupTableViewLayout() {
-        //        [todoTableView, checkedTableView].forEach { self.view.addSubview($0) }
         [self.todoTableView].forEach { self.view.addSubview($0)}
         
         todoTableView.delegate = self
@@ -110,7 +109,7 @@ class TodoController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             //            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
-            make.height.equalTo(numberOfTodos * 40 + 40)
+            make.height.equalTo(numberOfTodos * 40 + 100)
         }
         //        checkedTableView.snp.remakeConstraints { make in
         //            make.leading.trailing.equalToSuperview().inset(16)
@@ -135,7 +134,7 @@ class TodoController: UIViewController {
         todoTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(numberOfTodos * 40 + 40)
+            make.height.equalTo(numberOfTodos * 40 + 100)
         }
     }
     
@@ -226,6 +225,7 @@ class TodoController: UIViewController {
     
     private let todoTableView: UITableView = {
         let view = UITableView()
+        view.sectionHeaderTopPadding = 10.0
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = UIColor(white: 0.5, alpha: 1)
@@ -263,24 +263,7 @@ class TodoController: UIViewController {
 extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        //        guard let section = TodoSection(rawValue: section) else { return 0 }
-        //
-        //        switch section {
-        //            case .todo:
-        //                return uncheckedTodos.count
-        //            case .done:
-        //                return checkedTodos.count
-        //        }
-        
-        //        if tableView == todoTableView {
-        //            print("todoTableView, section: \(section) ")
-        //            return uncheckedTodos.count
-        //        } else {
-        //            print("checkedTableView, section: \(section)")
-        //            return checkedTodos.count
-        //        }
-        
-        guard let section = TodoSection(rawValue: section) else { return 0 }
+        let section = makeTodoSection(using: section)
         
         switch section {
             case .todo:
@@ -295,8 +278,13 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         return 2
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = TodoSection(rawValue: indexPath.section) else { return UITableViewCell() }
+//        guard let section = TodoSection(rawValue: indexPath.section) else { return UITableViewCell() }
+        let section = makeTodoSection(using: indexPath.section)
         
         switch section {
             case .done:
@@ -313,13 +301,30 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 return cell
         }
     }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let section = makeTodoSection(using: section)
+        let view = UILabel()
+        
+        view.backgroundColor = UIColor(white: 0.2, alpha: 1)
+        if section == .todo {
+            view.text = "오늘 할 것"
+        } else {
+            view.text = "완료!"
+        }
+        return view
+    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "Todo" : "Done"
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let section = TodoSection(rawValue: indexPath.section) else { return }
+        let section = makeTodoSection(using: indexPath.section)
         if editingStyle == .delete {
             switch section {
                 case .todo:
@@ -415,6 +420,15 @@ extension TodoController: CheckedTableCellDelegate {
     }
 }
 
+extension TodoController {
+    private func makeTodoSection(using section: Int) -> TodoSection {
+        if (0 ... 1).contains(section) {
+            return TodoSection(rawValue: section)!
+        }
+        fatalError()
+    }
+}
+
 
 // reference for updating tableView
 //func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -441,3 +455,5 @@ extension TodoController: CheckedTableCellDelegate {
 //              tableView.reloadData()
 //          }
 //  }
+
+
