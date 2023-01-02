@@ -28,10 +28,19 @@ class TodoController: UIViewController {
         super.viewDidLoad()
         setupNotifications()
         setupTargets()
+        fetchData()
         setupLayout()
-        setupInitialTableData()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func updateTableHeight() {
+        let numberOfTodos = (uncheckedTodos + checkedTodos).count
+        todoTableView.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.height.equalTo(numberOfTodos * 40 + 100)
+        }
     }
     
     @objc func viewTapped() {
@@ -68,6 +77,7 @@ class TodoController: UIViewController {
         todoTableView.layer.zPosition = 0
         floatingAddBtn.layer.zPosition = 1
         todoInputBoxView.layer.zPosition = 2
+        makeButton.layer.zPosition = 3
     }
     
     private func setupFloatingButton() {
@@ -108,33 +118,19 @@ class TodoController: UIViewController {
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            //            make.height.equalTo(self.uncheckedTodos.count * 40 + 40)
             make.height.equalTo(numberOfTodos * 40 + 100)
         }
-        //        checkedTableView.snp.remakeConstraints { make in
-        //            make.leading.trailing.equalToSuperview().inset(16)
-        //            make.top.equalTo(self.todoTableView.snp.bottom).offset(10)
-        //            make.height.equalTo(self.checkedTodos.count * 40 + 40)
-        //        }
     }
     
     // MARK: - Actions
     
-    private func setupInitialTableData() {
+    private func fetchData() {
         do {
             let allTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
         } catch let error{
             print(error.localizedDescription)
-        }
-        
-        todoTableView.reloadData()
-        let numberOfTodos = (uncheckedTodos + checkedTodos).count
-        todoTableView.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(numberOfTodos * 40 + 100)
         }
     }
     
@@ -162,6 +158,7 @@ class TodoController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
+        print(#function + "title: \(title)")
         guard title != "" else {
             self.view.makeToast("empty string", position: .top)
             return
@@ -169,11 +166,14 @@ class TodoController: UIViewController {
         
         do {
             let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
-            todoTableView.beginUpdates()
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
-            todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
-            todoTableView.endUpdates()
+            
+            todoTableView.performBatchUpdates {
+                todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
+            } completion: { _ in
+                self.updateTableHeight()
+            }
         } catch let e {
             print(e.localizedDescription)
         }
@@ -205,16 +205,18 @@ class TodoController: UIViewController {
     }
     
     @objc func makeTapped() {
+        print("makeTapped!")
         guard let title = todoTitleTextField.text else { return }
-        view.endEditing(true)
         todoInputBoxView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.snp.bottom)
             make.height.equalTo(40)
         }
         todoTitleTextField.resignFirstResponder()
-        
+        print("before makeTodo!")
         makeTodo(title: title)
+        
+        view.endEditing(true)
     }
     
     @objc func addTapped() {
@@ -242,6 +244,11 @@ class TodoController: UIViewController {
     public lazy var makeButton: UIButton = {
         return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: true)
     }()
+    
+//    public var makeButton: UIButton = {
+//        let btn = UIButton()
+//        return btn
+//    }()
     
     public lazy var floatingAddBtn: UIButton = {
         return self.designKit.FloatingButton(image: UIImage.plusInCircle)
@@ -331,10 +338,15 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                     let deletingTodo = uncheckedTodos[indexPath.row]
                     do {
                         try todoManager.delete(todo: deletingTodo)
-                        tableView.beginUpdates()
+                        
                         uncheckedTodos.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
-                        tableView.endUpdates()
+                        
+                        todoTableView.performBatchUpdates {
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
+                        } completion: { _ in
+                            self.updateTableHeight()
+                        }
+                        
                         self.view.makeToast("delete")
                     } catch {
                         self.view.makeToast("failed to delete todo ")
@@ -343,10 +355,14 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                     let deletingTodo = checkedTodos[indexPath.row]
                     do {
                         try todoManager.delete(todo: deletingTodo)
-                        tableView.beginUpdates()
                         checkedTodos.remove(at: indexPath.row)
-                        tableView.deleteRows(at: [indexPath], with: .automatic)
-                        tableView.endUpdates()
+                        
+                        todoTableView.performBatchUpdates {
+                            tableView.deleteRows(at: [indexPath], with: .automatic)
+                        } completion: { _ in
+                            self.updateTableHeight()
+                        }
+                        
                         self.view.makeToast("delete")
                     } catch {
                         self.view.makeToast("failed to delete todo ")
