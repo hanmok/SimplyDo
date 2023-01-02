@@ -22,3 +22,6 @@ attempt to perform a delete and a move from the same index path (<NSIndexPath: 0
 
 
 attempt to move index path (<NSIndexPath: 0xe157b21093c2634b> {length = 2, path = 0 - 0}) to index path (<NSIndexPath: 0xe157b21093c2624b> {length = 2, path = 1 - 0}) that does not exist - there are only 0 rows in section 1 after the update'
+
+
+Section 은 하나의 TableView 내 여러 부분을 갖는 것. 여러 TableView ㄴㄴ;;

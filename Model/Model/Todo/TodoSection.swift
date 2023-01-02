@@ -8,7 +8,7 @@
 import Foundation
 
 public enum TodoSection: Int {
-    case todo
+    case todo = 0
     case done
 }
 
