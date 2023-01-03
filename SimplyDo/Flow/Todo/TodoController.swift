@@ -353,17 +353,21 @@ extension TodoController: UITextFieldDelegate {
 
 extension TodoController: UncheckedTableCellDelegate {
     func checkmarkTapped(_ cell: UncheckedTableCell) {
-        guard let targetTodo = cell.todoItem else { return }
-        guard let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
-        let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
-        uncheckedTodos.remove(at: targetIndexRow)
-        checkedTodos.insert(targetTodo, at: 0)
+        guard let targetTodo = cell.todoItem, let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
+        do {
+            try todoManager.toggleDoneState(todo: targetTodo)
+            let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
+            uncheckedTodos.remove(at: targetIndexRow)
+            checkedTodos.insert(targetTodo, at: 0)
 
-        todoTableView.performBatchUpdates {
-            let newIndexPath = IndexPath(row: 0, section: 1)
-            todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
-        } completion: { _ in
-            self.todoTableView.reloadData()
+            todoTableView.performBatchUpdates {
+                let newIndexPath = IndexPath(row: 0, section: 1)
+                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+            } completion: { _ in
+                self.todoTableView.reloadData()
+            }
+        } catch {
+            self.view.makeToast("failed toggle")
         }
     }
     
@@ -376,17 +380,21 @@ extension TodoController: UncheckedTableCellDelegate {
 
 extension TodoController: CheckedTableCellDelegate {
     func checkmarkTapped(_ cell: CheckedTableCell) {
-        guard let targetTodo = cell.todoItem else { return }
-        guard let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
-        let targetIndexPath = IndexPath(row: targetIndexRow, section: 1)
-        
-        uncheckedTodos.insert(targetTodo, at: 0)
-        checkedTodos.remove(at: targetIndexRow)
-        
-        todoTableView.performBatchUpdates {
-            todoTableView.moveRow(at: targetIndexPath, to: IndexPath(row: 0, section: 0))
-        } completion: { _ in
-            self.todoTableView.reloadData()
+        guard let targetTodo = cell.todoItem, let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
+        do {
+            try todoManager.toggleDoneState(todo: targetTodo)
+            let targetIndexPath = IndexPath(row: targetIndexRow, section: 1)
+            
+            uncheckedTodos.insert(targetTodo, at: 0)
+            checkedTodos.remove(at: targetIndexRow)
+            
+            todoTableView.performBatchUpdates {
+                todoTableView.moveRow(at: targetIndexPath, to: IndexPath(row: 0, section: 0))
+            } completion: { _ in
+                self.todoTableView.reloadData()
+            }
+        } catch {
+            self.view.makeToast("failed toggle")
         }
     }
     
