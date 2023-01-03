@@ -36,8 +36,12 @@ class TodoController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    @objc func viewTapped() {
+    private func hideKeyboard() {
         view.endEditing(true)
+    }
+    
+    @objc func viewTapped() {
+        hideKeyboard()
     }
     
     private func setupNotifications() {
@@ -225,6 +229,10 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
             case .done:
                 return checkedTodos.count
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        viewTapped()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
