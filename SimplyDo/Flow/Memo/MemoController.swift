@@ -20,8 +20,7 @@ class MemoController: UIViewController {
         lottieView.play()
     }
     
-    private let lottieView = LottieAnimationView(name: "testing").then {
-//        $0.loopMode = .playOnce
+    private let lottieView = LottieAnimationView(name: "check").then {
         $0.loopMode = .loop
         $0.contentMode = .scaleAspectFit
         $0.tintColor = .magenta

@@ -16,7 +16,6 @@
 		9A274784296460A8004F9731 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A27478729646A4C004F9731 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27478629646A4C004F9731 /* Lottie */; };
 		9A27479D29646BEA004F9731 /* libResource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A27479C29646BEA004F9731 /* libResource.a */; };
-		9A2747A529647322004F9731 /* testing.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2747A429647322004F9731 /* testing.json */; };
 		9A2747A7296475BD004F9731 /* check.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2747A6296475BD004F9731 /* check.json */; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
 		9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43756295F21DB00156D47 /* Todo+Helper.swift */; };
@@ -85,8 +84,6 @@
 		9A27476C296320E5004F9731 /* Todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo; sourceTree = "<group>"; };
 		9A274782296460A8004F9731 /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A27479C29646BEA004F9731 /* libResource.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libResource.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A2747A32964725C004F9731 /* todo_success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = todo_success.json; path = Resource/Resource/../../todo_success.json; sourceTree = "<group>"; };
-		9A2747A429647322004F9731 /* testing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testing.json; sourceTree = "<group>"; };
 		9A2747A6296475BD004F9731 /* check.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = check.json; sourceTree = "<group>"; };
 		9A5630F0295CAE8C00BDE7EB /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = Model/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
@@ -193,8 +190,6 @@
 			children = (
 				9A2747592961B325004F9731 /* Memo */,
 				9A27476C296320E5004F9731 /* Todo */,
-				9A2747A429647322004F9731 /* testing.json */,
-				9A2747A32964725C004F9731 /* todo_success.json */,
 				9A2747A6296475BD004F9731 /* check.json */,
 				9ADD01512951ACD800532DA5 /* SimplyDo */,
 				9ADD01682951ACDB00532DA5 /* SimplyDoTests */,
@@ -400,7 +395,6 @@
 			files = (
 				9ADD015F2951ACDA00532DA5 /* LaunchScreen.storyboard in Resources */,
 				9A2747A7296475BD004F9731 /* check.json in Resources */,
-				9A2747A529647322004F9731 /* testing.json in Resources */,
 				9A27475A2961B325004F9731 /* Memo in Resources */,
 				9A27476D296320E5004F9731 /* Todo in Resources */,
 				9ADD015C2951ACDA00532DA5 /* Assets.xcassets in Resources */,
