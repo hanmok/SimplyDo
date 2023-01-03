@@ -16,7 +16,6 @@ public struct TodoManager {
     }
 }
 
-
 // static 으로 하는게 낫지 않나??
 extension TodoManager {
     @discardableResult

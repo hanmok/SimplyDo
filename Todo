@@ -1,0 +1,7 @@
+
+Lottie 로, checkmark 눌렀을 때 animation 주면 좋을 것 같아.
+Cell 에서 넣은 후, 해당 Lottie 가 종료되면 delegate 을 실행하도록 하자.
+
+그리고.. 디자인도 조금씩 손보면서 하는게 좋을 것 같아.
+Todo Size 가 너무 크니까 줄이고, 동글동글하게 만들면서 작업하자.
+

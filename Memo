@@ -25,3 +25,6 @@ attempt to move index path (<NSIndexPath: 0xe157b21093c2634b> {length = 2, path 
 
 
 Section 은 하나의 TableView 내 여러 부분을 갖는 것. 여러 TableView ㄴㄴ;;
+
+완료 누르면 안보이도록 해주고싶다. 오른쪽 쯤에 chevron up, down 두면 좋을 것 같아.
+날짜 작업도 하자.

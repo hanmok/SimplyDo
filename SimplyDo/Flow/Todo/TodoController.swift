@@ -58,17 +58,16 @@ class TodoController: UIViewController {
     
     private func setupLayout() {
         addSubViews()
+        setupTableViewLayout()
         setupFloatingButton()
         setupTextInputBoxView()
-        setupTableViewLayout()
     }
     
     private func addSubViews() {
-        [floatingAddBtn, todoInputBoxView, todoTableView].forEach { self.view.addSubview($0)}
+        [todoTableView, floatingAddBtn, todoInputBoxView].forEach { self.view.addSubview($0)}
         todoTableView.layer.zPosition = 0
         floatingAddBtn.layer.zPosition = 1
         todoInputBoxView.layer.zPosition = 2
-        makeButton.layer.zPosition = 3  // FIXME: Button not working.
     }
     
     private func setupFloatingButton() {
@@ -101,8 +100,6 @@ class TodoController: UIViewController {
     }
     
     private func setupTableViewLayout() {
-        [self.todoTableView].forEach { self.view.addSubview($0)}
-        
         todoTableView.delegate = self
         todoTableView.dataSource = self
         let numberOfTodos = (uncheckedTodos + checkedTodos).count
