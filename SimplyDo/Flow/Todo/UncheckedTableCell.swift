@@ -28,6 +28,7 @@ class UncheckedTableCell: UITableViewCell {
             self.titleLabel.text = item.title
         }
     }
+    
     weak var todoCellDelegate: UncheckedTableCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -36,7 +37,7 @@ class UncheckedTableCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
-        backgroundColor = .cyan
+        backgroundColor = UIColor(white: 0.6, alpha: 1)
     }
     
     @objc func checkmarkTapped() {

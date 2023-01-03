@@ -12,6 +12,8 @@
 		9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; };
 		9A2747692961B55B004F9731 /* DesignKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A27476D296320E5004F9731 /* Todo in Resources */ = {isa = PBXBuildFile; fileRef = 9A27476C296320E5004F9731 /* Todo */; };
+		9A274783296460A8004F9731 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; };
+		9A274784296460A8004F9731 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
 		9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43756295F21DB00156D47 /* Todo+Helper.swift */; };
 		9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43759295F21DB00156D47 /* TodoTagManager.swift */; };
@@ -64,6 +66,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9A274784296460A8004F9731 /* Util.framework in Embed Frameworks */,
 				9ADD01AD2959E49C00532DA5 /* ControllerModule.framework in Embed Frameworks */,
 				9A2747692961B55B004F9731 /* DesignKit.framework in Embed Frameworks */,
 			);
@@ -76,6 +79,7 @@
 		9A2747592961B325004F9731 /* Memo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Memo; sourceTree = "<group>"; };
 		9A2747672961B55B004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A27476C296320E5004F9731 /* Todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo; sourceTree = "<group>"; };
+		9A274782296460A8004F9731 /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5630F0295CAE8C00BDE7EB /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = Model/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
 		9AD43756295F21DB00156D47 /* Todo+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Todo+Helper.swift"; path = "SimplyDo/Todo/Todo+Helper.swift"; sourceTree = SOURCE_ROOT; };
@@ -114,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A274783296460A8004F9731 /* Util.framework in Frameworks */,
 				9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */,
 				9ADD01AC2959E49C00532DA5 /* ControllerModule.framework in Frameworks */,
 				9A2747662961B52E004F9731 /* SnapKit in Frameworks */,
@@ -233,6 +238,7 @@
 		9ADD01AA2959E49C00532DA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A274782296460A8004F9731 /* Util.framework */,
 				9A2747672961B55B004F9731 /* DesignKit.framework */,
 				9AFC9BDA296096EF0082800E /* Resource.framework */,
 				9A5630F0295CAE8C00BDE7EB /* Model.framework */,

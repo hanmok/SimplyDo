@@ -75,3 +75,13 @@ extension TodoManager {
         }
     }
 }
+
+
+extension Todo {
+    public static func printNames(todos: [Todo], message: String) {
+        print(message)
+        todos.forEach {
+            print($0.title)
+        }
+    }
+}

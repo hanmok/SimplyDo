@@ -38,6 +38,7 @@ class CheckedTableCell: UITableViewCell {
         contentView.clipsToBounds = true
         todoIcon.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         accessoryType = .none
+        backgroundColor = UIColor(white: 0.8, alpha: 1.0)
     }
     
     @objc func checkmarkTapped() {

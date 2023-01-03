@@ -21,24 +21,27 @@ class TodoController: UIViewController {
     var uncheckedTodos = [Todo]()
     var checkedTodos = [Todo]()
     
+    var tabbarHeight: CGFloat {
+        return self.tabBarController?.tabBar.frame.height ?? 83.0
+    }
     // MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchData()
         setupNotifications()
         setupTargets()
-        fetchData()
         setupLayout()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
     }
     
     private func updateTableHeight() {
-        let numberOfTodos = (uncheckedTodos + checkedTodos).count
+//        let numberOfTodos = (uncheckedTodos + checkedTodos).count
         todoTableView.snp.remakeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(numberOfTodos * 40 + 100)
+            make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
     
@@ -71,7 +74,6 @@ class TodoController: UIViewController {
     }
     
     private func setupFloatingButton() {
-        let tabbarHeight = self.tabBarController?.tabBar.frame.height ?? 83
         floatingAddBtn.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(30)
             make.height.width.equalTo(50)
@@ -106,7 +108,7 @@ class TodoController: UIViewController {
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(numberOfTodos * 40 + 100)
+            make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
     
@@ -117,7 +119,10 @@ class TodoController: UIViewController {
             let allTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
-        } catch let error{
+            Todo.printNames(todos: checkedTodos, message: "checkedTodos: ")
+            Todo.printNames(todos: uncheckedTodos, message: "uncheckedTodos: ")
+
+        } catch let error {
             print(error.localizedDescription)
         }
     }
@@ -237,18 +242,34 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         let section = makeTodoSection(using: indexPath.section)
         
         switch section {
-            case .done:
-                let todoItem = checkedTodos[indexPath.row]
-                let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
-                cell.todoCellDelegate = self
-                cell.todoItem = todoItem
-                return cell
             case .todo:
                 let todoItem = uncheckedTodos[indexPath.row]
                 let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
                 cell.todoCellDelegate = self
                 cell.todoItem = todoItem
+                
+                if indexPath.row == uncheckedTodos.count - 1 {
+                    // TODO: Last Cell
+                    print("last cell is \(todoItem.title)")
+                    cell.applyCornerRadius(on: [.bottom], radius: 10)
+                    
+                }
+                
                 return cell
+                
+            case .done:
+                let todoItem = checkedTodos[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
+                cell.todoCellDelegate = self
+                cell.todoItem = todoItem
+                
+                if indexPath.row == checkedTodos.count - 1 {
+                    print("last cell is \(todoItem.title)")
+                    cell.applyCornerRadius(on: [.bottom], radius: 10)
+                }
+                cell.clipsToBounds = true
+                return cell
+                
         }
     }
     
@@ -290,7 +311,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 30
     }
     
     
@@ -310,21 +331,22 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         
         if section == .todo {
             view.text = "오늘 할 것"
-        } else {
+            return view
+        } else if checkedTodos.count != 0 {
             view.text = "완료!"
+            return view
         }
-        return view
+        
+        return nil
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "Todo" : "Done"
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return section == 0 ? "Todo" : "Done"
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        return 30
     }
-    
-    
 }
 
 
