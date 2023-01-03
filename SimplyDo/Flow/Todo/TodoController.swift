@@ -36,15 +36,6 @@ class TodoController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    private func updateTableHeight() {
-//        let numberOfTodos = (uncheckedTodos + checkedTodos).count
-        todoTableView.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview().offset(-tabbarHeight)
-        }
-    }
-    
     @objc func viewTapped() {
         view.endEditing(true)
     }
@@ -142,7 +133,7 @@ class TodoController: UIViewController {
             todoTableView.performBatchUpdates {
                 todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             } completion: { _ in
-                self.updateTableHeight()
+                self.todoTableView.reloadData()
             }
         } catch let e {
             print(e.localizedDescription)
@@ -201,6 +192,13 @@ class TodoController: UIViewController {
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
+        
+//        let emptyView = UIImageView()
+//        let image = UIImage(systemName: "plus")
+//        emptyView.contentMode = .scaleAspectFit
+//        emptyView.image = image
+//        view.backgroundView = emptyView
+        
         return view
     }()
     
@@ -249,10 +247,10 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 if indexPath.row == uncheckedTodos.count - 1 {
-                    // TODO: Last Cell
-                    print("last cell is \(todoItem.title)")
                     cell.applyCornerRadius(on: [.bottom], radius: 10)
-                    
+                } else {
+//                    cell.applyCornerRadius(on: [], radius: )
+                    cell.layer.maskedCorners = []
                 }
                 
                 return cell
@@ -264,12 +262,11 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 if indexPath.row == checkedTodos.count - 1 {
-                    print("last cell is \(todoItem.title)")
                     cell.applyCornerRadius(on: [.bottom], radius: 10)
+                } else {
+                    cell.layer.maskedCorners = []
                 }
-                cell.clipsToBounds = true
                 return cell
-                
         }
     }
     
@@ -282,11 +279,10 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                     do {
                         try todoManager.delete(todo: deletingTodo)
                         uncheckedTodos.remove(at: indexPath.row)
-                        
                         todoTableView.performBatchUpdates {
                             tableView.deleteRows(at: [indexPath], with: .automatic)
                         } completion: { _ in
-                            self.updateTableHeight()
+                            tableView.reloadData()
                         }
                         self.view.makeToast("delete")
                     } catch {
@@ -300,7 +296,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                         todoTableView.performBatchUpdates {
                             tableView.deleteRows(at: [indexPath], with: .automatic)
                         } completion: { _ in
-                            self.updateTableHeight()
+                            tableView.reloadData()
                         }
                         self.view.makeToast("delete")
                     } catch {
@@ -329,20 +325,16 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         view.backgroundColor = UIColor(white: 0.2, alpha: 1)
         view.clipsToBounds = true
         
-        if section == .todo {
+        if section == .todo && uncheckedTodos.count != 0{
             view.text = "오늘 할 것"
             return view
-        } else if checkedTodos.count != 0 {
+        } else if section == .done && checkedTodos.count != 0 {
             view.text = "완료!"
             return view
         }
         
         return nil
     }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return section == 0 ? "Todo" : "Done"
-//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
