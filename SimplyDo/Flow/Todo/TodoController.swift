@@ -95,7 +95,7 @@ class TodoController: UIViewController {
     private func setupTableViewLayout() {
         todoTableView.delegate = self
         todoTableView.dataSource = self
-        let numberOfTodos = (uncheckedTodos + checkedTodos).count
+//        let numberOfTodos = (uncheckedTodos + checkedTodos).count
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -129,7 +129,6 @@ class TodoController: UIViewController {
             let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
-            
             todoTableView.performBatchUpdates {
                 todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             } completion: { _ in
@@ -174,9 +173,7 @@ class TodoController: UIViewController {
             make.height.equalTo(40)
         }
         todoTitleTextField.resignFirstResponder()
-        print("before makeTodo!")
         makeTodo(title: title)
-        
         view.endEditing(true)
     }
     
@@ -192,18 +189,11 @@ class TodoController: UIViewController {
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
-        
-//        let emptyView = UIImageView()
-//        let image = UIImage(systemName: "plus")
-//        emptyView.contentMode = .scaleAspectFit
-//        emptyView.image = image
-//        view.backgroundView = emptyView
-        
         return view
     }()
     
     public lazy var makeButton: UIButton = {
-        return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: true)
+        return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: false,  hasInset: true, inset: 5.0)
     }()
     
     public lazy var floatingAddBtn: UIButton = {
@@ -216,6 +206,7 @@ class TodoController: UIViewController {
     
     public lazy var todoTitleTextField: UITextField = {
         let view = self.designKit.PaddedTextField()
+        view.applyCornerRadius(on: .all, radius: 8.0)
         let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
@@ -247,10 +238,9 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 if indexPath.row == uncheckedTodos.count - 1 {
-                    cell.applyCornerRadius(on: [.bottom], radius: 10)
+                    cell.applyCornerRadius(on: .bottom, radius: 10)
                 } else {
-//                    cell.applyCornerRadius(on: [], radius: )
-                    cell.layer.maskedCorners = []
+                    cell.applyCornerRadius(on: .none)
                 }
                 
                 return cell
@@ -262,9 +252,9 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 if indexPath.row == checkedTodos.count - 1 {
-                    cell.applyCornerRadius(on: [.bottom], radius: 10)
+                    cell.applyCornerRadius(on: .bottom, radius: 10)
                 } else {
-                    cell.layer.maskedCorners = []
+                    cell.applyCornerRadius(on: .none)
                 }
                 return cell
         }
@@ -307,7 +297,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
+        return 40
     }
     
     
@@ -327,9 +317,11 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         
         if section == .todo && uncheckedTodos.count != 0{
             view.text = "오늘 할 것"
+            view.textColor = .white
             return view
         } else if section == .done && checkedTodos.count != 0 {
             view.text = "완료!"
+            view.textColor = .white
             return view
         }
         
@@ -337,7 +329,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        return 40
     }
 }
 

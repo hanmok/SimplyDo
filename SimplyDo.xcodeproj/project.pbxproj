@@ -15,7 +15,6 @@
 		9A274783296460A8004F9731 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; };
 		9A274784296460A8004F9731 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A27478729646A4C004F9731 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27478629646A4C004F9731 /* Lottie */; };
-		9A27479D29646BEA004F9731 /* libResource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A27479C29646BEA004F9731 /* libResource.a */; };
 		9A2747A7296475BD004F9731 /* check.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2747A6296475BD004F9731 /* check.json */; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
 		9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43756295F21DB00156D47 /* Todo+Helper.swift */; };
@@ -128,7 +127,6 @@
 				9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */,
 				9ADD01AC2959E49C00532DA5 /* ControllerModule.framework in Frameworks */,
 				9A2747662961B52E004F9731 /* SnapKit in Frameworks */,
-				9A27479D29646BEA004F9731 /* libResource.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

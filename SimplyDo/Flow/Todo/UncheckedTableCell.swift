@@ -36,6 +36,7 @@ class UncheckedTableCell: UITableViewCell {
         contentView.addSubview(checkmarkButton)
         contentView.addSubview(titleLabel)
         [lottieView, checkmarkButton, titleLabel].forEach { self.contentView.addSubview($0)}
+        
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         backgroundColor = UIColor(white: 0.6, alpha: 1)
@@ -52,12 +53,13 @@ class UncheckedTableCell: UITableViewCell {
     
     private let checkmarkButton: UIButton = {
         let btn = UIButton()
-        btn.addBoundary(cornerRadius: 10, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
+        btn.addBoundary(cornerRadius: 15, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
         return btn
     }()
     
     private let lottieView = LottieAnimationView(name: "check").then {
         $0.isHidden = true
+        $0.animationSpeed = 1.5
         $0.loopMode = .playOnce
         $0.contentMode = .scaleAspectFit
         $0.transform = CGAffineTransform(scaleX: 2, y: 2)
@@ -72,13 +74,13 @@ class UncheckedTableCell: UITableViewCell {
         checkmarkButton.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(5)
             make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.width.equalTo(30)
         }
         
         lottieView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(5)
             make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.width.equalTo(30)
         }
         
         titleLabel.snp.makeConstraints { make in

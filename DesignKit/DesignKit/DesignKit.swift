@@ -13,7 +13,7 @@ public protocol DesignKit {
 //    func buildView(themeColor: ThemeColor) -> UIView
 //    func buildRedView() -> UIView
     func FloatingButton(image: UIImage, color: UIColor) -> UIButton
-    func Button(image: UIImage, hasBoundary: Bool, hasInset: Bool) -> UIButton
+    func Button(image: UIImage, hasBoundary: Bool, hasInset: Bool, inset: CGFloat) -> UIButton
     func View(color: UIColor) -> UIView
     func PaddedTextField(leftSpacing: CGFloat, rightSpacing: CGFloat) -> UITextField
 }
@@ -54,7 +54,7 @@ public class DesignKitImp: DesignKit {
         return btn
     }
     
-    public func Button(image: UIImage, hasBoundary: Bool = false, hasInset: Bool = false) -> UIButton {
+    public func Button(image: UIImage, hasBoundary: Bool = false, hasInset: Bool = false, inset: CGFloat = 10) -> UIButton {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
@@ -64,7 +64,7 @@ public class DesignKitImp: DesignKit {
         view.addSubview(imgView)
         imgView.snp.makeConstraints { make in
             if hasInset {
-                make.top.bottom.leading.trailing.equalToSuperview().inset(10)
+                make.top.bottom.leading.trailing.equalToSuperview().inset(inset)
             } else {
                 make.top.bottom.leading.trailing.equalToSuperview()
             }
