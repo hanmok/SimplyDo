@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A27477F296459BF004F9731 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A27477E296459BF004F9731 /* PaddedLabel.swift */; };
 		9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4377B295FD55B00156D47 /* StrintExt+.swift */; };
 		9ADD01FF2959FB8900532DA5 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD01F62959FB8900532DA5 /* Util.framework */; };
 		9ADD02042959FB8900532DA5 /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02032959FB8900532DA5 /* UtilTests.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A27477E296459BF004F9731 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		9AD4377B295FD55B00156D47 /* StrintExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrintExt+.swift"; sourceTree = "<group>"; };
 		9ADD01F62959FB8900532DA5 /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD01F92959FB8900532DA5 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				9ADD020E2959FBA700532DA5 /* UITableViewCellExt+.swift */,
 				9AD4377B295FD55B00156D47 /* StrintExt+.swift */,
 				9AFC9BDD296098590082800E /* UIImageExt+.swift */,
+				9A27477E296459BF004F9731 /* PaddedLabel.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 			files = (
 				9ADD020F2959FBA700532DA5 /* UITableViewCellExt+.swift in Sources */,
 				9AFC9BDE296098590082800E /* UIImageExt+.swift in Sources */,
+				9A27477F296459BF004F9731 /* PaddedLabel.swift in Sources */,
 				9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

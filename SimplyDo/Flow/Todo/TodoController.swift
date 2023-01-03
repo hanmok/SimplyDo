@@ -195,14 +195,13 @@ class TodoController: UIViewController {
         view.sectionHeaderTopPadding = 10.0
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
-        view.backgroundColor = UIColor(white: 0.5, alpha: 1)
+        view.backgroundColor = .white
         return view
     }()
     
     public lazy var makeButton: UIButton = {
         return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: true)
     }()
-//    let makeButton = DesignKitImp().Button(image: UIImage.inputCompleted, hasBoundary: true)
     
     public lazy var floatingAddBtn: UIButton = {
         return self.designKit.FloatingButton(image: UIImage.plusInCircle)
@@ -302,9 +301,13 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = makeTodoSection(using: section)
-        let view = UILabel()
         
+        let view = PaddedLabel()
+        view.layer.cornerRadius = 10
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.backgroundColor = UIColor(white: 0.2, alpha: 1)
+        view.clipsToBounds = true
+        
         if section == .todo {
             view.text = "오늘 할 것"
         } else {
