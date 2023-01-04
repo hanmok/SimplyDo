@@ -46,7 +46,6 @@ class UncheckedTableCell: UITableViewCell {
         print("checkmark Tapped!")
         lottieView.isHidden = false
         lottieView.play { _ in
-            print("checkmarkAction called")
             self.todoCellDelegate?.checkmarkTapped(self)
         }
     }
@@ -78,10 +77,8 @@ class UncheckedTableCell: UITableViewCell {
         }
         
         lottieView.snp.makeConstraints { make in
-//            make.top.bottom.equalToSuperview().inset(5)
             make.top.bottom.equalToSuperview().inset(10)
             make.leading.equalToSuperview().inset(10)
-//            make.width.equalTo(30)
             make.width.equalTo(20)
         }
         

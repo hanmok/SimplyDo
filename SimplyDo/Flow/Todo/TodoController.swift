@@ -201,7 +201,7 @@ class TodoController: UIViewController {
     }()
     
     public lazy var floatingAddBtn: UIButton = {
-        return self.designKit.FloatingButton(image: UIImage.plusInCircle)
+        return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
     }()
     
     public lazy var todoInputBoxView: UIView = {

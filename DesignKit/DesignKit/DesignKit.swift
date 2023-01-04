@@ -41,6 +41,7 @@ public class DesignKitImp: DesignKit {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
+        
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.tintColor = color
         
