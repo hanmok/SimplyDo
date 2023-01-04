@@ -99,7 +99,6 @@ class TodoController: UIViewController {
     private func setupTableViewLayout() {
         todoTableView.delegate = self
         todoTableView.dataSource = self
-//        let numberOfTodos = (uncheckedTodos + checkedTodos).count
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -245,11 +244,8 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoCellDelegate = self
                 cell.todoItem = todoItem
                 
-                if indexPath.row == uncheckedTodos.count - 1 {
-                    cell.applyCornerRadius(on: .bottom, radius: 10)
-                } else {
-                    cell.applyCornerRadius(on: .none)
-                }
+                let isLastCell = indexPath.row == uncheckedTodos.count - 1
+                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 
                 return cell
                 
@@ -259,11 +255,9 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoCellDelegate = self
                 cell.todoItem = todoItem
                 
-                if indexPath.row == checkedTodos.count - 1 {
-                    cell.applyCornerRadius(on: .bottom, radius: 10)
-                } else {
-                    cell.applyCornerRadius(on: .none)
-                }
+                let isLastCell = indexPath.row == checkedTodos.count - 1
+                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+                
                 return cell
         }
     }
@@ -392,7 +386,7 @@ extension TodoController: CheckedTableCellDelegate {
             
             todoTableView.performBatchUpdates {
                 todoTableView.moveRow(at: targetIndexPath, to: IndexPath(row: 0, section: 0))
-            } completion: { _ in
+            } completion: { success in
                 self.todoTableView.reloadData()
             }
         } catch {

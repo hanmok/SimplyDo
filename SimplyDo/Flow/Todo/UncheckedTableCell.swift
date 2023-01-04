@@ -27,6 +27,7 @@ class UncheckedTableCell: UITableViewCell {
         didSet {
             guard let item = todoItem else { return }
             self.titleLabel.text = item.title
+            self.lottieView.currentProgress = 0
         }
     }
     
@@ -50,7 +51,9 @@ class UncheckedTableCell: UITableViewCell {
     
     private let checkmarkButton: UIButton = {
         let btn = UIButton()
-        btn.addBoundary(cornerRadius: 13, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
+        btn.addBoundary(cornerRadius: 13,
+                        borderWidth: 1,
+                        borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
         return btn
     }()
     
@@ -60,6 +63,7 @@ class UncheckedTableCell: UITableViewCell {
         $0.loopMode = .playOnce
         $0.contentMode = .scaleAspectFit
         $0.transform = CGAffineTransform(scaleX: 2, y: 2)
+        $0.currentProgress = 0
     }
     
     private let titleLabel = UILabel().then {
@@ -68,6 +72,7 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        print("layoutSubViews called")
         let inset = isBiggerMode ? 7 : 10
         let width = isBiggerMode ? 26 : 20
         
