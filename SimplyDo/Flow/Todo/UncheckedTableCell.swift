@@ -39,7 +39,9 @@ class UncheckedTableCell: UITableViewCell {
         
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
-        backgroundColor = UIColor(white: 0.6, alpha: 1)
+//        backgroundColor = UIColor(white: 0.6, alpha: 1)
+//        backgroundColor = UIColor.ivory
+        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
     }
 
     @objc func checkmarkTapped() {

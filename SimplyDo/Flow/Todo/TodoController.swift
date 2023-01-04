@@ -322,6 +322,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.backgroundColor = UIColor(white: 0.2, alpha: 1)
         view.clipsToBounds = true
+        view.backgroundColor = .indigo
         
         if section == .todo && uncheckedTodos.count != 0{
             view.text = "오늘 할 것"

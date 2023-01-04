@@ -55,9 +55,7 @@ extension UIColor {
     
     convenience init(hex8 color: Int) {
         let mask = 0x000000FF
-        
         let alpha = CGFloat(color >> 24 & mask) / 255.0
-        
         self.init(hex6: color, alpha: alpha)
     }
     
@@ -81,11 +79,19 @@ extension UIColor {
     
     public convenience init(hex6 color: Int, alpha: CGFloat? = nil) {
         let mask = 0x000000FF
-        
         let red = CGFloat(color >> 16 & mask) / 255.0
         let green = CGFloat(color >> 8 & mask) / 255.0
         let blue = CGFloat(color & mask) / 255.0
-        
         self.init(red: red, green: green, blue: blue, alpha: alpha ?? 1)
     }
+}
+
+extension UIColor {
+    public static let indigoHex = 0x243763
+    public static let ivoryHex = 0xFFEBB7
+    
+    public static let mainOrange = UIColor(hex6: 0xFF6E31)
+    public static let indigo = UIColor(hex6: 0x243763)
+    public static let ivory = UIColor(hex6: 0xFFEBB7)
+    public static let lightBrown = UIColor(hex6: 0xAD8E70)
 }
