@@ -65,11 +65,11 @@ class CheckedTableCell: UITableViewCell {
     
     private let lottieView = LottieAnimationView(name: "check").then {
 //        $0.isHidden = true
+        //        $0.play(fromFrame: <#T##AnimationFrameTime?#>, toFrame: <#T##AnimationFrameTime#>)
         $0.loopMode = .playOnce
         $0.contentMode = .scaleAspectFit
         $0.transform = CGAffineTransform(scaleX: 2, y: 2)
 //        $0.currentProgress = 1
-        
     }
     
     private let titleLabel = UILabel().then {

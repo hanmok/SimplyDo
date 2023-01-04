@@ -53,7 +53,7 @@ class UncheckedTableCell: UITableViewCell {
     
     private let checkmarkButton: UIButton = {
         let btn = UIButton()
-        btn.addBoundary(cornerRadius: 15, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
+        btn.addBoundary(cornerRadius: 10, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
         return btn
     }()
     
@@ -72,15 +72,17 @@ class UncheckedTableCell: UITableViewCell {
     
     override func layoutSubviews() {
         checkmarkButton.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(5)
+            make.top.bottom.equalToSuperview().inset(10)
             make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(30)
+            make.width.equalTo(20)
         }
         
         lottieView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(5)
+//            make.top.bottom.equalToSuperview().inset(5)
+            make.top.bottom.equalToSuperview().inset(10)
             make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(30)
+//            make.width.equalTo(30)
+            make.width.equalTo(20)
         }
         
         titleLabel.snp.makeConstraints { make in
