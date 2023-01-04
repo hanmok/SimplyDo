@@ -22,13 +22,18 @@ protocol CheckedTableCellDelegate: AnyObject {
 }
 
 class CheckedTableCell: UITableViewCell {
-    let isBiggerMode = true
+    
     let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
         didSet {
             guard let item = todoItem else { return }
-            let attr = NSAttributedString(string: item.title, attributes: [.strikethroughStyle: 1, .font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+            let attr = NSAttributedString(string: item.title,
+                                          attributes: [
+                                            .strikethroughStyle: 1,
+                                            .font: UIFont.systemFont(ofSize: 20, weight: .regular),
+                                            .foregroundColor: UIColor(white: 0.6, alpha: 1)
+                                          ])
             self.titleLabel.attributedText = attr
         }
     }
@@ -47,24 +52,10 @@ class CheckedTableCell: UITableViewCell {
     @objc func checkmarkTapped() {
         todoCellDelegate?.checkmarkTapped(self)
     }
-    
-//    public lazy var todoIcon: UIButton = {
-////        return self.designKit.Button(image: UIImage.checked)
-//
-//    }()
-    
-    
-    public var todoIcon: UIButton = {
-//        let image = UIImage.checked.withTintColor(.orange, renderingMode: .alwaysOriginal)
-        
-//        let btn = UIButton(image: image, tintColor: .orange, hasBoundary: false, hasInset: false)
-        let btn = UIButton()
-    
-        return btn
-    }()
+
+    public var todoIcon = UIButton()
     
     private let lottieView = LottieAnimationView(name: "check").then {
-//        $0.isHidden = true
         $0.loopMode = .playOnce
         $0.contentMode = .scaleAspectFit
         $0.transform = CGAffineTransform(scaleX: 2, y: 2)
@@ -76,9 +67,8 @@ class CheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        
-        let inset = isBiggerMode ? 7 : 10
-        let width = isBiggerMode ? 26 : 20
+        let inset = 7
+        let width = 26
         
         todoIcon.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(inset)

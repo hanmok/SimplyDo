@@ -20,7 +20,6 @@ protocol UncheckedTableCellDelegate: AnyObject {
 
 class UncheckedTableCell: UITableViewCell {
     
-    let isBiggerMode = true
     let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
@@ -28,6 +27,7 @@ class UncheckedTableCell: UITableViewCell {
             guard let item = todoItem else { return }
             self.titleLabel.text = item.title
             self.lottieView.currentProgress = 0
+            self.lottieView.isHidden = true
         }
     }
     
@@ -42,7 +42,6 @@ class UncheckedTableCell: UITableViewCell {
     }
 
     @objc func checkmarkTapped() {
-        print("checkmark Tapped!")
         lottieView.isHidden = false
         lottieView.play { _ in
             self.todoCellDelegate?.checkmarkTapped(self)
@@ -72,9 +71,8 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        print("layoutSubViews called")
-        let inset = isBiggerMode ? 7 : 10
-        let width = isBiggerMode ? 26 : 20
+        let inset = 7
+        let width = 26
         
         checkmarkButton.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(inset)

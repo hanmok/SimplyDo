@@ -135,7 +135,8 @@ class TodoController: UIViewController {
             todoTableView.performBatchUpdates {
                 todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             } completion: { _ in
-                self.todoTableView.reloadData()
+//                self.todoTableView.reloadData()
+                self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
             }
         } catch let e {
             print(e.localizedDescription)
@@ -192,6 +193,7 @@ class TodoController: UIViewController {
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
+        view.separatorStyle = .none
         return view
     }()
     
@@ -303,7 +305,6 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    
     // MARK: - Table Section
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -328,7 +329,6 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
             view.textColor = .white
             return view
         }
-        
         return nil
     }
     
