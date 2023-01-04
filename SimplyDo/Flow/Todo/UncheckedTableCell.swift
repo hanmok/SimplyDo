@@ -20,6 +20,7 @@ protocol UncheckedTableCellDelegate: AnyObject {
 
 class UncheckedTableCell: UITableViewCell {
     
+    let isBiggerMode = true
     let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
@@ -33,14 +34,9 @@ class UncheckedTableCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(checkmarkButton)
-        contentView.addSubview(titleLabel)
         [lottieView, checkmarkButton, titleLabel].forEach { self.contentView.addSubview($0)}
-        
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
-//        backgroundColor = UIColor(white: 0.6, alpha: 1)
-//        backgroundColor = UIColor.ivory
         backgroundColor = UIColor(white: 0.85, alpha: 0.7)
     }
 
@@ -54,7 +50,7 @@ class UncheckedTableCell: UITableViewCell {
     
     private let checkmarkButton: UIButton = {
         let btn = UIButton()
-        btn.addBoundary(cornerRadius: 10, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
+        btn.addBoundary(cornerRadius: 13, borderWidth: 1, borderColor: UIColor(white: 0.7, alpha: 1).cgColor)
         return btn
     }()
     
@@ -72,16 +68,19 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        let inset = isBiggerMode ? 7 : 10
+        let width = isBiggerMode ? 26 : 20
+        
         checkmarkButton.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(10)
-            make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview().inset(inset)
+            make.leading.equalToSuperview().inset(inset)
+            make.width.equalTo(width)
         }
         
         lottieView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(10)
-            make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview().inset(inset)
+            make.leading.equalToSuperview().inset(inset)
+            make.width.equalTo(width)
         }
         
         titleLabel.snp.makeConstraints { make in

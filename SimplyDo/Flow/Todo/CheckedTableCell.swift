@@ -22,7 +22,7 @@ protocol CheckedTableCellDelegate: AnyObject {
 }
 
 class CheckedTableCell: UITableViewCell {
-    
+    let isBiggerMode = true
     let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
@@ -41,9 +41,6 @@ class CheckedTableCell: UITableViewCell {
         contentView.clipsToBounds = true
         todoIcon.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         accessoryType = .none
-//        backgroundColor = UIColor(white: 0.8, alpha: 1.0)
-//        backgroundColor = UIColor.lightBrown
-//        backgroundColor = UIColor(white: 0.74, alpha: 1)
         backgroundColor = UIColor(white: 0.85, alpha: 0.9)
     }
     
@@ -68,11 +65,9 @@ class CheckedTableCell: UITableViewCell {
     
     private let lottieView = LottieAnimationView(name: "check").then {
 //        $0.isHidden = true
-        //        $0.play(fromFrame: <#T##AnimationFrameTime?#>, toFrame: <#T##AnimationFrameTime#>)
         $0.loopMode = .playOnce
         $0.contentMode = .scaleAspectFit
         $0.transform = CGAffineTransform(scaleX: 2, y: 2)
-//        $0.currentProgress = 1
     }
     
     private let titleLabel = UILabel().then {
@@ -81,21 +76,26 @@ class CheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        
+        let inset = isBiggerMode ? 7 : 10
+        let width = isBiggerMode ? 26 : 20
+        
         todoIcon.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(5)
-            make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview().inset(inset)
+            make.leading.equalToSuperview().inset(inset)
+            make.width.equalTo(width)
         }
         
         lottieView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(5)
-            make.leading.equalToSuperview().inset(10)
-            make.width.equalTo(20)
+            make.top.bottom.equalToSuperview().inset(inset)
+            make.leading.equalToSuperview().inset(inset)
+            make.width.equalTo(width)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(todoIcon.snp.trailing).offset(10)
-            make.trailing.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().inset(10)
         }
         // set done state
         lottieView.currentProgress = 1
