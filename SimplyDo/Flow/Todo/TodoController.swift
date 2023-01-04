@@ -189,7 +189,7 @@ class TodoController: UIViewController {
     
     private let todoTableView: UITableView = {
         let view = UITableView()
-        view.sectionHeaderTopPadding = 10.0
+        view.sectionHeaderTopPadding = 30.0
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
@@ -307,6 +307,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 40
     }
+    
     
     
     // MARK: - Table Section
