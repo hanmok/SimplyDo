@@ -10,7 +10,7 @@ import UIKit
 
 
 extension UIButton {
-    public convenience init(image: UIImage, tintColor: UIColor, hasBoundary: Bool, hasInset: Bool) {
+    public convenience init(image: UIImage, tintColor: UIColor, hasInset: Bool) {
         self.init()
         self.translatesAutoresizingMaskIntoConstraints = false
         let imageView = UIImageView(image: image)
@@ -24,10 +24,6 @@ extension UIButton {
             } else {
                 make.top.bottom.leading.trailing.equalToSuperview()
             }
-        }
-        if hasBoundary {
-            let borderColor = UIColor(white: 0.3, alpha: 0.5).cgColor
-            self.addBoundary(cornerRadius: 5, borderWidth: 1, borderColor: borderColor)
         }
     }
     

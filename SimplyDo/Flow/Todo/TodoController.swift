@@ -197,8 +197,9 @@ class TodoController: UIViewController {
         return view
     }()
     
-    public lazy var makeButton: UIButton = {
-        return self.designKit.Button(image: UIImage.inputCompleted, hasBoundary: false,  hasInset: true, inset: 5.0)
+    public var makeButton: UIButton = {
+        let view = UIButton(image: UIImage.inputCompleted, tintColor: UIColor.mainOrange, hasInset: true)
+        return view
     }()
     
     public lazy var floatingAddBtn: UIButton = {
