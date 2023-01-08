@@ -32,4 +32,8 @@ extension UIImage {
     public static var plusInCircle: UIImage {
         return UIImage(systemName: "plus.circle")!
     }
+    
+    public static var tag: UIImage {
+        return UIImage(systemName: "number")!
+    }
 }
