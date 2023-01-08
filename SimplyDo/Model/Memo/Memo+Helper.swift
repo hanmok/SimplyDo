@@ -9,15 +9,6 @@ import Foundation
 import CoreData
 
 extension Memo {
-    public var id: UUID {
-        get { self.id_ ?? UUID() }
-        set { self.id_ = newValue }
-    }
-    
-    public var title: String {
-        get { self.title_ ?? "" }
-        set { self.title_ = newValue}
-    }
     
     public var contents: String {
         get { self.contents_ ?? "" }
@@ -29,8 +20,24 @@ extension Memo {
         set { self.createdAt_ = newValue}
     }
     
+    public var id: UUID {
+        get { self.id_ ?? UUID() }
+        set { self.id_ = newValue }
+    }
+    
+    public var title: String {
+        get { self.title_ ?? "" }
+        set { self.title_ = newValue}
+    }
+    
     public var updatedAt: Date {
         get { self.updatedAt_ ?? Date() }
         set { self.updatedAt_ = newValue}
+    }
+    
+    
+    public var tags: Set<Tag> {
+        get { self.tags_ as? Set<Tag> ?? [] }
+        set { self.tags_ = newValue as NSSet }
     }
 }
