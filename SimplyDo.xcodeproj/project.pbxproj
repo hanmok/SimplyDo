@@ -11,7 +11,7 @@
 		9A2747662961B52E004F9731 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2747652961B52E004F9731 /* SnapKit */; };
 		9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; };
 		9A2747692961B55B004F9731 /* DesignKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2747672961B55B004F9731 /* DesignKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A27476D296320E5004F9731 /* Todo in Resources */ = {isa = PBXBuildFile; fileRef = 9A27476C296320E5004F9731 /* Todo */; };
+		9A27476D296320E5004F9731 /* App Plan in Resources */ = {isa = PBXBuildFile; fileRef = 9A27476C296320E5004F9731 /* App Plan */; };
 		9A274783296460A8004F9731 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; };
 		9A274784296460A8004F9731 /* Util.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A274782296460A8004F9731 /* Util.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A27478729646A4C004F9731 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 9A27478629646A4C004F9731 /* Lottie */; };
@@ -82,7 +82,7 @@
 /* Begin PBXFileReference section */
 		9A2747592961B325004F9731 /* Memo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Memo; sourceTree = "<group>"; };
 		9A2747672961B55B004F9731 /* DesignKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A27476C296320E5004F9731 /* Todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Todo; sourceTree = "<group>"; };
+		9A27476C296320E5004F9731 /* App Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "App Plan"; sourceTree = "<group>"; };
 		9A274782296460A8004F9731 /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A27479C29646BEA004F9731 /* libResource.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libResource.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A2747A6296475BD004F9731 /* check.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = check.json; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 		9ACF5124296B1DC300F75020 /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = SimplyDo/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
 		9AD43756295F21DB00156D47 /* Todo+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Todo+Helper.swift"; path = "SimplyDo/Model/Todo/Todo+Helper.swift"; sourceTree = SOURCE_ROOT; };
-		9AD43759295F21DB00156D47 /* TodoTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoTagManager.swift; path = Model/Model/Todo/TodoTagManager.swift; sourceTree = SOURCE_ROOT; };
+		9AD43759295F21DB00156D47 /* TodoTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoTagManager.swift; path = SimplyDo/Model/Tag/TodoTagManager.swift; sourceTree = SOURCE_ROOT; };
 		9AD4375B295F21DB00156D47 /* TodoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoManager.swift; path = SimplyDo/Model/Todo/TodoManager.swift; sourceTree = SOURCE_ROOT; };
 		9AD4375D295F21DB00156D47 /* TodoCoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoCoreDataStack.swift; path = SimplyDo/Model/Todo/TodoCoreDataStack.swift; sourceTree = SOURCE_ROOT; };
 		9AD4375E295F21DB00156D47 /* TodoError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoError.swift; path = SimplyDo/Model/Todo/TodoError.swift; sourceTree = SOURCE_ROOT; };
@@ -176,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */,
+				9AD43759295F21DB00156D47 /* TodoTagManager.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -194,7 +195,6 @@
 				9AD4376C295F228500156D47 /* Todo.xcdatamodeld */,
 				9ACC6F6B29686E3500837FAB /* Todo */,
 				9ACF5120296B0F0D00F75020 /* Memo */,
-				9AD43759295F21DB00156D47 /* TodoTagManager.swift */,
 				9ACF5121296B0F1E00F75020 /* Tag */,
 			);
 			path = Model;
@@ -225,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				9A2747592961B325004F9731 /* Memo */,
-				9A27476C296320E5004F9731 /* Todo */,
+				9A27476C296320E5004F9731 /* App Plan */,
 				9A2747A6296475BD004F9731 /* check.json */,
 				9ADD01512951ACD800532DA5 /* SimplyDo */,
 				9ADD01682951ACDB00532DA5 /* SimplyDoTests */,
@@ -432,7 +432,7 @@
 				9ADD015F2951ACDA00532DA5 /* LaunchScreen.storyboard in Resources */,
 				9A2747A7296475BD004F9731 /* check.json in Resources */,
 				9A27475A2961B325004F9731 /* Memo in Resources */,
-				9A27476D296320E5004F9731 /* Todo in Resources */,
+				9A27476D296320E5004F9731 /* App Plan in Resources */,
 				9ADD015C2951ACDA00532DA5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
