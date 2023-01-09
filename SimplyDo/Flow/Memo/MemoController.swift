@@ -15,10 +15,16 @@ class MemoController: UIViewController {
         view.backgroundColor = .white
         setupLayout()
         setDelegates()
+        addTargets()
         
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
             self.titleTextField.becomeFirstResponder()
         }
+    }
+    
+    private func addTargets() {
+        let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        contentsTextView.addGestureRecognizer(scrollGesture)
     }
     
     private func setDelegates() {
@@ -60,7 +66,7 @@ class MemoController: UIViewController {
         }
     }
     
-    private func hideKeyboard() {
+    @objc func hideKeyboard() {
         view.endEditing(true)
     }
 }
@@ -73,10 +79,15 @@ extension MemoController: UITextFieldDelegate {
     }
 }
 
-
 extension MemoController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         hideKeyboard()
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        let length = self.contentsTextView.text.count
+        contentsTextView.selectedRange = NSMakeRange(0, length)
+        return true
     }
 }
 
