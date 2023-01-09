@@ -13,6 +13,7 @@
 		9A2747A229646E28004F9731 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9A2747A129646E28004F9731 /* SnapKit */; };
 		9A6131042965AD8B00E3E6E4 /* UIColorExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */; };
 		9A6131062965B45800E3E6E4 /* LottieExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131052965B45800E3E6E4 /* LottieExt+.swift */; };
+		9ACF5128296C57F000F75020 /* UIViewControllerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */; };
 		9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4377B295FD55B00156D47 /* StrintExt+.swift */; };
 		9ADD01FF2959FB8900532DA5 /* Util.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ADD01F62959FB8900532DA5 /* Util.framework */; };
 		9ADD02042959FB8900532DA5 /* UtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD02032959FB8900532DA5 /* UtilTests.swift */; };
@@ -37,6 +38,7 @@
 		9A27479E29646D33004F9731 /* UIButtonExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButtonExt+.swift"; sourceTree = "<group>"; };
 		9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColorExt+.swift"; sourceTree = "<group>"; };
 		9A6131052965B45800E3E6E4 /* LottieExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LottieExt+.swift"; sourceTree = "<group>"; };
+		9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerExt+.swift"; sourceTree = "<group>"; };
 		9AD4377B295FD55B00156D47 /* StrintExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrintExt+.swift"; sourceTree = "<group>"; };
 		9ADD01F62959FB8900532DA5 /* Util.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Util.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD01F92959FB8900532DA5 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				9A27479E29646D33004F9731 /* UIButtonExt+.swift */,
 				9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */,
 				9A6131052965B45800E3E6E4 /* LottieExt+.swift */,
+				9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				9AFC9BDE296098590082800E /* UIImageExt+.swift in Sources */,
 				9A6131042965AD8B00E3E6E4 /* UIColorExt+.swift in Sources */,
 				9A27477F296459BF004F9731 /* PaddedLabel.swift in Sources */,
+				9ACF5128296C57F000F75020 /* UIViewControllerExt+.swift in Sources */,
 				9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

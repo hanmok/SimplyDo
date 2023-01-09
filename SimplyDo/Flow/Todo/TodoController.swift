@@ -21,9 +21,6 @@ class TodoController: UIViewController {
     var uncheckedTodos = [Todo]()
     var checkedTodos = [Todo]()
     
-    var tabbarHeight: CGFloat {
-        return self.tabBarController?.tabBar.frame.height ?? 83.0
-    }
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -197,20 +194,20 @@ class TodoController: UIViewController {
         return view
     }()
     
-    public var makeButton: UIButton = {
+    private var makeButton: UIButton = {
         let view = UIButton(image: UIImage.inputCompleted, tintColor: UIColor.mainOrange, hasInset: true)
         return view
     }()
     
-    public lazy var floatingAddBtn: UIButton = {
+    private lazy var floatingAddBtn: UIButton = {
         return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
     }()
     
-    public lazy var todoInputBoxView: UIView = {
+    private lazy var todoInputBoxView: UIView = {
         return self.designKit.View(color: UIColor(white: 0.9, alpha: 1))
     }()
     
-    public lazy var todoTitleTextField: UITextField = {
+    private lazy var todoTitleTextField: UITextField = {
         let view = self.designKit.PaddedTextField()
         view.applyCornerRadius(on: .all, radius: 8.0)
         let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
@@ -408,3 +405,4 @@ extension TodoController {
         fatalError()
     }
 }
+
