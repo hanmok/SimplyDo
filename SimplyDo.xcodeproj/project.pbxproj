@@ -20,6 +20,7 @@
 		9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */; };
 		9ACF5125296B1DC300F75020 /* TagTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5124296B1DC300F75020 /* TagTabController.swift */; };
 		9ACF512A296C596A00F75020 /* MemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5129296C596A00F75020 /* MemoController.swift */; };
+		9ACF512C296C681C00F75020 /* SampleCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF512B296C681C00F75020 /* SampleCode.swift */; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
 		9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43756295F21DB00156D47 /* Todo+Helper.swift */; };
 		9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43759295F21DB00156D47 /* TodoTagManager.swift */; };
@@ -92,6 +93,7 @@
 		9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Helper.swift"; sourceTree = "<group>"; };
 		9ACF5124296B1DC300F75020 /* TagTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTabController.swift; sourceTree = "<group>"; };
 		9ACF5129296C596A00F75020 /* MemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoController.swift; sourceTree = "<group>"; };
+		9ACF512B296C681C00F75020 /* SampleCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCode.swift; sourceTree = "<group>"; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = SimplyDo/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
 		9AD43756295F21DB00156D47 /* Todo+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Todo+Helper.swift"; path = "SimplyDo/Model/Todo/Todo+Helper.swift"; sourceTree = SOURCE_ROOT; };
 		9AD43759295F21DB00156D47 /* TodoTagManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoTagManager.swift; path = SimplyDo/Model/Tag/TodoTagManager.swift; sourceTree = SOURCE_ROOT; };
@@ -315,6 +317,7 @@
 			children = (
 				9ADD01BB2959E9F300532DA5 /* MemoTabController.swift */,
 				9ACF5129296C596A00F75020 /* MemoController.swift */,
+				9ACF512B296C681C00F75020 /* SampleCode.swift */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				9ADD02142959FD9D00532DA5 /* CheckedTableCell.swift in Sources */,
 				9AD43766295F21DB00156D47 /* TodoManager.swift in Sources */,
 				9AD43768295F21DB00156D47 /* TodoCoreDataStack.swift in Sources */,
+				9ACF512C296C681C00F75020 /* SampleCode.swift in Sources */,
 				9ACF512A296C596A00F75020 /* MemoController.swift in Sources */,
 				9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */,
 				9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */,

@@ -31,5 +31,10 @@ Todo 에 Tag 추가
 Memo 기본 디자인
 Memo 에 Tag 추가
 
+------------- 수정할 것 -------------
+MemoController 에서
+TextField, TextView 를 하나로 합칠 것.
+
+
 
 

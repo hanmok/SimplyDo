@@ -10,7 +10,10 @@ import SnapKit
 import CoreData
 
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("\(type(of: self)) \(#function)")
+    }
     var todoManager = TodoManager()
     
     // MARK: - VC LifeCycle
@@ -47,6 +50,10 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         nav.tabBarItem.selectedImage = selectedImage.withTintColor(.orange, renderingMode: .alwaysOriginal)
 //        nav.navigationBar.tintColor = .magenta
         return nav
+    }
+    
+    func something() {
+        self.tabBar.isHidden = true
     }
     
     private func setupLayouts() {

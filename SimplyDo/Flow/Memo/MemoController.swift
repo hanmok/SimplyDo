@@ -5,6 +5,7 @@
 //  Created by Mac mini on 2023/01/09.
 //
 
+import Util
 import UIKit
 import SnapKit
 
@@ -16,9 +17,16 @@ class MemoController: UIViewController {
         setupLayout()
         setDelegates()
         addTargets()
+        hideTabBar()
         
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
-            self.titleTextField.becomeFirstResponder()
+            self.contentsTextView.becomeFirstResponder()
+        }
+    }
+
+    private func hideTabBar() {
+        UIView.animate(withDuration: 0.3) {
+            self.tabBarController?.tabBar.isHidden = true
         }
     }
     
@@ -28,7 +36,6 @@ class MemoController: UIViewController {
     }
     
     private func setDelegates() {
-        titleTextField.delegate = self
         contentsTextView.delegate = self
     }
 
@@ -38,30 +45,28 @@ class MemoController: UIViewController {
         contentsTextView.becomeFirstResponder()
     }
     
-    private let titleTextField: UITextField = {
-        let view = UITextField()
-        view.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
-        view.adjustsFontSizeToFitWidth = true
-        return view
-    }()
+//    private let titleTextField: UITextField = {
+//        let view = UITextField()
+//        view.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+//        view.adjustsFontSizeToFitWidth = true
+//        return view
+//    }()
     
     private let contentsTextView: UITextView = {
         let view = UITextView()
-        view.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        view.autocorrectionType = .no
+        view.keyboardDismissMode = .onDrag
+        view.font = UIFont.systemFont(ofSize: 24, weight: .regular)
+        view.addDoneButtonOnKeyboard()
         return view
     }()
     
     private func setupLayout() {
-        [titleTextField, contentsTextView].forEach { self.view.addSubview($0) }
-        titleTextField.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(50)
-        }
+        [contentsTextView].forEach { self.view.addSubview($0) }
         
         contentsTextView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(titleTextField.snp.bottom).offset(20)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
@@ -89,5 +94,29 @@ extension MemoController: UITextViewDelegate {
         contentsTextView.selectedRange = NSMakeRange(0, length)
         return true
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+        print("current text: \(textView.text)")
+        print("text ended")
+        if let firstLine = textView.text.split(separator: "\n").first {
+            guard let range = textView.text.range(of: firstLine) else { return }
+            attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 32, weight: .semibold)], range: textView.text.nsRange(from: range))
+            
+            
+            textView.attributedText = attributedString
+        }
+    }
+    
+    func saveButtonTapped() {
+        
+    }
 }
 
+
+extension StringProtocol where Index == String.Index {
+    func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
+    }
+}

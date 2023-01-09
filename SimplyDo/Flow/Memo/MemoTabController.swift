@@ -49,7 +49,7 @@ class MemoTabController: UIViewController {
 //        newMemoController.modalTransitionStyle = .
 //        self.navigationController?.pushViewController(newMemoController, animated: true)
 //        self.present(newMemoController, animated: true)
-        
+//        newMemoController.tabBarController?.tabBar.isHidden = true
         self.navigationController?.pushViewController(newMemoController, animated: true)
     }
     
