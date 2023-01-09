@@ -37,7 +37,20 @@ class MemoTabController: UIViewController {
     }
     
     @objc func addTapped() {
+        let newMemoController = MemoController()
         
+//        let transition = CATransition()
+//        transition.duration = 0.3
+//        transition.type = .moveIn
+//        transition.subtype = .fromTop
+//        view.window?.layer.add(transition, forKey: kCATransition)
+//        newMemoController.modalPresentationStyle = .fullScreen
+//        newMemoController.modalPresentationStyle = .fullScreen
+//        newMemoController.modalTransitionStyle = .
+//        self.navigationController?.pushViewController(newMemoController, animated: true)
+//        self.present(newMemoController, animated: true)
+        
+        self.navigationController?.pushViewController(newMemoController, animated: true)
     }
     
     private func addSubViews() {

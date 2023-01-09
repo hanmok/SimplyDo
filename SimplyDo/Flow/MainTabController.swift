@@ -45,7 +45,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         let nav = UINavigationController(rootViewController: rootViewController)
         nav.tabBarItem.image = unselectedImage
         nav.tabBarItem.selectedImage = selectedImage.withTintColor(.orange, renderingMode: .alwaysOriginal)
-        nav.navigationBar.tintColor = .magenta
+//        nav.navigationBar.tintColor = .magenta
         return nav
     }
     
