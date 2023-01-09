@@ -13,13 +13,9 @@ import Util
 import DesignKit
 import Toast
 
-class MemoController: UIViewController {
+class MemoTabController: UIViewController {
     
     let designKit = DesignKitImp()
-    
-    //    var tabbarHeight: CGFloat {
-    //        return self.tabBarController?.tabBar.frame.height ?? 83.0
-    //    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

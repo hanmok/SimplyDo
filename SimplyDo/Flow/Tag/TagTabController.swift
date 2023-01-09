@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class TagController: UIViewController {
+class TagTabController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }

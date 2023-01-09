@@ -13,7 +13,7 @@ import CoreData
 import Toast
 import DesignKit
 
-class TodoController: UIViewController {
+class TodoTabController: UIViewController {
 
     let todoManager = TodoManager()
     let designKit = DesignKitImp()
@@ -219,7 +219,7 @@ class TodoController: UIViewController {
 
 // MARK: - TableView Delegate, DataSource
 
-extension TodoController: UITableViewDelegate, UITableViewDataSource {
+extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let section = makeTodoSection(using: section)
         switch section {
@@ -336,7 +336,7 @@ extension TodoController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-extension TodoController: UITextFieldDelegate {
+extension TodoTabController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let title = textField.text!
         makeTodo(title: title)
@@ -345,7 +345,7 @@ extension TodoController: UITextFieldDelegate {
     }
 }
 
-extension TodoController: UncheckedTableCellDelegate {
+extension TodoTabController: UncheckedTableCellDelegate {
     func checkmarkTapped(_ cell: UncheckedTableCell) {
         guard let targetTodo = cell.todoItem, let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
         do {
@@ -372,7 +372,7 @@ extension TodoController: UncheckedTableCellDelegate {
 }
 
 
-extension TodoController: CheckedTableCellDelegate {
+extension TodoTabController: CheckedTableCellDelegate {
     func checkmarkTapped(_ cell: CheckedTableCell) {
         guard let targetTodo = cell.todoItem, let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
         do {
@@ -397,7 +397,7 @@ extension TodoController: CheckedTableCellDelegate {
     }
 }
 
-extension TodoController {
+extension TodoTabController {
     private func makeTodoSection(using section: Int) -> TodoSection {
         if (0 ... 1).contains(section) {
             return TodoSection(rawValue: section)!

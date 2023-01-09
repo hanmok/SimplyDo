@@ -24,17 +24,17 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         let todo = templateNavigationController(
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),
             selectedImage: UIImage.checked,
-            rootViewController: TodoController())
+            rootViewController: TodoTabController())
         
         let memo = templateNavigationController(
             unselectedImage: UIImage.unselectedMessageTab,
             selectedImage: UIImage.selectedMessageTab,
-            rootViewController: MemoController())
+            rootViewController: MemoTabController())
         
         let tag = templateNavigationController(
             unselectedImage: UIImage.tag,
             selectedImage: UIImage.tag,
-            rootViewController: TagController())
+            rootViewController: TagTabController())
         
         viewControllers = [todo, memo, tag]
     }
