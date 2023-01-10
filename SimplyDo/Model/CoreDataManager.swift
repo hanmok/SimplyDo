@@ -124,6 +124,7 @@ extension CoreDataManager {
         
         do {
             try mainContext.save()
+            print("createdMemo: \(newMemo)")
             return newMemo
         } catch let error {
             fatalError(error.localizedDescription)

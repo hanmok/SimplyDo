@@ -30,6 +30,11 @@ class MemoController: UIViewController {
 //        print("conv init called")
 //        contentsTextView.becomeFirstResponder()
 //    }
+    private let saveButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = .magenta
+        return btn
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +67,13 @@ class MemoController: UIViewController {
     private func addTargets() {
         let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
         contentsTextView.addGestureRecognizer(scrollGesture)
+        saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
+    }
+    
+    @objc func saveTapped() {
+        print("saveTapped!")
+        guard let contents = contentsTextView.text, contents != "" else { return }
+        coreDataManager.createMemo(contents: contents)
     }
     
     private func setDelegates() {
@@ -79,12 +91,17 @@ class MemoController: UIViewController {
     
     private func setupLayout() {
         view.backgroundColor = .white
-        [contentsTextView].forEach { self.view.addSubview($0) }
+        [contentsTextView, saveButton].forEach { self.view.addSubview($0) }
         
         contentsTextView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
+
+        saveButton.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview()
+            make.width.height.equalTo(200)
         }
     }
     

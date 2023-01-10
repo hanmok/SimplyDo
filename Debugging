@@ -1,0 +1,18 @@
+
+2023-01-11 00:54:43.422713+0900 SimplyDo[14242:2585643] [error] warning: Multiple NSEntityDescriptions claim the NSManagedObject subclass 'Memo' so +entity is unable to disambiguate.
+CoreData: warning: Multiple NSEntityDescriptions claim the NSManagedObject subclass 'Memo' so +entity is unable to disambiguate.
+2023-01-11 00:54:43.423196+0900 SimplyDo[14242:2585643] [error] warning:       'Memo' (0x281368420) from NSManagedObjectModel (0x280768d20) claims 'Memo'.
+CoreData: warning:       'Memo' (0x281368420) from NSManagedObjectModel (0x280768d20) claims 'Memo'.
+2023-01-11 00:54:43.423526+0900 SimplyDo[14242:2585643] [error] warning:       'Memo' (0x281368dc0) from NSManagedObjectModel (0x280745ef0) claims 'Memo'.
+CoreData: warning:       'Memo' (0x281368dc0) from NSManagedObjectModel (0x280745ef0) claims 'Memo'.
+2023-01-11 00:54:43.423781+0900 SimplyDo[14242:2585643] [error] error: +[Memo entity] Failed to find a unique match for an NSEntityDescription to a managed object subclass
+CoreData: error: +[Memo entity] Failed to find a unique match for an NSEntityDescription to a managed object subclass
+createdMemo: <Memo: 0x280774cd0> (entity: Memo; id: 0xb1420a9e6930b4b1 <x-coredata://DA57DBB7-B707-41DD-AD82-691C09E8FF5D/Memo/p4>; data: {
+    "contents_" = "\Ud130\Ud1a0\Uc720\Uc720";
+    "createdAt_" = "2023-01-10 15:54:43 +0000";
+    "id_" = nil;
+    "tags_" =     (
+    );
+    "title_" = "\Ud130\Uc720\Uc720\U3160\U3147";
+    "updatedAt_" = nil;
+})
