@@ -18,6 +18,7 @@
 		9A2747A7296475BD004F9731 /* check.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A2747A6296475BD004F9731 /* check.json */; };
 		9A5D88C1296DACA300040C5B /* MemoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C0296DACA300040C5B /* MemoManager.swift */; };
 		9A5D88C3296DAF5200040C5B /* MemoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C2296DAF5200040C5B /* MemoTableCell.swift */; };
+		9A5D88C5296DBE0F00040C5B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */; };
 		9ACC6F6D29686F0500837FAB /* Memo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC6F6C29686F0500837FAB /* Memo+Helper.swift */; };
 		9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */; };
 		9ACF5125296B1DC300F75020 /* TagTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5124296B1DC300F75020 /* TagTabController.swift */; };
@@ -93,6 +94,7 @@
 		9A5630F0295CAE8C00BDE7EB /* Model.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Model.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5D88C0296DACA300040C5B /* MemoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoManager.swift; sourceTree = "<group>"; };
 		9A5D88C2296DAF5200040C5B /* MemoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableCell.swift; sourceTree = "<group>"; };
+		9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9ACC6F6C29686F0500837FAB /* Memo+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+Helper.swift"; sourceTree = "<group>"; };
 		9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Helper.swift"; sourceTree = "<group>"; };
 		9ACF5124296B1DC300F75020 /* TagTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTabController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				9AD4375D295F21DB00156D47 /* CoreDataStack.swift */,
+				9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */,
 				9AD4376C295F228500156D47 /* Todo.xcdatamodeld */,
 				9ACC6F6B29686E3500837FAB /* Todo */,
 				9ACF5120296B0F0D00F75020 /* Memo */,
@@ -488,6 +491,7 @@
 				9ACF512C296C681C00F75020 /* SampleCode.swift in Sources */,
 				9ACF512A296C596A00F75020 /* MemoController.swift in Sources */,
 				9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */,
+				9A5D88C5296DBE0F00040C5B /* CoreDataManager.swift in Sources */,
 				9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */,
 				9ADD01B92959E9B500532DA5 /* LoginController.swift in Sources */,
 				9A5D88C3296DAF5200040C5B /* MemoTableCell.swift in Sources */,

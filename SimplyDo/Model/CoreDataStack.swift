@@ -17,9 +17,7 @@ class CoreDataStack {
     
     public let mainContext: NSManagedObjectContext
 
-    
     public init() {
-        
         persistentContainer = NSPersistentContainer(name: "Todo")
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType

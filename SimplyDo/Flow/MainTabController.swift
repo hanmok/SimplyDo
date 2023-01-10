@@ -14,25 +14,27 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         super.viewWillAppear(animated)
         print("\(type(of: self)) \(#function)")
     }
-    var todoManager = TodoManager()
+    var coreDataManager = CoreDataManager()
+//    var todoManager = TodoManager()
     
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewControllers()
         setupLayouts()
+        selectedIndex = 1
     }
     
     func configureViewControllers() {
         let todo = templateNavigationController(
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),
             selectedImage: UIImage.checked,
-            rootViewController: TodoTabController())
+            rootViewController: TodoTabController(coreDataManager: coreDataManager))
         
         let memo = templateNavigationController(
             unselectedImage: UIImage.unselectedMessageTab,
             selectedImage: UIImage.selectedMessageTab,
-            rootViewController: MemoTabController())
+            rootViewController: MemoTabController(coreDataManager: coreDataManager))
         
         let tag = templateNavigationController(
             unselectedImage: UIImage.tag,

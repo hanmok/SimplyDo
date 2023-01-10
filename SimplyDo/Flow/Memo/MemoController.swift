@@ -8,12 +8,31 @@
 import Util
 import UIKit
 import SnapKit
+import CoreData
 
 class MemoController: UIViewController {
     
+//    let memoManager = MemoManager()
+    var coreDataManager: CoreDataManager
+    
+    init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    convenience init(memo: Memo, coreDataManager: CoreDataManager) {
+////        self.init(memo: nil, coreDataManager: nil)
+//
+//        print("conv init called")
+//        contentsTextView.becomeFirstResponder()
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupLayout()
         setDelegates()
         addTargets()
@@ -22,6 +41,16 @@ class MemoController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
             self.contentsTextView.becomeFirstResponder()
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print(self,  #function)
+        guard let contents = contentsTextView.text, contents != "" else { return }
+        
+//        memoManager.createMemo(contents: contents)
+//        CoreDataManager
+        
     }
 
     private func hideTabBar() {
@@ -39,19 +68,6 @@ class MemoController: UIViewController {
         contentsTextView.delegate = self
     }
 
-    convenience init(memo: Memo) {
-        self.init(nibName: nil, bundle: nil)
-        print("conv init called")
-        contentsTextView.becomeFirstResponder()
-    }
-    
-//    private let titleTextField: UITextField = {
-//        let view = UITextField()
-//        view.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
-//        view.adjustsFontSizeToFitWidth = true
-//        return view
-//    }()
-    
     private let contentsTextView: UITextView = {
         let view = UITextView()
         view.autocorrectionType = .no
@@ -62,6 +78,7 @@ class MemoController: UIViewController {
     }()
     
     private func setupLayout() {
+        view.backgroundColor = .white
         [contentsTextView].forEach { self.view.addSubview($0) }
         
         contentsTextView.snp.makeConstraints { make in
@@ -103,7 +120,6 @@ extension MemoController: UITextViewDelegate {
         if let firstLine = textView.text.split(separator: "\n").first {
             guard let range = textView.text.range(of: firstLine) else { return }
             attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 32, weight: .semibold)], range: textView.text.nsRange(from: range))
-            
             textView.attributedText = attributedString
         }
     }

@@ -15,7 +15,18 @@ import DesignKit
 
 class TodoTabController: UIViewController {
 
-    let todoManager = TodoManager()
+//    let todoManager = TodoManager()
+    
+    var coreDataManager: CoreDataManager
+    init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     let designKit = DesignKitImp()
     
     var uncheckedTodos = [Todo]()
@@ -107,7 +118,7 @@ class TodoTabController: UIViewController {
     
     private func fetchData() {
         do {
-            let allTodos = try todoManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
+            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
             Todo.printNames(todos: checkedTodos, message: "checkedTodos: ")
@@ -126,7 +137,7 @@ class TodoTabController: UIViewController {
         }
         
         do {
-            let newTodo = try todoManager.createTodo(title: title, targetDate: targetDate)
+            let newTodo = try coreDataManager.createTodo(title: title, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
             todoTableView.performBatchUpdates {
@@ -269,7 +280,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                 case .todo:
                     let deletingTodo = uncheckedTodos[indexPath.row]
                     do {
-                        try todoManager.delete(todo: deletingTodo)
+                        try coreDataManager.delete(todo: deletingTodo)
                         uncheckedTodos.remove(at: indexPath.row)
                         todoTableView.performBatchUpdates {
                             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -283,7 +294,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                 case .done:
                     let deletingTodo = checkedTodos[indexPath.row]
                     do {
-                        try todoManager.delete(todo: deletingTodo)
+                        try coreDataManager.delete(todo: deletingTodo)
                         checkedTodos.remove(at: indexPath.row)
                         todoTableView.performBatchUpdates {
                             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -349,7 +360,7 @@ extension TodoTabController: UncheckedTableCellDelegate {
     func checkmarkTapped(_ cell: UncheckedTableCell) {
         guard let targetTodo = cell.todoItem, let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
         do {
-            try todoManager.toggleDoneState(todo: targetTodo)
+            try coreDataManager.toggleDoneState(todo: targetTodo)
             let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
             uncheckedTodos.remove(at: targetIndexRow)
             checkedTodos.insert(targetTodo, at: 0)
@@ -376,7 +387,7 @@ extension TodoTabController: CheckedTableCellDelegate {
     func checkmarkTapped(_ cell: CheckedTableCell) {
         guard let targetTodo = cell.todoItem, let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
         do {
-            try todoManager.toggleDoneState(todo: targetTodo)
+            try coreDataManager.toggleDoneState(todo: targetTodo)
             let targetIndexPath = IndexPath(row: targetIndexRow, section: 1)
             
             uncheckedTodos.insert(targetTodo, at: 0)

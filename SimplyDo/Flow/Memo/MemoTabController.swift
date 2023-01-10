@@ -15,10 +15,21 @@ import Toast
 
 class MemoTabController: UIViewController {
     
-    let memoManager = MemoManager()
+//    let memoManager = MemoManager()
+    
     let designKit = DesignKitImp()
     var memos: [Memo] = []
+    var coreDataManager: CoreDataManager
     
+    init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +40,14 @@ class MemoTabController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        
         fetchMemos()
     }
     
     private func fetchMemos() {
-        memos = memoManager.fetchMemos()
+        
+//        memos = memoManager.fetchMemos()
+        memos = coreDataManager.fetchMemos()
         // TODO: make tableview
     }
     
@@ -56,7 +70,7 @@ class MemoTabController: UIViewController {
     }
     
     @objc func addTapped() {
-        let newMemoController = MemoController()
+        let newMemoController = MemoController(coreDataManager: coreDataManager)
         self.navigationController?.pushViewController(newMemoController, animated: true)
     }
     
