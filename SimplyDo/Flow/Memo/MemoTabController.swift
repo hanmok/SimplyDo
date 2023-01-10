@@ -28,6 +28,11 @@ class MemoTabController: UIViewController {
         setupFloatingButton()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     private lazy var floatingAddBtn: UIButton = {
         return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
     }()
