@@ -104,7 +104,6 @@ extension MemoController: UITextViewDelegate {
             guard let range = textView.text.range(of: firstLine) else { return }
             attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 32, weight: .semibold)], range: textView.text.nsRange(from: range))
             
-            
             textView.attributedText = attributedString
         }
     }

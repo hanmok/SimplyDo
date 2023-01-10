@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FetchingPredicate {
+struct TodoPredicate {
     var shouldSortAscendingOrder: Bool
     var completion: CompletionStatus
     

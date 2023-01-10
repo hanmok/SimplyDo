@@ -10,6 +10,7 @@ import Foundation
 extension String {
     public struct EntityName {
         public static let todo = "Todo"
+        public static let memo = "Memo"
     }
     public struct TodoAttributes {
         public static let createdAt = "createdAt_"

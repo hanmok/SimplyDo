@@ -11,7 +11,7 @@ import Util
 
 public struct TodoManager {
     let mainContext: NSManagedObjectContext
-    init(mainContext: NSManagedObjectContext = TodoCoreDataStack.shared.mainContext) {
+    init(mainContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.mainContext = mainContext
     }
 }
@@ -37,7 +37,6 @@ extension TodoManager {
     @discardableResult
     func toggleDoneState(todo: Todo) throws -> Todo? {
         todo.isDone = !todo.isDone
-        
         do {
             try mainContext.save()
             return todo
@@ -56,7 +55,7 @@ extension TodoManager {
     }
     
     // TODO: add fetching conditions like specific date, or month, all done lists
-    func fetchTodos(predicate: FetchingPredicate = (FetchingPredicate())) throws -> [Todo] {
+    func fetchTodos(predicate: TodoPredicate = (TodoPredicate())) throws -> [Todo] {
         let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
         
         switch (predicate.shouldSortAscendingOrder, predicate.completion) {

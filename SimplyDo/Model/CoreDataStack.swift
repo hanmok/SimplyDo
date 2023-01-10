@@ -9,8 +9,8 @@
 import Foundation
 import CoreData
 
-class TodoCoreDataStack {
-    public static let shared = TodoCoreDataStack()
+class CoreDataStack {
+    public static let shared = CoreDataStack()
 
     let persistentContainer: NSPersistentContainer
     let backgroundContext: NSManagedObjectContext

@@ -67,8 +67,8 @@ final class SimplyDoTests: XCTestCase {
             let done = try todoManager.createTodo(title: "done", targetDate: Date(timeIntervalSince1970: 200))
             try todoManager.toggleDoneState(todo: done)
             
-            let doneTodo = try todoManager.fetchTodos(predicate: FetchingPredicate(shouldSortAscendingOrder: true, completion: .done))
-            let notDoneTodo = try todoManager.fetchTodos(predicate: FetchingPredicate(shouldSortAscendingOrder: true, completion: .todo))
+            let doneTodo = try todoManager.fetchTodos(predicate: TodoPredicate(shouldSortAscendingOrder: true, completion: .done))
+            let notDoneTodo = try todoManager.fetchTodos(predicate: TodoPredicate(shouldSortAscendingOrder: true, completion: .todo))
 
             let allTodos = try todoManager.fetchTodos()
             

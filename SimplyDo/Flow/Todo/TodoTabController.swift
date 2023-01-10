@@ -107,7 +107,7 @@ class TodoTabController: UIViewController {
     
     private func fetchData() {
         do {
-            let allTodos = try todoManager.fetchTodos(predicate: FetchingPredicate(completion: CompletionStatus.none))
+            let allTodos = try todoManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
             Todo.printNames(todos: checkedTodos, message: "checkedTodos: ")
