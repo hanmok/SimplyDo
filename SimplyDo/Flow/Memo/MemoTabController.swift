@@ -26,10 +26,10 @@ class MemoTabController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +45,6 @@ class MemoTabController: UIViewController {
     }
     
     private func fetchMemos() {
-        
-        coreDataManager.createMemo(contents: "hello\nasmdkmkmaslkd")
         memos = coreDataManager.fetchMemos()
         print("fetch memos")
         // TODO: make tableview
@@ -62,7 +60,8 @@ class MemoTabController: UIViewController {
         memoTableView.delegate = self
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
+//            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview().inset(8)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -99,6 +98,8 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+//        view.rowHeight = UITableView.automaticDimension
+//        view.estimatedRowHeight = 80
         return view
     }()
     
@@ -126,8 +127,10 @@ class MemoTabController: UIViewController {
         let image = UIImage(systemName: "plus")!
         btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
         btn.addImage(image, tintColor: .mainOrange)
-//        btn.layer.borderColor = UIColor.mainOrange.cgColor
-//        btn.layer.borderWidth = 4
+        btn.layer.borderWidth = 4
+        btn.layer.borderColor = UIColor.magenta.cgColor
+//        btn.addShadow(offset: CGSize(width: 15, height: 10))
+
         return btn
     }()
 }
@@ -141,6 +144,10 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell
         cell.memoItem = memos[indexPath.row]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

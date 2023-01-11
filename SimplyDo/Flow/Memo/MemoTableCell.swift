@@ -27,11 +27,14 @@ class MemoTableCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
+//        backgroundColor
+//        addShadow(offset: CGSize(width: 10.0, height: 10.0))
+        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let inset = UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0)
+        let inset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
         contentView.frame = contentView.frame.inset(by: inset)
     }
     
@@ -41,8 +44,11 @@ class MemoTableCell: UITableViewCell {
     
     func setupLayout() {
         contentView.layer.cornerRadius = 16
-        contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
-        contentView.clipsToBounds = true
+//        contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
+        contentView.backgroundColor = UIColor(white: 0.92, alpha: 1)
+//        contentView.clipsToBounds = true
+        
+        contentView.addShadow(offset: CGSize(width: 5.0, height: 5.0))
         
         [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
         titleLabel.snp.makeConstraints { make in
