@@ -105,25 +105,6 @@ class MemoTabController: UIViewController {
         return view
     }()
     
-//    private lazy var floatingAddBtn: UIButton = {
-//        return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
-//    }()
-//    private lazy var floatingAddBtn: UIButton = {
-//        let btn = UIButton()
-//        btn.translatesAutoresizingMaskIntoConstraints = false
-//        let imgView = UIImageView(image: UIImage.plusInCircle)
-//        btn.backgroundColor = .white
-//        imgView.translatesAutoresizingMaskIntoConstraints = false
-//        imgView.tintColor = .orange
-////        btn.layer.cornerRadius = btn.frame
-//        btn.addSubview(imgView)
-//        imgView.snp.makeConstraints { make in
-//            make.center.equalToSuperview()
-//            make.width.height.equalToSuperview()
-//        }
-//       return btn
-//    }()
-    
     private let floatingAddBtn: CircularButton = {
         let btn = CircularButton()
         let image = UIImage(systemName: "plus")!
@@ -131,8 +112,6 @@ class MemoTabController: UIViewController {
         btn.addImage(image, tintColor: .mainOrange)
         btn.layer.borderWidth = 4
         btn.layer.borderColor = UIColor.magenta.cgColor
-//        btn.addShadow(offset: CGSize(width: 15, height: 10))
-
         return btn
     }()
 }

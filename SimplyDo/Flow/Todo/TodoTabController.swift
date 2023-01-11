@@ -210,8 +210,14 @@ class TodoTabController: UIViewController {
         return view
     }()
     
-    private lazy var floatingAddBtn: UIButton = {
-        return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
+    private let floatingAddBtn: CircularButton = {
+        let btn = CircularButton()
+        let image = UIImage(systemName: "plus")!
+        btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
+        btn.addImage(image, tintColor: .mainOrange)
+        btn.layer.borderWidth = 4
+        btn.layer.borderColor = UIColor.magenta.cgColor
+        return btn
     }()
     
     private lazy var todoInputBoxView: UIView = {
