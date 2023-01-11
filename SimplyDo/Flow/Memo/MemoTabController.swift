@@ -46,8 +46,9 @@ class MemoTabController: UIViewController {
     
     private func fetchMemos() {
         
-//        memos = memoManager.fetchMemos()
+        coreDataManager.createMemo(contents: "hello\nasmdkmkmaslkd")
         memos = coreDataManager.fetchMemos()
+        print("fetch memos")
         // TODO: make tableview
     }
     
@@ -62,6 +63,8 @@ class MemoTabController: UIViewController {
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
@@ -95,6 +98,7 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+//        view.inter
         return view
     }()
     
@@ -107,6 +111,8 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count
     }
+    
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell

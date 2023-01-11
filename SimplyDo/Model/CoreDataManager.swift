@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 
-public struct CoreDataManager {
+public class CoreDataManager {
     let mainContext: NSManagedObjectContext
     init(mainContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.mainContext = mainContext

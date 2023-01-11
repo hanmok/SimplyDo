@@ -29,16 +29,23 @@ class MemoTableCell: UITableViewCell {
         setupLayout()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let inset = UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0)
+        contentView.frame = contentView.frame.inset(by: inset)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func setupLayout() {
-        layer.cornerRadius = 16
-        backgroundColor = UIColor(hex6: UIColor.ivoryHex, alpha: 0.7)
-        clipsToBounds = true
+        contentView.layer.cornerRadius = 16
+        contentView.backgroundColor = UIColor(hex6: UIColor.ivoryHex, alpha: 0.7)
+        contentView.clipsToBounds = true
         
-        [titleLabel, contentsLabel].forEach { addSubview($0)}
+//        [titleLabel, contentsLabel].forEach { self.contentView.addSubview($0)}
+        [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(8)
             make.height.equalTo(24)
