@@ -65,7 +65,8 @@ class MemoTabController: UIViewController {
 //            make.leading.trailing.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview().inset(8)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+//            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(16)
+            make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
     
