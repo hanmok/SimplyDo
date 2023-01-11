@@ -27,9 +27,6 @@ class MemoTableCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
-//        backgroundColor
-//        addShadow(offset: CGSize(width: 10.0, height: 10.0))
-        
     }
     
     override func layoutSubviews() {
@@ -44,13 +41,10 @@ class MemoTableCell: UITableViewCell {
     
     func setupLayout() {
         contentView.layer.cornerRadius = 16
-//        contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
         contentView.backgroundColor = UIColor(white: 0.92, alpha: 1)
-//        contentView.clipsToBounds = true
-        
         contentView.addShadow(offset: CGSize(width: 5.0, height: 5.0))
-        
         [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
+        
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(8)
             make.height.equalTo(24)
@@ -58,7 +52,8 @@ class MemoTableCell: UITableViewCell {
         
         contentsLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(6)
-            make.leading.trailing.bottom.equalToSuperview().inset(8)
+            make.leading.trailing.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(8)
         }
     }
     

@@ -42,6 +42,8 @@ class MemoTabController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
         
         fetchMemos()
+        memoTableView.rowHeight = UITableView.automaticDimension
+        memoTableView.estimatedRowHeight = 20
     }
     
     private func fetchMemos() {
@@ -147,7 +149,14 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        
+        let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
+        let size = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
+
+        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 20)], context: nil)
+        
+// title top, titleHeight, contents spacing, bottom inset, contents inset
+        return estimatedFrame.height + 8 + 24 + 6 + 8 + 16
     }
 }
 
