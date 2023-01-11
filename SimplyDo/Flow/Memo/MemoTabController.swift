@@ -98,6 +98,8 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+//        view.rowHeight =
+        
 //        view.inter
         return view
     }()

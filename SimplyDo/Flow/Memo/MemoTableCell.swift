@@ -41,10 +41,9 @@ class MemoTableCell: UITableViewCell {
     
     func setupLayout() {
         contentView.layer.cornerRadius = 16
-        contentView.backgroundColor = UIColor(hex6: UIColor.ivoryHex, alpha: 0.7)
+        contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
         contentView.clipsToBounds = true
         
-//        [titleLabel, contentsLabel].forEach { self.contentView.addSubview($0)}
         [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(8)
@@ -59,14 +58,14 @@ class MemoTableCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 28, weight: .medium)
+        view.font = UIFont.systemFont(ofSize: 22, weight: .medium)
         view.numberOfLines = 1
         return view
     }()
     
     private let contentsLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        view.font = UIFont.systemFont(ofSize: 16, weight: .light)
         view.numberOfLines = 0
         return view
     }()
