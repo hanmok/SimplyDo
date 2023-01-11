@@ -99,14 +99,36 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
-//        view.rowHeight =
-        
-//        view.inter
         return view
     }()
     
-    private lazy var floatingAddBtn: UIButton = {
-        return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
+//    private lazy var floatingAddBtn: UIButton = {
+//        return self.designKit.FloatingButton(image: UIImage.plusInCircle, color: .orange)
+//    }()
+//    private lazy var floatingAddBtn: UIButton = {
+//        let btn = UIButton()
+//        btn.translatesAutoresizingMaskIntoConstraints = false
+//        let imgView = UIImageView(image: UIImage.plusInCircle)
+//        btn.backgroundColor = .white
+//        imgView.translatesAutoresizingMaskIntoConstraints = false
+//        imgView.tintColor = .orange
+////        btn.layer.cornerRadius = btn.frame
+//        btn.addSubview(imgView)
+//        imgView.snp.makeConstraints { make in
+//            make.center.equalToSuperview()
+//            make.width.height.equalToSuperview()
+//        }
+//       return btn
+//    }()
+    
+    private let floatingAddBtn: CircularButton = {
+        let btn = CircularButton()
+        let image = UIImage(systemName: "plus")!
+        btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
+        btn.addImage(image, tintColor: .mainOrange)
+//        btn.layer.borderColor = UIColor.mainOrange.cgColor
+//        btn.layer.borderWidth = 4
+        return btn
     }()
 }
 
@@ -114,8 +136,6 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos.count
     }
-    
-
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell

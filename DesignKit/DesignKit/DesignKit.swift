@@ -38,10 +38,10 @@ public class DesignKitImp: DesignKit {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         let imgView = UIImageView(image: image)
-        
+        btn.backgroundColor = .white
         imgView.translatesAutoresizingMaskIntoConstraints = false
         imgView.tintColor = color
-        
+//        btn.layer.cornerRadius =
         btn.addSubview(imgView)
         imgView.snp.makeConstraints { make in
             make.center.equalToSuperview()
