@@ -79,7 +79,7 @@ class TodoTabController: UIViewController {
     private func setupFloatingButton() {
         floatingAddBtn.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(30)
-            make.height.width.equalTo(50)
+            make.height.width.equalTo(60)
             make.bottom.equalToSuperview().inset(tabbarHeight + 20)
         }
     }
