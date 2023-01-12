@@ -21,9 +21,11 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         configureViewControllers()
         setupLayouts()
         selectedIndex = 1
+        
     }
     
     func configureViewControllers() {
@@ -60,6 +62,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     }
     
     private func setupLayouts() {
+//        view.backgroundColor = .magenta
         view.backgroundColor = .white
         self.tabBar.backgroundColor = UIColor(hex6: UIColor.indigoHex, alpha: 0.9)
         self.tabBar.unselectedItemTintColor = UIColor(white: 0.5, alpha: 1)

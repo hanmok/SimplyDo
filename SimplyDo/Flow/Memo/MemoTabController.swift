@@ -33,6 +33,7 @@ class MemoTabController: UIViewController {
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         setupLayout()
         setupTargets()
     }
