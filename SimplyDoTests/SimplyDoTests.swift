@@ -115,12 +115,20 @@ extension SimplyDoTests {
         let shortString = "asd"
         let emptyString = ""
         let longString = "asndkjwjaeiurliagwivneuriwleubviowaeihorvawitboaerintoiarnobitareintvoaerotvaoetaertblaow;eiurnoi;aweirnbo;eiwmrpv;9eiwrnvaweu9lov9auweotaemovtuawon9ot9aiwna9ivt9inawortawa"
+
+        let twoLineString = "\n"
+        let threeLineString = "\n\n"
         
         let shortSize = getEstimatedSize(text: shortString)
         let emptySize = getEstimatedSize(text: emptyString)
         let longSize = getEstimatedSize(text: longString)
+        let twoLineSize = getEstimatedSize(text: twoLineString)
+        let threeLineSize = getEstimatedSize(text: threeLineString)
+
         XCTAssertEqual(shortSize, emptySize)
         XCTAssertNotEqual(longSize, shortSize)
+        XCTAssertEqual(longSize, twoLineSize)
+        XCTAssertNotEqual(twoLineSize, threeLineSize)
     }
     
     func getEstimatedSize(text: String) -> CGFloat {

@@ -62,10 +62,8 @@ class MemoTabController: UIViewController {
         memoTableView.delegate = self
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
-//            make.leading.trailing.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview().inset(8)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-//            make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(16)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
@@ -101,8 +99,6 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
-//        view.rowHeight = UITableView.automaticDimension
-//        view.estimatedRowHeight = 80
         return view
     }()
     
@@ -130,13 +126,20 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
+        let titlePadding: CGFloat = 8 + 24 + 8 + 16
+        if memos[indexPath.row].contents == "" {
+            return titlePadding
+        }
+        
         let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
         let size = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
 
         let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 20)], context: nil)
-        
-// title top, titleHeight, contents spacing, bottom inset, contents inset
-        return estimatedFrame.height + 8 + 24 + 6 + 8 + 16
+
+        // title top, titleHeight, contents spacing, bottom inset, contents inset
+        let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
+
+        return estimatedFrame.height + paddings
     }
 }
 
