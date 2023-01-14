@@ -12,7 +12,6 @@ import CoreData
 
 class MemoController: UIViewController {
     
-//    let memoManager = MemoManager()
     var coreDataManager: CoreDataManager
     
     init(coreDataManager: CoreDataManager) {
@@ -24,20 +23,14 @@ class MemoController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    convenience init(memo: Memo, coreDataManager: CoreDataManager) {
-////        self.init(memo: nil, coreDataManager: nil)
-//
-//        print("conv init called")
-//        contentsTextView.becomeFirstResponder()
-//    }
-    private let saveButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = .magenta
-        return btn
-    }()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(self, #function)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(self, #function)
         setupLayout()
         setDelegates()
         addTargets()
@@ -48,14 +41,18 @@ class MemoController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print(self, #function)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        save()
         print(self,  #function)
         guard let contents = contentsTextView.text, contents != "" else { return }
-        self.navigationController?.navigationBar.isHidden = false
-//        memoManager.createMemo(contents: contents)
-//        CoreDataManager
         
+        self.navigationController?.navigationBar.isHidden = false
     }
 
     private func hideTabBar() {
@@ -67,11 +64,9 @@ class MemoController: UIViewController {
     private func addTargets() {
         let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
         contentsTextView.addGestureRecognizer(scrollGesture)
-        saveButton.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
     }
     
-    @objc func saveTapped() {
-        print("saveTapped!")
+    private func save() {
         guard let contents = contentsTextView.text, contents != "" else { return }
         coreDataManager.createMemo(contents: contents)
     }
@@ -79,7 +74,7 @@ class MemoController: UIViewController {
     private func setDelegates() {
         contentsTextView.delegate = self
     }
-
+    
     private let contentsTextView: UITextView = {
         let view = UITextView()
         view.autocorrectionType = .no
@@ -91,17 +86,12 @@ class MemoController: UIViewController {
     
     private func setupLayout() {
         view.backgroundColor = .white
-        [contentsTextView, saveButton].forEach { self.view.addSubview($0) }
+        [contentsTextView].forEach { self.view.addSubview($0) }
         
         contentsTextView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        }
-
-        saveButton.snp.makeConstraints { make in
-            make.top.trailing.equalToSuperview()
-            make.width.height.equalTo(200)
         }
     }
     
@@ -132,17 +122,12 @@ extension MemoController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
-//        print("current text: \(textView.text)")
-//        print("text ended")
+
         if let firstLine = textView.text.split(separator: "\n").first {
             guard let range = textView.text.range(of: firstLine) else { return }
             attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 32, weight: .semibold)], range: textView.text.nsRange(from: range))
             textView.attributedText = attributedString
         }
-    }
-    
-    func saveButtonTapped() {
-        
     }
 }
 

@@ -12,3 +12,9 @@ extension UIViewController {
         return self.tabBarController?.tabBar.frame.height ?? 83.0
     }
 }
+
+extension UIViewController {
+    public func printSelf() {
+        print(self, #function)
+    }
+}

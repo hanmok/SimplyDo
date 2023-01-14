@@ -97,7 +97,7 @@ extension CoreDataManager {
         
         do {
             try mainContext.save()
-            
+            print("newMemo saved. title: \(title), contents: \(contents)")
             return newMemo
         } catch let error {
             fatalError(error.localizedDescription)
@@ -105,15 +105,17 @@ extension CoreDataManager {
     }
     
     @discardableResult
-    func createMemo(contents: String) -> Memo {
+    func createMemo(contents: String) {
         
         // 여기 라인에서부터 ..
         guard contents.count != 0 else { fatalError() }
         let newMemo = Memo(context: mainContext)
+        
         if contents.contains("\n") {
             let overallContents = contents.split(separator: "\n", maxSplits: 2)
-            if let title = overallContents.first, let contents = overallContents.last {
-                newMemo.title = String(title)
+            guard let title = overallContents.first else { return }
+            newMemo.title = String(title)
+            if let contents = overallContents.last {
                 newMemo.contents = String(contents)
             }
         } else {
@@ -125,7 +127,7 @@ extension CoreDataManager {
         do {
             try mainContext.save()
             print("createdMemo: \(newMemo)")
-            return newMemo
+            return
         } catch let error {
             fatalError(error.localizedDescription)
         }

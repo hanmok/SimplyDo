@@ -33,25 +33,30 @@ class MemoTabController: UIViewController {
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.navigationBar.isHidden = true
         setupLayout()
         setupTargets()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print(self, #function)
         self.navigationController?.navigationBar.isHidden = true
-//        self.tabBarController?.tabBar.isHidden = false
         
         fetchMemos()
         memoTableView.rowHeight = UITableView.automaticDimension
         memoTableView.estimatedRowHeight = 20
+        
     }
     
     private func fetchMemos() {
         memos = coreDataManager.fetchMemos()
         print("fetch memos")
         // TODO: make tableview
+//        tableview
+        DispatchQueue.main.async {
+            self.memoTableView.reloadData()
+        }
     }
     
     private func setupLayout() {
