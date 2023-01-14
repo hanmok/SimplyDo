@@ -104,10 +104,7 @@ extension CoreDataManager {
         }
     }
     
-    @discardableResult
     func createMemo(contents: String) {
-        
-        // 여기 라인에서부터 ..
         guard contents.count != 0 else { fatalError() }
         let newMemo = Memo(context: mainContext)
         

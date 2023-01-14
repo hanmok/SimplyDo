@@ -40,3 +40,19 @@ extension String {
         public static let memos = "memos_"
     }
 }
+
+public func getSeparateText(from string: String, using separator: Character = "\n") -> [String]? {
+    if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        return nil
+    }
+    let separated = string.split(separator: "\n", maxSplits: 2)
+    if separated.count == 2 {
+        return [String(separated.first!), String(separated.last!)]
+    } else if separated.count == 1 {
+        if string.starts(with: "\n") {
+            return ["", String(separated.first!)]
+        }
+        return [String(separated.first!), ""]
+    }
+    return nil
+}

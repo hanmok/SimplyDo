@@ -7,6 +7,7 @@
 
 import XCTest
 import CoreData
+import Util
 @testable import SimplyDo
 
 final class SimplyDoTests: XCTestCase {
@@ -138,4 +139,46 @@ extension SimplyDoTests {
         let estimatedFrame = NSString(string: text).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 20)], context: nil)
         return estimatedFrame.height
     }
+    
+    func test_separation() {
+        let titleOnly = "hello\n"
+        let separated = titleOnly.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated.count, 1)
+        XCTAssertEqual(String(separated.first!), "hello")
+        XCTAssertEqual(getSeparateText(from: titleOnly), ["hello", ""])
+//        "asdmk".getse
+        let titleOnly2 = "hello"
+        let separated12 = titleOnly2.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated12.count, 1)
+        XCTAssertEqual(String(separated12.first!), "hello")
+        XCTAssertEqual(getSeparateText(from: "hello"), ["hello", ""])
+        
+        let emptyString = "\n"
+        let separated2 = emptyString.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated2.count, 0)
+        XCTAssertNil(getSeparateText(from: "\n"))
+        
+        let emptyString2 = "\n\n"
+        let separated23 = emptyString2.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated23.count, 0)
+        XCTAssertNil(getSeparateText(from: "\n\n"))
+        
+        let emptyString3 = "\n\nhi"
+        let separated24 = emptyString3.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated24.count, 1)
+        XCTAssertEqual(separated24.first, "hi")
+        XCTAssertEqual(getSeparateText(from: emptyString3), ["", "hi"])
+        
+        let contentsOnly = "\nhi"
+        let separated3 = contentsOnly.split(separator: "\n", maxSplits: 2)
+        XCTAssertEqual(separated3.count, 1)
+        XCTAssertEqual(separated3.first, "hi")
+        XCTAssertEqual(getSeparateText(from: "\nhi"), ["", "hi"])
+        
+        XCTAssertNil(getSeparateText(from: ""))
+        XCTAssertNil(getSeparateText(from: "\n"))
+        XCTAssertNil(getSeparateText(from: "\n\n\n\n\n   \n\n\n \n\n"))
+    }
+    
+    
 }
