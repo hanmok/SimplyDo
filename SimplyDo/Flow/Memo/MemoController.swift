@@ -52,7 +52,7 @@ class MemoController: UIViewController {
         super.viewWillDisappear(animated)
         print(self,  #function)
         guard let contents = contentsTextView.text, contents != "" else { return }
-        
+        self.navigationController?.navigationBar.isHidden = false
 //        memoManager.createMemo(contents: contents)
 //        CoreDataManager
         

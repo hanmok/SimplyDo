@@ -33,14 +33,15 @@ class MemoTabController: UIViewController {
     // MARK: - VC LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
         setupLayout()
         setupTargets()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = false
         
         fetchMemos()
         memoTableView.rowHeight = UITableView.automaticDimension
@@ -74,6 +75,7 @@ class MemoTabController: UIViewController {
     }
     
     @objc func addTapped() {
+        self.navigationController?.navigationBar.isHidden = false
         let newMemoController = MemoController(coreDataManager: coreDataManager)
         self.navigationController?.pushViewController(newMemoController, animated: true)
     }
