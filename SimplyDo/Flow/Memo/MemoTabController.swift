@@ -52,8 +52,6 @@ class MemoTabController: UIViewController {
     private func fetchMemos() {
         memos = coreDataManager.fetchMemos()
         print("fetch memos")
-        // TODO: make tableview
-//        tableview
         DispatchQueue.main.async {
             self.memoTableView.reloadData()
         }
