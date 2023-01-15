@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreData
-
+import Util
 
 public class CoreDataManager {
     let mainContext: NSManagedObjectContext
@@ -105,20 +105,10 @@ extension CoreDataManager {
     }
     
     func createMemo(contents: String) {
-        guard contents.count != 0 else { fatalError() }
+        guard let validContents = getSeparateText(from: contents) else { return }
         let newMemo = Memo(context: mainContext)
-        
-        if contents.contains("\n") {
-            let overallContents = contents.split(separator: "\n", maxSplits: 2)
-            guard let title = overallContents.first else { return }
-            newMemo.title = String(title)
-            if let contents = overallContents.last {
-                newMemo.contents = String(contents)
-            }
-        } else {
-            newMemo.title = contents
-        }
-        
+        newMemo.title = validContents[0]
+        newMemo.contents = validContents[1]
         newMemo.createdAt = Date()
         
         do {
