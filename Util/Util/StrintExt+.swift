@@ -45,6 +45,7 @@ public func getSeparateText(from string: String, using separator: Character = "\
     if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         return nil
     }
+    
     let separated = string.split(separator: "\n", maxSplits: 2)
     if separated.count == 2 {
         return [String(separated.first!), String(separated.last!)]

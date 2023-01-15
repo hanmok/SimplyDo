@@ -87,22 +87,6 @@ extension Todo {
 
 
 extension CoreDataManager {
-    @discardableResult
-    func createMemo(title: String, contents: String) -> Memo {
-        
-        let newMemo = Memo(context: mainContext)
-        newMemo.title = title
-        newMemo.contents = contents
-        newMemo.createdAt = Date()
-        
-        do {
-            try mainContext.save()
-            print("newMemo saved. title: \(title), contents: \(contents)")
-            return newMemo
-        } catch let error {
-            fatalError(error.localizedDescription)
-        }
-    }
     
     func createMemo(contents: String) {
         guard let validContents = getSeparateText(from: contents) else { return }

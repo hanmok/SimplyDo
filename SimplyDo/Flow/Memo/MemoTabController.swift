@@ -46,6 +46,7 @@ class MemoTabController: UIViewController {
         fetchMemos()
         memoTableView.rowHeight = UITableView.automaticDimension
         memoTableView.estimatedRowHeight = 20
+        self.tabBarController?.tabBar.isHidden = false
         
     }
     
@@ -82,6 +83,7 @@ class MemoTabController: UIViewController {
         let newMemoController = MemoController(coreDataManager: coreDataManager)
         self.navigationController?.pushViewController(newMemoController, animated: true)
     }
+    
     
     private func addSubViews() {
         [memoTableView, floatingAddBtn].forEach {
@@ -131,6 +133,7 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: navigate to memo Controller
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

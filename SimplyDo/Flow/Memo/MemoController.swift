@@ -14,9 +14,12 @@ class MemoController: UIViewController {
     
     var coreDataManager: CoreDataManager
     
-    init(coreDataManager: CoreDataManager) {
+    var memo: Memo?
+    
+    init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
+        self.memo = memo
     }
     
     required init?(coder: NSCoder) {

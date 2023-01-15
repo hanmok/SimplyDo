@@ -58,7 +58,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     }
     
     func something() {
-        self.tabBar.isHidden = true
+//        self.tabBar.isHidden = true
     }
     
     private func setupLayouts() {
