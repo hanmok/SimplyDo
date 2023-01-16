@@ -22,8 +22,7 @@ class MemoController: UIViewController {
         self.memo = memo
         print(self, #function)
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -40,18 +39,17 @@ class MemoController: UIViewController {
         setDelegates()
         addTargets()
         hideTabBar()
+        configureLayout()
         
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
             self.contentsTextView.becomeFirstResponder()
         }
-        if memo != nil {
-            self.configureLayout()
-        }
+        
     }
     
     // TODO: separate title and contents using attributed string
     private func configureLayout() {
-        guard let memo = memo else { fatalError() }
+        guard let memo = memo else { return }
         
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
         let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
@@ -59,7 +57,6 @@ class MemoController: UIViewController {
         attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         
         contentsTextView.attributedText = attrString
-        // TODO
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -135,8 +132,6 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        let length = self.contentsTextView.text.count
-        contentsTextView.selectedRange = NSMakeRange(0, length)
         return true
     }
     
