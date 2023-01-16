@@ -43,7 +43,7 @@ class MemoTableCell: UITableViewCell {
     func setupLayout() {
         contentView.layer.cornerRadius = 16
         contentView.backgroundColor = UIColor(white: 0.92, alpha: 1)
-        contentView.addShadow(offset: CGSize(width: 5.0, height: 5.0))
+        contentView.addShadow(offset: CGSize(width: 3.0, height: 3.0), color: UIColor(white: 0.5, alpha: 1))
         [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
         
         titleLabel.snp.makeConstraints { make in

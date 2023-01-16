@@ -52,6 +52,7 @@ extension UIView {
         case .right:
             addShadow(offset: CGSize(width: 10, height: 0), color: color, opacity: opacity, radius: radius)
         }
+        
     }
 
     public func addShadow(offset: CGSize, color: UIColor = .black, opacity: Float = 0.5, radius: CGFloat = 3.0) {

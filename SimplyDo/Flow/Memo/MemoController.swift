@@ -51,14 +51,11 @@ class MemoController: UIViewController {
     private func configureLayout() {
         guard let memo = memo else { return }
         
-//        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
-//
-//        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
+        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
+
+        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         
-//        contentsTextView.attributedText = attrString
-        
-//        이거 왜 그지같이 되냐
-        contentsTextView.text = memo.title + "\n" + memo.contents
+        contentsTextView.attributedText = attrString
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -114,7 +111,7 @@ class MemoController: UIViewController {
         let view = UITextView()
         view.autocorrectionType = .no
         view.keyboardDismissMode = .onDrag
-        view.font = UIFont.systemFont(ofSize: 24, weight: .regular)
+        view.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         view.addDoneButtonOnKeyboard()
         return view
     }()
