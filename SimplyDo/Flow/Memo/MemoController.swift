@@ -51,12 +51,14 @@ class MemoController: UIViewController {
     private func configureLayout() {
         guard let memo = memo else { return }
         
-        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
-        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
-
-        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
+//        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
+//
+//        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         
-        contentsTextView.attributedText = attrString
+//        contentsTextView.attributedText = attrString
+        
+//        이거 왜 그지같이 되냐
+        contentsTextView.text = memo.title + "\n" + memo.contents
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -85,6 +87,21 @@ class MemoController: UIViewController {
     }
     
     private func save() {
+        print("current text: in save func: \(contentsTextView.text)")
+        if let memo = memo {
+            updateMemo(memo: memo)
+        } else {
+            makeMemo()
+        }
+    }
+    
+    private func updateMemo(memo: Memo) {
+        guard let contents = contentsTextView.text, contents != "" else { return }
+        print("current text in updateMemo func: \(contentsTextView.text), contents: \(contents)")
+        coreDataManager.updateMemo(contents: contents, memo: memo)
+    }
+    
+    private func makeMemo() {
         guard let contents = contentsTextView.text, contents != "" else { return }
         coreDataManager.createMemo(contents: contents)
     }
@@ -136,7 +153,7 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        
+        print("current text: \(textView.text)")
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
 
         if let firstLine = textView.text.split(separator: "\n").first {

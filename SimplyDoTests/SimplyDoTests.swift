@@ -142,31 +142,35 @@ extension SimplyDoTests {
     
     func test_getSeparateText() {
         let titleOnly = "hello\n"
-        let separated = titleOnly.split(separator: "\n", maxSplits: 2)
+        let separated = titleOnly.split(separator: "\n", maxSplits: 1)
         XCTAssertEqual(getSeparateText(from: titleOnly), ["hello", ""])
 
         let titleOnly2 = "hello"
-        let separated12 = titleOnly2.split(separator: "\n", maxSplits: 2)
+        let separated12 = titleOnly2.split(separator: "\n", maxSplits: 1)
         XCTAssertEqual(getSeparateText(from: titleOnly2), ["hello", ""])
         
         let emptyString = "\n"
-        let separatedEmpty = emptyString.split(separator: "\n", maxSplits: 2)
+        let separatedEmpty = emptyString.split(separator: "\n", maxSplits: 1)
         XCTAssertNil(getSeparateText(from: emptyString))
         
         let emptyString2 = "\n\n"
-        let separatedEmpty2 = emptyString2.split(separator: "\n", maxSplits: 2)
+        let separatedEmpty2 = emptyString2.split(separator: "\n", maxSplits: 1)
         XCTAssertNil(getSeparateText(from: emptyString2))
         
         let contentsOnly = "\n\nhi"
-        let separatedContentsOnly = contentsOnly.split(separator: "\n", maxSplits: 2)
+        let separatedContentsOnly = contentsOnly.split(separator: "\n", maxSplits: 1)
         XCTAssertEqual(getSeparateText(from: contentsOnly), ["", "hi"])
         
         let contentsOnly2 = "\nhi"
-        let separatedContentsOnly2 = contentsOnly2.split(separator: "\n", maxSplits: 2)
+        let separatedContentsOnly2 = contentsOnly2.split(separator: "\n", maxSplits: 1)
         XCTAssertEqual(getSeparateText(from: contentsOnly2), ["", "hi"])
         
         XCTAssertNil(getSeparateText(from: ""))
         XCTAssertNil(getSeparateText(from: "\n"))
         XCTAssertNil(getSeparateText(from: "\n\n\n\n\n   \n\n\n \n\n"))
+
+        XCTAssertNotNil(getSeparateText(from: "\n\n\n\n\n  aiejrtba;iwlnjio; \n\n\n \n\n"))
+        
+        XCTAssertEqual(getSeparateText(from: "안녕\n나는 누군가야\n"), ["안녕", "나는 누군가야"])
     }
 }

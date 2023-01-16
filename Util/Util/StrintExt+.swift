@@ -42,11 +42,15 @@ extension String {
 }
 
 public func getSeparateText(from string: String, using separator: Character = "\n") -> [String]? {
+    
+    print(#function +  "input:\(string)")
+
     if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         return nil
     }
     
-    let separated = string.split(separator: "\n", maxSplits: 2)
+    let separated = string.split(separator: "\n", maxSplits: 1)
+    print("separated result: \(separated)")
     if separated.count == 2 {
         return [String(separated.first!), String(separated.last!)]
     } else if separated.count == 1 {
@@ -54,6 +58,7 @@ public func getSeparateText(from string: String, using separator: Character = "\
             return ["", String(separated.first!)]
         }
         return [String(separated.first!), ""]
+    } else { // separated.count == 0 -> return all contents
+        return ["", string]
     }
-    return nil
 }

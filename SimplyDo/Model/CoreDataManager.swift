@@ -104,6 +104,40 @@ extension CoreDataManager {
         }
     }
     
+    func updateMemo(contents: String, memo: Memo) {
+        let test = getSeparateText(from: contents)
+        print("test: \(test)")
+        guard let validContents = getSeparateText(from: contents) else {
+            // TODO: remove
+            
+            self.deleteMemo(memo: memo)
+            return
+        }
+        
+        memo.title = validContents[0]
+        memo.contents = validContents[1]
+        memo.updatedAt = Date()
+        
+        do {
+            try mainContext.save()
+            print("memo updated to title:\(memo.title), contents:\(memo.contents)")
+            return
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func deleteMemo(memo: Memo) {
+        mainContext.delete(memo)
+        print("memo deleted!")
+        do {
+            try mainContext.save()
+            return
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     // TODO: Add more options (updatedDate, tag)
     func fetchMemos() -> [Memo] {
         
