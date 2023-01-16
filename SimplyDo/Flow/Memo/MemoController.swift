@@ -41,10 +41,13 @@ class MemoController: UIViewController {
         hideTabBar()
         configureLayout()
         
-        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
-            self.contentsTextView.becomeFirstResponder()
+        startSavingMemoTimer()
+    }
+    
+    private func startSavingMemoTimer() {
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+            self.save()
         }
-        
     }
     
     // TODO: separate title and contents using attributed string
@@ -84,22 +87,19 @@ class MemoController: UIViewController {
     }
     
     private func save() {
-        print("current text: in save func: \(contentsTextView.text)")
+        guard let contents = contentsTextView.text, contents != "" else { return }
         if let memo = memo {
-            updateMemo(memo: memo)
+            updateMemo(contents: contents,memo: memo)
         } else {
-            makeMemo()
+            makeMemo(contents: contents)
         }
     }
     
-    private func updateMemo(memo: Memo) {
-        guard let contents = contentsTextView.text, contents != "" else { return }
-        print("current text in updateMemo func: \(contentsTextView.text), contents: \(contents)")
+    private func updateMemo(contents: String, memo: Memo) {
         coreDataManager.updateMemo(contents: contents, memo: memo)
     }
     
-    private func makeMemo() {
-        guard let contents = contentsTextView.text, contents != "" else { return }
+    private func makeMemo(contents: String) {
         coreDataManager.createMemo(contents: contents)
     }
     
