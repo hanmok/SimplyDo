@@ -37,7 +37,6 @@ class MemoTabController: UIViewController {
         setupTargets()
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(self, #function)
@@ -47,7 +46,6 @@ class MemoTabController: UIViewController {
         memoTableView.rowHeight = UITableView.automaticDimension
         memoTableView.estimatedRowHeight = 20
         self.tabBarController?.tabBar.isHidden = false
-        
     }
     
     private func fetchMemos() {
@@ -79,8 +77,12 @@ class MemoTabController: UIViewController {
     }
     
     @objc func addTapped() {
+        navigateToMemo(memo: nil)
+    }
+    
+    private func navigateToMemo(memo: Memo?) {
         self.navigationController?.navigationBar.isHidden = false
-        let newMemoController = MemoController(coreDataManager: coreDataManager)
+        let newMemoController = MemoController(coreDataManager: coreDataManager, memo: memo)
         self.navigationController?.pushViewController(newMemoController, animated: true)
     }
     
@@ -89,7 +91,6 @@ class MemoTabController: UIViewController {
         [memoTableView, floatingAddBtn].forEach {
             self.view.addSubview($0)
         }
-        
     }
     
     private func setupFloatingButton() {
@@ -129,11 +130,15 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell
         cell.memoItem = memos[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: navigate to memo Controller
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell
+        memoTapped(indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -158,16 +163,12 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
-
-
-//        let transition = CATransition()
-//        transition.duration = 0.3
-//        transition.type = .moveIn
-//        transition.subtype = .fromTop
-//        view.window?.layer.add(transition, forKey: kCATransition)
-//        newMemoController.modalPresentationStyle = .fullScreen
-//        newMemoController.modalPresentationStyle = .fullScreen
-//        newMemoController.modalTransitionStyle = .
-//        self.navigationController?.pushViewController(newMemoController, animated: true)
-//        self.present(newMemoController, animated: true)
-//        newMemoController.tabBarController?.tabBar.isHidden = true
+extension MemoTabController: MemoTableCellDelegate {
+    func memoTapped(_ cell: MemoTableCell) {
+        self.navigateToMemo(memo: cell.memoItem)
+    }
+    
+    func memoTapped(_ indexPath: IndexPath) {
+        self.navigateToMemo(memo: memos[indexPath.row])
+    }
+}

@@ -20,7 +20,9 @@ class MemoController: UIViewController {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
         self.memo = memo
+        print(self, #function)
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -42,6 +44,22 @@ class MemoController: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
             self.contentsTextView.becomeFirstResponder()
         }
+        if memo != nil {
+            self.configureLayout()
+        }
+    }
+    
+    // TODO: separate title and contents using attributed string
+    private func configureLayout() {
+        guard let memo = memo else { fatalError() }
+        
+        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
+
+        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
+        
+        contentsTextView.attributedText = attrString
+        // TODO
     }
     
     override func viewDidDisappear(_ animated: Bool) {

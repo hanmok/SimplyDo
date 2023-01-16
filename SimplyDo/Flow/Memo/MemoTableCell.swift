@@ -12,6 +12,7 @@ import SnapKit
 
 protocol MemoTableCellDelegate: AnyObject {
     func memoTapped(_ cell: MemoTableCell)
+    func memoTapped(_ indexPath: IndexPath)
 }
 
 class MemoTableCell: UITableViewCell {
