@@ -106,6 +106,7 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+//        view.selectedColor
         return view
     }()
     
@@ -127,6 +128,7 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableCell.reuseIdentifier, for: indexPath) as! MemoTableCell
+        cell.selectedBackgroundView = UIView().then { $0.backgroundColor = .clear }
         cell.memoItem = memos[indexPath.row]
         cell.delegate = self
         return cell
@@ -134,9 +136,9 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: navigate to memo Controller
-
+        
         memoTapped(indexPath)
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

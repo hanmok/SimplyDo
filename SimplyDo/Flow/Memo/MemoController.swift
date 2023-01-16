@@ -13,14 +13,13 @@ import CoreData
 class MemoController: UIViewController {
     
     var coreDataManager: CoreDataManager
-    
     var memo: Memo?
+    var timer: Timer?
     
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
-        super.init(nibName: nil, bundle: nil)
         self.memo = memo
-        print(self, #function)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -45,9 +44,15 @@ class MemoController: UIViewController {
     }
     
     private func startSavingMemoTimer() {
-        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+        timer =  Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
             self.save()
+            print("timer working")
         }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
     
     // TODO: separate title and contents using attributed string
@@ -69,9 +74,8 @@ class MemoController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         save()
-        print(self,  #function)
+        stopTimer()
         guard let contents = contentsTextView.text, contents != "" else { return }
-        
         self.navigationController?.navigationBar.isHidden = false
     }
 
