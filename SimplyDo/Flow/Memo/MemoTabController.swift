@@ -160,6 +160,28 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
 
         return estimatedFrame.height + paddings
     }
+    
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        memos.remove(at: indexPath.row)
+//        tableView.deleteRows(at: [indexPath], with: .automatic)
+//        return
+//    }
+    
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+////        if editingst
+//    }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+////        if style
+//
+//    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let memoTarget = memos.remove(at: indexPath.row)
+            coreDataManager.deleteMemo(memo: memoTarget)
+            memoTableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 }
 
 
