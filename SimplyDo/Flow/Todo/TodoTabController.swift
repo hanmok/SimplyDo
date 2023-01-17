@@ -155,7 +155,6 @@ class TodoTabController: UIViewController {
         todoTableView.dataSource = self
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }

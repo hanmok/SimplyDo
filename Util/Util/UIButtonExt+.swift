@@ -32,6 +32,4 @@ extension UIButton {
         self.layer.borderWidth = borderWidth
         self.layer.borderColor = borderColor
     }
-    
-    
 }
