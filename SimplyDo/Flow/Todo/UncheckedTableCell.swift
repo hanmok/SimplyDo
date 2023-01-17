@@ -36,6 +36,9 @@ class UncheckedTableCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [lottieView, checkmarkButton, titleLabel].forEach { self.contentView.addSubview($0)}
+//        contentView.snp.makeConstraints { make in
+//            make.leading.trailing.equalToSuperview().inset(40)
+//        }
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         backgroundColor = UIColor(white: 0.85, alpha: 0.7)
@@ -73,16 +76,19 @@ class UncheckedTableCell: UITableViewCell {
     override func layoutSubviews() {
         let inset = 7
         let width = 26
+        let mainInset = 16
         
         checkmarkButton.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(inset)
             make.leading.equalToSuperview().inset(inset)
+//            make.leading.equalToSuperview().inset(inset + mainInset)
             make.width.equalTo(width)
         }
         
         lottieView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(inset)
             make.leading.equalToSuperview().inset(inset)
+//            make.leading.equalToSuperview().inset(inset + mainInset)
             make.width.equalTo(width)
         }
         
@@ -91,6 +97,7 @@ class UncheckedTableCell: UITableViewCell {
             make.top.bottom.equalToSuperview()
             make.trailing.equalToSuperview().inset(10)
         }
+        
         checkmarkButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     

@@ -36,4 +36,8 @@ extension UIImage {
     public static var tag: UIImage {
         return UIImage(systemName: "number")!
     }
+    
+    public static var calendar: UIImage {
+        return UIImage(systemName: "calendar")!
+    }
 }

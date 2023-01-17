@@ -36,7 +36,8 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
+//        self.navi
         fetchData()
         setupNotifications()
         setupTargets()
@@ -61,6 +62,9 @@ class TodoTabController: UIViewController {
     private func setupTargets() {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
+        
+        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
+        calendarButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -68,6 +72,47 @@ class TodoTabController: UIViewController {
         setupTableViewLayout()
         setupFloatingButton()
         setupTextInputBoxView()
+        setupNavigationBar()
+    }
+    
+//    func addRightBarButtonItems()
+//    {
+//        let btnSearch = UIButton.init(type: .custom)
+//        btnSearch.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+//        btnSearch.addTarget(self, action: #selector(searchButtonPressed), for: .touchUpInside)
+//
+//        let btnEdit = UIButton.init(type: .custom)
+//        btnEdit.setImage(UIImage(systemName: "pencil"), for: .normal)
+//        btnEdit.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+//
+//
+//
+//        let rightBarButton = UIBarButtonItem(customView: stackview)
+//        self.navigationItem.rightBarButtonItem = rightBarButton
+//    }
+    
+    private let calendarButton = UIButton(image: UIImage.calendar, tintColor: .mainOrange, hasInset: true, inset: 0)
+    
+    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
+    
+    private func setupNavigationBar() {
+        
+        let stackview = UIStackView.init(arrangedSubviews: [calendarButton, tagButton])
+        stackview.distribution = .equalSpacing
+        stackview.axis = .horizontal
+        stackview.alignment = .center
+        stackview.spacing = 16
+        
+        let rightBarButton = UIBarButtonItem(customView: stackview)
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc func tagTapped() {
+        print("tag Tapped")
+    }
+    
+    @objc func calendarTapped() {
+        print("calendar Tapped")
     }
     
     private func addSubViews() {
@@ -110,6 +155,7 @@ class TodoTabController: UIViewController {
         todoTableView.dataSource = self
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
+            
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
