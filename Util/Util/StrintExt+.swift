@@ -62,3 +62,10 @@ public func getSeparateText(from string: String, using separator: Character = "\
         return ["", string]
     }
 }
+
+
+extension StringProtocol where Index == String.Index {
+    public func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
+    }
+}

@@ -41,10 +41,13 @@ class MemoController: UIViewController {
         configureLayout()
         
         startSavingMemoTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.contentsTextView.becomeFirstResponder()
+        }
     }
     
     private func startSavingMemoTimer() {
-        timer =  Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
             self.save()
             print("timer working")
         }
@@ -165,9 +168,3 @@ extension MemoController: UITextViewDelegate {
     }
 }
 
-
-extension StringProtocol where Index == String.Index {
-    func nsRange(from range: Range<Index>) -> NSRange {
-        return NSRange(range, in: self)
-    }
-}
