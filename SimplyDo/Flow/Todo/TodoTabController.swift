@@ -133,7 +133,9 @@ class TodoTabController: UIViewController {
     private func makeTodo(title: String, targetDate: Date = Date()) {
         print(#function + "title: \(title)")
         guard title != "" else {
-            self.view.makeToast("empty string", position: .top)
+//            self.view.makeToast("empty string", position: .top)
+//            self.todoTitleTextField.
+            self.hideKeyboard()
             return
         }
         
