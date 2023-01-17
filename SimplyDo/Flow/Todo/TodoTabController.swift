@@ -133,8 +133,6 @@ class TodoTabController: UIViewController {
     private func makeTodo(title: String, targetDate: Date = Date()) {
         print(#function + "title: \(title)")
         guard title != "" else {
-//            self.view.makeToast("empty string", position: .top)
-//            self.todoTitleTextField.
             self.hideKeyboard()
             return
         }
@@ -146,7 +144,6 @@ class TodoTabController: UIViewController {
             todoTableView.performBatchUpdates {
                 todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             } completion: { _ in
-//                self.todoTableView.reloadData()
                 self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
             }
         } catch let e {

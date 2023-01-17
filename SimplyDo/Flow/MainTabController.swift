@@ -39,12 +39,13 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
             selectedImage: UIImage.selectedMessageTab,
             rootViewController: MemoTabController(coreDataManager: coreDataManager))
         
-        let tag = templateNavigationController(
-            unselectedImage: UIImage.tag,
-            selectedImage: UIImage.tag,
-            rootViewController: TagTabController())
+//        let tag = templateNavigationController(
+//            unselectedImage: UIImage.tag,
+//            selectedImage: UIImage.tag,
+//            rootViewController: TagTabController())
         
-        viewControllers = [todo, memo, tag]
+//        viewControllers = [todo, memo, tag]
+        viewControllers = [todo, memo]
     }
     
     func templateNavigationController(unselectedImage: UIImage,
