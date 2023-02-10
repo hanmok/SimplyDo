@@ -20,7 +20,7 @@ extension String {
         public static let isImportant = "isImportant_"
         public static let targetDate = "targetDate_"
         public static let title = "title_"
-        public static let tags = "tags"
+//        public static let tags = "tags"
     }
     
     public struct MemoAttributes {
@@ -29,7 +29,7 @@ extension String {
         public static let id = "id_"
         public static let title = "title_"
         public static let updatedAt = "updatedAt_"
-        public static let tags = "tags"
+//        public static let tags = "tags"
     }
     
     public struct TagAttributes {

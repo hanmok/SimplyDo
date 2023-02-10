@@ -40,8 +40,8 @@ extension Todo {
         set { self.title_ = newValue }
     }
     
-    public var tags: Set<Tag> {
-        get { self.tags_ as? Set<Tag> ?? [] }
-        set { self.tags_ = newValue as NSSet }
-    }
+//    public var tags: Set<Tag> {
+//        get { self.tags_ as? Set<Tag> ?? [] }
+//        set { self.tags_ = newValue as NSSet }
+//    }
 }

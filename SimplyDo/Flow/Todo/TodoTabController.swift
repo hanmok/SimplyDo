@@ -62,7 +62,7 @@ class TodoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
-        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
+//        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
         calendarButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
     }
     
@@ -76,7 +76,9 @@ class TodoTabController: UIViewController {
     
     private func setupNavigationBar() {
         
-        let stackview = UIStackView.init(arrangedSubviews: [calendarButton, tagButton])
+        let stackview = UIStackView.init(arrangedSubviews: [calendarButton
+//                                                            , tagButton
+                                                           ])
         stackview.distribution = .equalSpacing
         stackview.axis = .horizontal
         stackview.alignment = .center
@@ -232,7 +234,7 @@ class TodoTabController: UIViewController {
     
     private let calendarButton = UIButton(image: UIImage.calendar, tintColor: .mainOrange, hasInset: true, inset: 0)
     
-    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
+//    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     
     private var makeButton: UIButton = {
         let view = UIButton(image: UIImage.inputCompleted, tintColor: UIColor.mainOrange, hasInset: true)
@@ -242,10 +244,13 @@ class TodoTabController: UIViewController {
     private let floatingAddBtn: CircularButton = {
         let btn = CircularButton()
         let image = UIImage.plus
-        btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
+//        btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
         btn.addImage(image, tintColor: .mainOrange)
-        btn.layer.borderWidth = 4
-        btn.layer.borderColor = UIColor.magenta.cgColor
+//        btn.layer.borderWidth = 10
+//        btn.layer.borderColor = UIColor.magenta.cgColor
+//        btn.layer.borderColor = UIColor.indigo.cgColor
+        btn.backgroundColor = UIColor.indigo
+        
         return btn
     }()
     
@@ -360,7 +365,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
         let view = PaddedLabel()
         view.layer.cornerRadius = 10
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.backgroundColor = UIColor(white: 0.2, alpha: 1)
+//        view.backgroundColor = UIColor(white: 0.2, alpha: 1)
         view.clipsToBounds = true
         view.backgroundColor = .indigo
         
