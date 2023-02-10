@@ -64,7 +64,7 @@ class TodoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
-        calendarButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
+        archiveButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
         
         workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
         
@@ -81,7 +81,7 @@ class TodoTabController: UIViewController {
     
     private func setupNavigationBar() {
         
-        let stackview = UIStackView.init(arrangedSubviews: [calendarButton
+        let stackview = UIStackView.init(arrangedSubviews: [archiveButton
 //                                                            , tagButton
                                                            ])
         stackview.distribution = .equalSpacing
@@ -307,7 +307,9 @@ class TodoTabController: UIViewController {
         return view
     }()
     
-    private let calendarButton = UIButton(image: UIImage.calendar, tintColor: .mainOrange, hasInset: true, inset: 0)
+    // archivebox.fill
+
+    private let archiveButton = UIButton(image: UIImage.archiveBox, tintColor: .mainOrange, hasInset: true, inset: 0)
     
 //    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     

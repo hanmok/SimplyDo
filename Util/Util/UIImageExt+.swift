@@ -44,4 +44,8 @@ extension UIImage {
     public static var calendar: UIImage {
         return UIImage(systemName: "calendar")!
     }
+    
+    public static var archiveBox: UIImage {
+        return UIImage(systemName: "archivebox.fill")!
+    }
 }

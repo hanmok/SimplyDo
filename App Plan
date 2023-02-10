@@ -20,16 +20,13 @@ Bug: 누르지 않은 Cell 이 왜 이상하게 체크되는거지 ??
 
 
 --------- Plan ---------
-Tag 는 memos, todos 를 포함한다.
 
 
-Priorities
+DueDate 추가
 
-Todo 에 날짜, DueDate 추가
-Todo 에 Tag 추가
 
 Memo 기본 디자인
-Memo 에 Tag 추가
+
 
 ------------- 수정할 것 -------------
 MemoController 에서

@@ -6,6 +6,7 @@
         <attribute name="id_" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title_" optional="YES" attributeType="String"/>
         <attribute name="updatedAt_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="workspace" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workspace" inverseName="memos_" inverseEntity="Workspace"/>
     </entity>
     <entity name="Todo" representedClassName="Todo" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -15,5 +16,14 @@
         <attribute name="isImportant_" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="targetDate_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title_" optional="YES" attributeType="String"/>
+        <relationship name="workspace" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workspace" inverseName="todos_" inverseEntity="Workspace"/>
+    </entity>
+    <entity name="Workspace" representedClassName="Workspace" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="id_" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title_" optional="YES" attributeType="String"/>
+        <relationship name="memos_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Memo" inverseName="workspace" inverseEntity="Memo"/>
+        <relationship name="todos_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Todo" inverseName="workspace" inverseEntity="Todo"/>
     </entity>
 </model>
