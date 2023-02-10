@@ -25,7 +25,7 @@ extension UIImage {
         return UIImage(systemName: "bubble.right.fill")!
     }
     
-    public static var inputCompleted: UIImage {
+    public static var paperPlane: UIImage {
         return UIImage(systemName: "paperplane.fill")!
     }
     
@@ -44,7 +44,4 @@ extension UIImage {
     public static var calendar: UIImage {
         return UIImage(systemName: "calendar")!
     }
-    
-   
-    
 }

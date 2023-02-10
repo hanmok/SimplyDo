@@ -23,6 +23,9 @@ class TodoTabController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+//    var shouldSpread = true
+    var isSpreading = false
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,6 +65,10 @@ class TodoTabController: UIViewController {
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
         calendarButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
+        
+        workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
+        
+         triangleButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -86,18 +93,31 @@ class TodoTabController: UIViewController {
         self.navigationItem.rightBarButtonItem = rightBarButton
         
         
-        self.view.addSubview(workspaceButton)
-        workspaceButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(22)
-            make.top.equalTo(view.snp.top).offset(50)
-        }
+//        self.view.addSubview(workspaceButton)
+//        workspaceButton.snp.makeConstraints { make in
+//            make.leading.equalToSuperview().inset(22)
+////            make.top.equalTo(view.snp.top).offset(50)
+//            make.top.equalTo(view.safeAreaLayoutGuide)
+////            navigai
+//
+//        }
+        let workspaceStackView = UIStackView.init(arrangedSubviews: [workspaceButton, triangleButton])
+        workspaceStackView.distribution = .fill
+        workspaceStackView.axis = .horizontal
+//        workspaceStackView.align
+        workspaceStackView.spacing = 4
+//        navigationItem.titleView = workspaceButton
+        navigationItem.titleView = workspaceStackView
+        let t = CGAffineTransform(translationX: -100, y: 0) // need to be.. more adaptable
+        navigationItem.titleView?.transform = t
         
-        self.view.addSubview(triangleButton)
-        triangleButton.snp.makeConstraints { make in
-            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
-            make.width.height.equalTo(26)
-            make.centerY.equalTo(workspaceButton.snp.centerY)
-        }
+//        self.view.addSubview(triangleButton)
+//        triangleButton.snp.makeConstraints { make in
+//            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
+//            make.width.height.equalTo(26)
+//            make.centerY.equalTo(workspaceButton.snp.centerY)
+//        }
+        
     }
     
     private func addSubViews() {
@@ -128,10 +148,20 @@ class TodoTabController: UIViewController {
             make.trailing.equalToSuperview().inset(60)
             make.top.bottom.equalToSuperview().inset(6)
         }
+        
         makeButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(10)
-            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(5)
-            make.top.bottom.equalToSuperview().inset(6)
+//            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(5)
+            make.leading.equalTo(todoTitleTextField.snp.trailing)
+//            make.top.bottom.equalToSuperview().inset(6)
+            make.top.bottom.equalToSuperview().inset(3)
+            
+//            make.trailing.equalToSuperview().inset(10)
+//            make.centerY.equalTo(todoTitleTextField.snp.centerY)
+//            make.width.height.equalTo(30)
+            
+//            make.centerY.equalToSuperview()
+//            make.width.height.equalTo(40)
         }
     }
     
@@ -232,6 +262,23 @@ class TodoTabController: UIViewController {
         todoTitleTextField.becomeFirstResponder()
     }
     
+    @objc func workspaceTapped() {
+        print("workspaceTapped")
+        isSpreading.toggle()
+        UIView.animate(withDuration: 0.2) {
+            
+            if self.isSpreading {
+                let t = CGAffineTransform(rotationAngle: -Double.pi/2)
+                self.triangleButton.transform = t
+            } else {
+                let t = CGAffineTransform(rotationAngle: 0)
+                self.triangleButton.transform = t
+            }
+        }
+    }
+    
+//    @objc func
+    
     // MARK: - UI Components
     
     private let workspaceButton: UIButton = {
@@ -265,7 +312,8 @@ class TodoTabController: UIViewController {
 //    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     
     private var makeButton: UIButton = {
-        let view = UIButton(image: UIImage.inputCompleted, tintColor: UIColor.mainOrange, hasInset: true)
+        let view = UIButton(image: UIImage.paperPlane, tintColor: UIColor.mainOrange, hasInset: true)
+        view.contentMode = .scaleAspectFit
         return view
     }()
     

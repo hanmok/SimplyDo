@@ -16,6 +16,7 @@ extension UIImageView {
 //        let triangleImageView = UIImageView(image: UIImage(systemName: ""))
         let transform = CGAffineTransform(rotationAngle: -Double.pi / 2)
         triangleImageView.transform = transform
+        triangleImageView.contentMode = .scaleAspectFit
         return triangleImageView
     }
 }
