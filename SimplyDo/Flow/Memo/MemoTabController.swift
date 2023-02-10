@@ -74,6 +74,19 @@ class MemoTabController: UIViewController {
 //        let rightBarButton = UIBarButtonItem(customView: stackview)
 //        self.navigationItem.rightBarButtonItem = rightBarButton
         
+        
+        self.view.addSubview(workspaceButton)
+        workspaceButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(22)
+            make.top.equalTo(view.snp.top).offset(50)
+        }
+        
+        self.view.addSubview(triangleButton)
+        triangleButton.snp.makeConstraints { make in
+            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
+            make.width.height.equalTo(26)
+            make.centerY.equalTo(workspaceButton.snp.centerY)
+        }
     }
     
     private func setupTableViewLayout() {
@@ -81,7 +94,7 @@ class MemoTabController: UIViewController {
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(8)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
@@ -120,6 +133,23 @@ class MemoTabController: UIViewController {
     }
     
     // MARK: - UI Components
+    
+    
+    private let workspaceButton: UIButton = {
+        let btn = UIButton()
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+        return btn
+    }()
+    
+    private let triangleButton: UIButton = {
+        let btn = UIButton()
+        let triangleImageView = UIImageView.leftTriangleImageView
+        btn.addSubview(triangleImageView)
+        triangleImageView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalToSuperview()
+        }
+        return btn
+    }()
     
     private let memoTableView: UITableView = {
         let view = UITableView()

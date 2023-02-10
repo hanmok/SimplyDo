@@ -36,7 +36,6 @@ class TodoTabController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navigationController?.navigationBar.isHidden = true
-//        self.navi
         fetchData()
         setupNotifications()
         setupTargets()
@@ -62,7 +61,6 @@ class TodoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
-//        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
         calendarButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
     }
     
@@ -86,6 +84,20 @@ class TodoTabController: UIViewController {
         
         let rightBarButton = UIBarButtonItem(customView: stackview)
         self.navigationItem.rightBarButtonItem = rightBarButton
+        
+        
+        self.view.addSubview(workspaceButton)
+        workspaceButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(22)
+            make.top.equalTo(view.snp.top).offset(50)
+        }
+        
+        self.view.addSubview(triangleButton)
+        triangleButton.snp.makeConstraints { make in
+            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
+            make.width.height.equalTo(26)
+            make.centerY.equalTo(workspaceButton.snp.centerY)
+        }
     }
     
     private func addSubViews() {
@@ -220,7 +232,23 @@ class TodoTabController: UIViewController {
         todoTitleTextField.becomeFirstResponder()
     }
     
-    // MARK: - Views
+    // MARK: - UI Components
+    
+    private let workspaceButton: UIButton = {
+        let btn = UIButton()
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+        return btn
+    }()
+    
+    private let triangleButton: UIButton = {
+        let btn = UIButton()
+        let triangleImageView = UIImageView.leftTriangleImageView
+        btn.addSubview(triangleImageView)
+        triangleImageView.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalToSuperview()
+        }
+        return btn
+    }()
     
     private let todoTableView: UITableView = {
         let view = UITableView()
@@ -244,13 +272,8 @@ class TodoTabController: UIViewController {
     private let floatingAddBtn: CircularButton = {
         let btn = CircularButton()
         let image = UIImage.plus
-//        btn.backgroundColor = UIColor(white: 0.05, alpha: 1)
         btn.addImage(image, tintColor: .mainOrange)
-//        btn.layer.borderWidth = 10
-//        btn.layer.borderColor = UIColor.magenta.cgColor
-//        btn.layer.borderColor = UIColor.indigo.cgColor
         btn.backgroundColor = UIColor.indigo
-        
         return btn
     }()
     
