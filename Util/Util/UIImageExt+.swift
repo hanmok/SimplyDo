@@ -33,6 +33,10 @@ extension UIImage {
         return UIImage(systemName: "plus.circle")!
     }
     
+    public static var plus: UIImage {
+        return UIImage(systemName: "plus")!
+    }
+    
     public static var tag: UIImage {
         return UIImage(systemName: "number")!
     }
@@ -40,4 +44,6 @@ extension UIImage {
     public static var calendar: UIImage {
         return UIImage(systemName: "calendar")!
     }
+    
+    
 }

@@ -29,6 +29,12 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     }
     
     func configureViewControllers() {
+        
+        let calendar = templateNavigationController(
+            unselectedImage: UIImage.calendar.withTintColor(.magenta),
+            selectedImage: UIImage.calendar,
+            rootViewController: CalendarTabController(coreDataManager: coreDataManager))
+        
         let todo = templateNavigationController(
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),
             selectedImage: UIImage.checked,
@@ -45,7 +51,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
 //            rootViewController: TagTabController())
         
 //        viewControllers = [todo, memo, tag]
-        viewControllers = [todo, memo]
+        viewControllers = [calendar, todo, memo]
     }
     
     func templateNavigationController(unselectedImage: UIImage,

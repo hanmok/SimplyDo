@@ -61,17 +61,19 @@ class MemoTabController: UIViewController {
         setupNavBarButton()
     }
     
-    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
+//    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     
     private func setupNavBarButton(){
-        let stackview = UIStackView.init(arrangedSubviews: [tagButton])
-        stackview.distribution = .equalSpacing
-        stackview.axis = .horizontal
-        stackview.alignment = .center
-        stackview.spacing = 16
         
-        let rightBarButton = UIBarButtonItem(customView: stackview)
-        self.navigationItem.rightBarButtonItem = rightBarButton
+//        let stackview = UIStackView.init(arrangedSubviews: [tagButton])
+//        stackview.distribution = .equalSpacing
+//        stackview.axis = .horizontal
+//        stackview.alignment = .center
+//        stackview.spacing = 16
+        
+//        let rightBarButton = UIBarButtonItem(customView: stackview)
+//        self.navigationItem.rightBarButtonItem = rightBarButton
+        
     }
     
     private func setupTableViewLayout() {
@@ -86,12 +88,12 @@ class MemoTabController: UIViewController {
     
     private func setupTargets() {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
-        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
+//        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
     }
     
-    @objc func tagTapped() {
-        print("tag Tapped")
-    }
+//    @objc func tagTapped() {
+//        print("tag Tapped")
+//    }
     
     @objc func addTapped() {
         navigateToMemo(memo: nil)

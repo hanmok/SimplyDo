@@ -21,9 +21,9 @@
 		9A5D88C5296DBE0F00040C5B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */; };
 		9A5D88C7296DC20900040C5B /* Debugging in Resources */ = {isa = PBXBuildFile; fileRef = 9A5D88C6296DC20900040C5B /* Debugging */; };
 		9A80E75C29739838002536AE /* burriedCodes in Resources */ = {isa = PBXBuildFile; fileRef = 9A80E75B29739838002536AE /* burriedCodes */; };
+		9AC2B89629967E8900173596 /* CalendarTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B89529967E8900173596 /* CalendarTabController.swift */; };
 		9ACC6F6D29686F0500837FAB /* Memo+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACC6F6C29686F0500837FAB /* Memo+Helper.swift */; };
 		9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */; };
-		9ACF5125296B1DC300F75020 /* TagTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5124296B1DC300F75020 /* TagTabController.swift */; };
 		9ACF512A296C596A00F75020 /* MemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5129296C596A00F75020 /* MemoController.swift */; };
 		9ACF512C296C681C00F75020 /* SampleCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF512B296C681C00F75020 /* SampleCode.swift */; };
 		9AD43761295F21DB00156D47 /* TodoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43755295F21DB00156D47 /* TodoSection.swift */; };
@@ -99,9 +99,9 @@
 		9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9A5D88C6296DC20900040C5B /* Debugging */ = {isa = PBXFileReference; lastKnownFileType = text; path = Debugging; sourceTree = "<group>"; };
 		9A80E75B29739838002536AE /* burriedCodes */ = {isa = PBXFileReference; lastKnownFileType = text; path = burriedCodes; sourceTree = "<group>"; };
+		9AC2B89529967E8900173596 /* CalendarTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTabController.swift; sourceTree = "<group>"; };
 		9ACC6F6C29686F0500837FAB /* Memo+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Memo+Helper.swift"; sourceTree = "<group>"; };
 		9ACF5122296B0FEF00F75020 /* Tag+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag+Helper.swift"; sourceTree = "<group>"; };
-		9ACF5124296B1DC300F75020 /* TagTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagTabController.swift; sourceTree = "<group>"; };
 		9ACF5129296C596A00F75020 /* MemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoController.swift; sourceTree = "<group>"; };
 		9ACF512B296C681C00F75020 /* SampleCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleCode.swift; sourceTree = "<group>"; };
 		9AD43755295F21DB00156D47 /* TodoSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoSection.swift; path = SimplyDo/Model/Todo/TodoSection.swift; sourceTree = SOURCE_ROOT; };
@@ -165,6 +165,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9AC2B89429967E7D00173596 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				9AC2B89529967E8900173596 /* CalendarTabController.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
 		9ACC6F6B29686E3500837FAB /* Todo */ = {
 			isa = PBXGroup;
 			children = (
@@ -195,14 +203,6 @@
 			path = Tag;
 			sourceTree = "<group>";
 		};
-		9ACF5126296B1DD800F75020 /* Tag */ = {
-			isa = PBXGroup;
-			children = (
-				9ACF5124296B1DC300F75020 /* TagTabController.swift */,
-			);
-			path = Tag;
-			sourceTree = "<group>";
-		};
 		9AD43754295F21CE00156D47 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,9 +220,9 @@
 			isa = PBXGroup;
 			children = (
 				9ADD01AF2959E58300532DA5 /* MainTabController.swift */,
+				9AC2B89429967E7D00173596 /* Calendar */,
 				9AD4377A295FD4B500156D47 /* Todo */,
 				9ADD01BA2959E9EC00532DA5 /* Memo */,
-				9ACF5126296B1DD800F75020 /* Tag */,
 			);
 			path = Flow;
 			sourceTree = "<group>";
@@ -483,11 +483,11 @@
 			files = (
 				9ADD01BC2959E9F300532DA5 /* MemoTabController.swift in Sources */,
 				9ADD01532951ACD800532DA5 /* AppDelegate.swift in Sources */,
+				9AC2B89629967E8900173596 /* CalendarTabController.swift in Sources */,
 				9ADD01B72959E9A700532DA5 /* RegisterController.swift in Sources */,
 				9ADD01EB2959F7C900532DA5 /* UncheckedTableCell.swift in Sources */,
 				9AD43762295F21DB00156D47 /* Todo+Helper.swift in Sources */,
 				9ADD01B02959E58300532DA5 /* MainTabController.swift in Sources */,
-				9ACF5125296B1DC300F75020 /* TagTabController.swift in Sources */,
 				9A5D88C1296DACA300040C5B /* MemoManager.swift in Sources */,
 				9ACC6F6D29686F0500837FAB /* Memo+Helper.swift in Sources */,
 				9ADD01552951ACD800532DA5 /* SceneDelegate.swift in Sources */,
