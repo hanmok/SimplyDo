@@ -82,9 +82,14 @@ class TodoTabController: UIViewController {
         var menu = UIMenu(title: "")
         
         var children = [UIMenuElement]()
-        testWorkspaces.forEach {
-            children.append(UIAction(title: $0, handler: { (_) in }))
+        // make image too if has one
+        testWorkspaces.forEach { workspaceName in
+            children.append(UIAction(title: workspaceName, handler: { handler in
+                print(workspaceName)
+                self.workspacePickerButton.setTitle(workspaceName, for: .normal)
+            }))
         }
+        
         
 //        let destructiveAction = UIAction(title: "Destructive", attributes: .destructive, handler: { _ in })
 //        children.append(destructiveAction)
