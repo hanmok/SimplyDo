@@ -12,3 +12,9 @@ extension UITableViewCell {
         return String(describing: self)
     }
 }
+
+extension UICollectionViewCell {
+    public static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}

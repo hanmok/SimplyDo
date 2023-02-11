@@ -22,9 +22,10 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navigationController?.navigationBar.isHidden = true
+        
         configureViewControllers()
         setupLayouts()
-        selectedIndex = 1
+        selectedIndex = 0
         
     }
     
