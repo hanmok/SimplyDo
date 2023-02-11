@@ -23,6 +23,10 @@ class TodoTabController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    lazy var testWorkspaces = ["LifeStyle", "Work", "Personal"]
+    
+    var inputBoxHeight: CGFloat = 90.0
+    
 //    var shouldSpread = true
     var isSpreading = false
     
@@ -43,6 +47,7 @@ class TodoTabController: UIViewController {
         setupNotifications()
         setupTargets()
         setupLayout()
+        setupMenu()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
     }
@@ -71,6 +76,24 @@ class TodoTabController: UIViewController {
          triangleButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
     }
     
+    private func setupMenu() {
+        print("workSpacePicker Tapped!")
+
+        var menu = UIMenu(title: "")
+        
+        var children = [UIMenuElement]()
+        testWorkspaces.forEach {
+            children.append(UIAction(title: $0, handler: { (_) in }))
+        }
+        
+//        let destructiveAction = UIAction(title: "Destructive", attributes: .destructive, handler: { _ in })
+//        children.append(destructiveAction)
+        
+        let newMenu = menu.replacingChildren(children)
+        self.workspacePickerButton.menu = newMenu
+        self.workspacePickerButton.showsMenuAsPrimaryAction = true
+    }
+    
     private func setupLayout() {
         addSubViews()
         setupTableViewLayout()
@@ -94,16 +117,11 @@ class TodoTabController: UIViewController {
         workspaceStackView.distribution = .fill
         workspaceStackView.axis = .horizontal
         workspaceStackView.spacing = 4
-        //
+
 //        workspaceStackView.bounds = CGRectInset(workspaceStackView.frame, 5.0f, 5.0f)
 //        workspaceStackView.bounds = workspaceStackView.frame.insetBy(dx: 10.0, dy: 0)
-        
-//        navigationItem.titleView = workspaceStackView
-//        let t = CGAffineTransform(translationX: -100, y: 0) // need to be.. more adaptable
-//        navigationItem.titleView?.transform = t
-//        stackview.ins
+
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: workspaceStackView)
-//        uibarbuttonitem
     }
     
     private func addSubViews() {
@@ -124,32 +142,43 @@ class TodoTabController: UIViewController {
     
     
     private func setupTextInputBoxView() {
-        [todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
+
+        [
+            datePickerButton, workspacePickerButton,
+            todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
+        
         todoInputBoxView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.snp.bottom)
-            make.height.equalTo(40)
+            make.height.equalTo(self.inputBoxHeight)
         }
+        
+        datePickerButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(6)
+            make.height.equalTo(32)
+            make.width.equalTo(60)
+        }
+
+        workspacePickerButton.snp.makeConstraints { make in
+            make.leading.equalTo(datePickerButton.snp.trailing).offset(6)
+            make.top.height.equalTo(datePickerButton)
+            make.width.equalTo(100)
+        }
+        
         todoTitleTextField.delegate = self
         todoTitleTextField.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(30)
+            make.leading.equalToSuperview().inset(16)
             make.trailing.equalToSuperview().inset(60)
-            make.top.bottom.equalToSuperview().inset(6)
+            make.top.equalTo(datePickerButton.snp.bottom).offset(6)
+            make.bottom.equalToSuperview().inset(6)
         }
         
         makeButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(10)
-//            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(5)
+            make.trailing.equalToSuperview()
             make.leading.equalTo(todoTitleTextField.snp.trailing)
-//            make.top.bottom.equalToSuperview().inset(6)
-            make.top.bottom.equalToSuperview().inset(3)
-            
-//            make.trailing.equalToSuperview().inset(10)
-//            make.centerY.equalTo(todoTitleTextField.snp.centerY)
-//            make.width.height.equalTo(30)
-            
-//            make.centerY.equalToSuperview()
-//            make.width.height.equalTo(40)
+            make.bottom.equalToSuperview().inset(3)
+            make.height.equalTo(40)
         }
     }
     
@@ -160,7 +189,6 @@ class TodoTabController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(self.view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
-//            make.bottom.equalToSuperview().offset(-tabbarHeight - 20)
         }
     }
     
@@ -212,10 +240,7 @@ class TodoTabController: UIViewController {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            todoInputBoxView.snp.remakeConstraints { make in
-                make.bottom.equalToSuperview().offset(-keyboardHeight)
-                make.leading.trailing.equalToSuperview()
-            }
+            todoInputBoxView.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight - self.inputBoxHeight)
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
             }
@@ -223,24 +248,19 @@ class TodoTabController: UIViewController {
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
-        todoInputBoxView.snp.remakeConstraints { make in
-            make.top.equalTo(self.view.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
+        todoInputBoxView.transform = CGAffineTransform(translationX: 0, y: 0)
+        
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
         }
+        
         todoTitleTextField.text = ""
     }
     
     @objc func makeTapped() {
         print("makeTapped!")
         guard let title = todoTitleTextField.text else { return }
-        todoInputBoxView.snp.remakeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.snp.bottom)
-            make.height.equalTo(40)
-        }
+        todoInputBoxView.transform = CGAffineTransform(translationX: 0, y: 0)
         todoTitleTextField.resignFirstResponder()
         makeTodo(title: title)
         view.endEditing(true)
@@ -265,9 +285,37 @@ class TodoTabController: UIViewController {
         }
     }
     
-//    @objc func
-    
     // MARK: - UI Components
+    
+    private let datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.locale = .current
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.tintColor = .systemGreen
+        return datePicker
+    }()
+    
+    private let datePickerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("오늘", for: .normal)
+        button.layer.cornerRadius = 5
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.backgroundColor = UIColor(hex6: 0xDBDBDA)
+        return button
+    }()
+    
+    
+    private let workspacePickerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("LifeStyle", for: .normal)
+        button.layer.cornerRadius = 5
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.backgroundColor = UIColor(hex6: 0xDBDBDA)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        button.sizeToFit()
+        return button
+    }()
     
     private let workspaceButton: UIButton = {
         let btn = UIButton()
@@ -305,11 +353,8 @@ class TodoTabController: UIViewController {
         return view
     }()
     
-    // archivebox.fill
 
     private let archiveButton = UIButton(image: UIImage.archiveBox, tintColor: .mainOrange, hasInset: true, inset: 0)
-    
-//    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     
     private var makeButton: UIButton = {
         let view = UIButton(image: UIImage.paperPlane, tintColor: UIColor.mainOrange, hasInset: true)
@@ -436,7 +481,6 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
         let view = PaddedLabel()
         view.layer.cornerRadius = 10
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//        view.backgroundColor = UIColor(white: 0.2, alpha: 1)
         view.clipsToBounds = true
         view.backgroundColor = .indigo
         
