@@ -25,8 +25,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         
         configureViewControllers()
         setupLayouts()
-        selectedIndex = 0
-        
+        selectedIndex = 1
     }
     
     func configureViewControllers() {

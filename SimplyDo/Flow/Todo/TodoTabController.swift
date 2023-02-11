@@ -64,7 +64,7 @@ class TodoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
-        archiveButton.addTarget(self, action: #selector(calendarTapped), for: .touchUpInside)
+        archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
         
         workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
         
@@ -81,9 +81,7 @@ class TodoTabController: UIViewController {
     
     private func setupNavigationBar() {
         
-        let stackview = UIStackView.init(arrangedSubviews: [archiveButton
-//                                                            , tagButton
-                                                           ])
+        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
         stackview.distribution = .equalSpacing
         stackview.axis = .horizontal
         stackview.alignment = .center
@@ -92,32 +90,20 @@ class TodoTabController: UIViewController {
         let rightBarButton = UIBarButtonItem(customView: stackview)
         self.navigationItem.rightBarButtonItem = rightBarButton
         
-        
-//        self.view.addSubview(workspaceButton)
-//        workspaceButton.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(22)
-////            make.top.equalTo(view.snp.top).offset(50)
-//            make.top.equalTo(view.safeAreaLayoutGuide)
-////            navigai
-//
-//        }
         let workspaceStackView = UIStackView.init(arrangedSubviews: [workspaceButton, triangleButton])
         workspaceStackView.distribution = .fill
         workspaceStackView.axis = .horizontal
-//        workspaceStackView.align
         workspaceStackView.spacing = 4
-//        navigationItem.titleView = workspaceButton
-        navigationItem.titleView = workspaceStackView
-        let t = CGAffineTransform(translationX: -100, y: 0) // need to be.. more adaptable
-        navigationItem.titleView?.transform = t
+        //
+//        workspaceStackView.bounds = CGRectInset(workspaceStackView.frame, 5.0f, 5.0f)
+//        workspaceStackView.bounds = workspaceStackView.frame.insetBy(dx: 10.0, dy: 0)
         
-//        self.view.addSubview(triangleButton)
-//        triangleButton.snp.makeConstraints { make in
-//            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
-//            make.width.height.equalTo(26)
-//            make.centerY.equalTo(workspaceButton.snp.centerY)
-//        }
-        
+//        navigationItem.titleView = workspaceStackView
+//        let t = CGAffineTransform(translationX: -100, y: 0) // need to be.. more adaptable
+//        navigationItem.titleView?.transform = t
+//        stackview.ins
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: workspaceStackView)
+//        uibarbuttonitem
     }
     
     private func addSubViews() {
@@ -134,6 +120,8 @@ class TodoTabController: UIViewController {
             make.bottom.equalToSuperview().inset(tabbarHeight + 20)
         }
     }
+    
+    
     
     private func setupTextInputBoxView() {
         [todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
@@ -216,8 +204,8 @@ class TodoTabController: UIViewController {
         print("tag Tapped")
     }
     
-    @objc func calendarTapped() {
-        print("calendar Tapped")
+    @objc func archiveTapped() {
+        print("archive Tapped")
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -297,6 +285,16 @@ class TodoTabController: UIViewController {
         return btn
     }()
     
+    private let calendarCell: UIButton = {
+        let btn = UIButton()
+        let calendarImageView = UIImageView(image: UIImage.calendar)
+        btn.addSubview(calendarImageView)
+        calendarImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return btn
+    }()
+    
     private let todoTableView: UITableView = {
         let view = UITableView()
         view.sectionHeaderTopPadding = 30.0
@@ -334,7 +332,7 @@ class TodoTabController: UIViewController {
     private lazy var todoTitleTextField: UITextField = {
         let view = self.designKit.PaddedTextField()
         view.applyCornerRadius(on: .all, radius: 8.0)
-        let attr = NSMutableAttributedString(string: "Todo Title", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
+        let attr = NSMutableAttributedString(string: "What are you going to do?", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
         return view
