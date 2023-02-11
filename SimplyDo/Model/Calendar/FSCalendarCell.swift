@@ -41,27 +41,36 @@ class CustomFSCalendarCell: FSCalendarCell {
     
     override var isSelected: Bool {
         didSet {
+            print("changeColor called")
             changeColor()
+        }
+    }
+    
+    override var isPlaceholder: Bool {
+        didSet {
+            print("setPlaceHolderColor called")
+            setPlaceHolderColor()
+        }
+    }
+    
+    func setPlaceHolderColor() {
+        if self.isPlaceholder {
+            backgroundColor = .clear
+            self.titleLabel.textColor = UIColor.clear
         }
     }
     
     func changeColor() {
         if isSelected {
-//            backgroundColor = .magenta
             backgroundColor = UIColor.indigo
         } else {
-            if self.isPlaceholder {
-                backgroundColor = .clear
-                self.titleLabel.textColor = UIColor.clear
-            }else {
-                backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
-            }
+            backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        print("FSCalendarCell init called")
 //        let circleImageView = UIImageView(image: UIImage(named: "circle")!)
 //        let circleImageView = UIImageView(image: UIImage(systemName: "circle")!)
         
@@ -81,10 +90,7 @@ class CustomFSCalendarCell: FSCalendarCell {
         
         let view = UIView(frame: self.bounds)
         view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
-//        view.backgroundColor = .cyan
-//        if !self.isPlaceholder {
-            self.backgroundView = view
-//        }
+        self.backgroundView = view
     }
     
     override func layoutSubviews() {
