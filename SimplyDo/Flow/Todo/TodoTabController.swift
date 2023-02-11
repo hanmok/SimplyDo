@@ -47,7 +47,9 @@ class TodoTabController: UIViewController {
         setupNotifications()
         setupTargets()
         setupLayout()
-        setupMenu()
+        setupSmallerWorkspacePickerMenu()
+        setupBiggerWorkspacePickerMenu()
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
     }
@@ -71,12 +73,38 @@ class TodoTabController: UIViewController {
         
         archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
         
-        workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
+//        workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
         
-         triangleButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
+//         triangleButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
     }
     
-    private func setupMenu() {
+    private func setupBiggerWorkspacePickerMenu() {
+        print("workSpacePicker Tapped!")
+
+        var menu = UIMenu(title: "")
+//        let some = UIMenu
+//        let some = UIMenu
+        
+        var children = [UIMenuElement]()
+        
+        // make image too if has one
+        testWorkspaces.forEach { workspaceName in
+            children.append(UIAction(title: workspaceName, handler: { handler in
+                print(workspaceName)
+                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+            }))
+        }
+
+        
+        let newMenu = menu.replacingChildren(children)
+        self.navTitleWorkspaceButton.menu = newMenu
+//        self.triangleButton.menu = newMenu
+//        self.workspaceButton.show
+        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+//        self.triangleButton.showsMenuAsPrimaryAction = true
+    }
+    
+    private func setupSmallerWorkspacePickerMenu() {
         print("workSpacePicker Tapped!")
 
         var menu = UIMenu(title: "")
@@ -89,10 +117,6 @@ class TodoTabController: UIViewController {
                 self.workspacePickerButton.setTitle(workspaceName, for: .normal)
             }))
         }
-        
-        
-//        let destructiveAction = UIAction(title: "Destructive", attributes: .destructive, handler: { _ in })
-//        children.append(destructiveAction)
         
         let newMenu = menu.replacingChildren(children)
         self.workspacePickerButton.menu = newMenu
@@ -118,15 +142,15 @@ class TodoTabController: UIViewController {
         let rightBarButton = UIBarButtonItem(customView: stackview)
         self.navigationItem.rightBarButtonItem = rightBarButton
         
-        let workspaceStackView = UIStackView.init(arrangedSubviews: [workspaceButton, triangleButton])
-        workspaceStackView.distribution = .fill
-        workspaceStackView.axis = .horizontal
-        workspaceStackView.spacing = 4
-
-//        workspaceStackView.bounds = CGRectInset(workspaceStackView.frame, 5.0f, 5.0f)
-//        workspaceStackView.bounds = workspaceStackView.frame.insetBy(dx: 10.0, dy: 0)
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: workspaceStackView)
+//        let workspaceStackView = UIStackView.init(arrangedSubviews: [navTitleWorkspaceButton
+////                                                                     , triangleButton
+//                                                                    ])
+//        workspaceStackView.distribution = .fill
+//        workspaceStackView.axis = .horizontal
+//        workspaceStackView.spacing = 4
+        
+        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
     
     private func addSubViews() {
@@ -275,20 +299,20 @@ class TodoTabController: UIViewController {
         todoTitleTextField.becomeFirstResponder()
     }
     
-    @objc func workspaceTapped() {
-        print("workspaceTapped")
-        isSpreading.toggle()
-        UIView.animate(withDuration: 0.2) {
-            
-            if self.isSpreading {
-                let t = CGAffineTransform(rotationAngle: -Double.pi/2)
-                self.triangleButton.transform = t
-            } else {
-                let t = CGAffineTransform(rotationAngle: 0)
-                self.triangleButton.transform = t
-            }
-        }
-    }
+//    @objc func workspaceTapped() {
+//        print("workspaceTapped")
+//        isSpreading.toggle()
+//        UIView.animate(withDuration: 0.2) {
+//
+//            if self.isSpreading {
+//                let t = CGAffineTransform(rotationAngle: -Double.pi/2)
+//                self.triangleButton.transform = t
+//            } else {
+//                let t = CGAffineTransform(rotationAngle: 0)
+//                self.triangleButton.transform = t
+//            }
+//        }
+//    }
     
     // MARK: - UI Components
     
@@ -322,21 +346,24 @@ class TodoTabController: UIViewController {
         return button
     }()
     
-    private let workspaceButton: UIButton = {
+    private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+//        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
+        btn.layer.cornerRadius = 10
         return btn
     }()
     
-    private let triangleButton: UIButton = {
-        let btn = UIButton()
-        let triangleImageView = UIImageView.leftTriangleImageView
-        btn.addSubview(triangleImageView)
-        triangleImageView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalToSuperview()
-        }
-        return btn
-    }()
+//    private let triangleButton: UIButton = {
+//        let btn = UIButton()
+//        let triangleImageView = UIImageView.leftTriangleImageView
+//        btn.addSubview(triangleImageView)
+//        triangleImageView.snp.makeConstraints { make in
+//            make.leading.top.trailing.bottom.equalToSuperview()
+//        }
+//        return btn
+//    }()
     
     private let calendarCell: UIButton = {
         let btn = UIButton()
@@ -574,5 +601,26 @@ extension TodoTabController {
             return TodoSection(rawValue: section)!
         }
         fatalError()
+    }
+}
+
+extension TodoTabController {
+    func menu(for barButtonItem: UIBarButtonItem) -> UIMenu {
+        UIMenu(title: "Some Menu", children: [UIDeferredMenuElement { [weak self, weak barButtonItem] completion in
+            guard let self = self, let barButtonItem = barButtonItem else { return }
+            print("Menu shown - pause your game timers and such here")
+            
+            // Create your menu's real items here:
+            let realMenuElements = [UIAction(title: "Some Action") { _ in
+                print("Menu action fired")
+            }]
+            
+            // Hand your real menu elements back to the deferred menu element
+            completion(realMenuElements)
+            
+            // Recreate the menu. This is necessary in order to get this block to
+            // fire again on future taps of the bar button item.
+            barButtonItem.menu = self.menu(for: barButtonItem)
+        }])
     }
 }
