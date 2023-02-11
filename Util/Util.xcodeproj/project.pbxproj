@@ -15,6 +15,7 @@
 		9A6131042965AD8B00E3E6E4 /* UIColorExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */; };
 		9A6131062965B45800E3E6E4 /* LottieExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131052965B45800E3E6E4 /* LottieExt+.swift */; };
 		9AC2B8982996874E00173596 /* UIImageViewExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8972996874E00173596 /* UIImageViewExt+.swift */; };
+		9AC2B8A72997BC0500173596 /* DateExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8A62997BC0500173596 /* DateExt+.swift */; };
 		9ACF5128296C57F000F75020 /* UIViewControllerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */; };
 		9ACF512E296C697800F75020 /* UITextViewExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF512D296C697800F75020 /* UITextViewExt+.swift */; };
 		9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4377B295FD55B00156D47 /* StrintExt+.swift */; };
@@ -43,6 +44,7 @@
 		9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColorExt+.swift"; sourceTree = "<group>"; };
 		9A6131052965B45800E3E6E4 /* LottieExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LottieExt+.swift"; sourceTree = "<group>"; };
 		9AC2B8972996874E00173596 /* UIImageViewExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageViewExt+.swift"; sourceTree = "<group>"; };
+		9AC2B8A62997BC0500173596 /* DateExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateExt+.swift"; sourceTree = "<group>"; };
 		9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerExt+.swift"; sourceTree = "<group>"; };
 		9ACF512D296C697800F75020 /* UITextViewExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextViewExt+.swift"; sourceTree = "<group>"; };
 		9AD4377B295FD55B00156D47 /* StrintExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrintExt+.swift"; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				9ADD01F92959FB8900532DA5 /* Util.h */,
+				9AC2B8A62997BC0500173596 /* DateExt+.swift */,
 				9ADD020E2959FBA700532DA5 /* UITableViewCellExt+.swift */,
 				9AD4377B295FD55B00156D47 /* StrintExt+.swift */,
 				9AFC9BDD296098590082800E /* UIImageExt+.swift */,
@@ -240,6 +243,7 @@
 				9ADD020F2959FBA700532DA5 /* UITableViewCellExt+.swift in Sources */,
 				9A27479F29646D33004F9731 /* UIButtonExt+.swift in Sources */,
 				9ACF512E296C697800F75020 /* UITextViewExt+.swift in Sources */,
+				9AC2B8A72997BC0500173596 /* DateExt+.swift in Sources */,
 				9AC2B8982996874E00173596 /* UIImageViewExt+.swift in Sources */,
 				9A27478129645D70004F9731 /* UIViewExt+.swift in Sources */,
 				9AFC9BDE296098590082800E /* UIImageExt+.swift in Sources */,

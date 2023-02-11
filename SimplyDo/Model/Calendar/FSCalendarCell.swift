@@ -39,7 +39,25 @@ class CustomFSCalendarCell: FSCalendarCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-   
+    override var isSelected: Bool {
+        didSet {
+            changeColor()
+        }
+    }
+    
+    func changeColor() {
+        if isSelected {
+//            backgroundColor = .magenta
+            backgroundColor = UIColor.indigo
+        } else {
+            if self.isPlaceholder {
+                backgroundColor = .clear
+                self.titleLabel.textColor = UIColor.clear
+            }else {
+                backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,8 +70,10 @@ class CustomFSCalendarCell: FSCalendarCell {
 //        self.circleImageView = circleImageView
         
         let selectionLayer = CAShapeLayer()
+        
         selectionLayer.fillColor = UIColor.black.cgColor
         selectionLayer.actions = ["hidden": NSNull()]
+        
         self.contentView.layer.insertSublayer(selectionLayer, below: self.titleLabel!.layer)
         self.selectionLayer = selectionLayer
         
@@ -61,7 +81,10 @@ class CustomFSCalendarCell: FSCalendarCell {
         
         let view = UIView(frame: self.bounds)
         view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
-        self.backgroundView = view
+//        view.backgroundColor = .cyan
+//        if !self.isPlaceholder {
+            self.backgroundView = view
+//        }
     }
     
     override func layoutSubviews() {
@@ -96,15 +119,24 @@ class CustomFSCalendarCell: FSCalendarCell {
         else if selectionType == .single {
             let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
             self.selectionLayer.path = UIBezierPath(ovalIn: CGRect(x: self.contentView.frame.width / 2 - diameter / 2, y: self.contentView.frame.height / 2 - diameter / 2, width: diameter, height: diameter)).cgPath
+            self.selectionLayer.fillColor = UIColor.black.cgColor
         }
+//        print("selectionType")
+        
+        
     }
     
     override func configureAppearance() {
         super.configureAppearance()
-        // Override the build-in appearance configuration
+        // Override the built-in appearance configuration
+        // 전, 다음 달 날짜들
         if self.isPlaceholder {
-            self.eventIndicator.isHidden = true
-            self.titleLabel.textColor = UIColor.lightGray
+            backgroundColor = .clear
+            self.titleLabel.textColor = UIColor.clear
+            
+//            self.eventIndicator.isHidden = true
+//            self.titleLabel.textColor = UIColor.lightGray
+//            self.titleLabel.textColor = .magenta
         }
     }
 }

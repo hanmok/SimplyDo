@@ -5,7 +5,7 @@
 //  Created by Mac mini on 2023/02/10.
 //
 
-
+import Util
 import UIKit
 import SnapKit
 import FSCalendar
@@ -16,45 +16,54 @@ class FSCalendarTabController: UIViewController {
         let fs = FSCalendar()
         return fs
     }()
+    
     var coreDataManager: CoreDataManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendarLayout()
+        view.backgroundColor = .clear
     }
     
     func setupCalendarLayout() {
         
         calendarView.delegate = self
         calendarView.dataSource = self
-        
-        // register
         calendarView.register(CustomFSCalendarCell.self, forCellReuseIdentifier: CustomFSCalendarCell.reuseIdentifier)
+//        calendarView.appearance.eventSelectionColor
+//        calendarView.appearance.selectionColor = .yellow //
         
         
-        calendarView.scope = .month // or .week
+    
+        calendarView.scope = .month
         calendarView.weekdayHeight = 20
-//        calenderview
-//        calendarView.scope = .week
+
         calendarView.locale = Locale(identifier: "ko_KR")
+        calendarView.backgroundColor = .clear
+        
 //        calendarView.scrollDirection = .horizontal // .vertical
         
         calendarView.headerHeight = 45
-        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 24)
-        calendarView.appearance.headerTitleOffset = CGPoint(x: -90, y: 0)
+        calendarView.appearance.titleWeekendColor = .red
+        calendarView.appearance.titleSelectionColor = UIColor(hex6: UIColor.orangeHex, alpha: 0.85)
+        calendarView.appearance.headerTitleFont = UIFont.systemFont(ofSize: 24) // 2023년 02월
+        calendarView.appearance.headerTitleOffset = CGPoint(x: -90, y: 0) // y 에 음수를 주면 글씨가 잘림.
         calendarView.appearance.headerTitleAlignment = .left
         calendarView.appearance.headerDateFormat = "YYYY년 MM월"
         calendarView.appearance.headerMinimumDissolvedAlpha = 0.0 // 전달, 다음 달 안보이게 설정.
-        
-        calendarView.appearance.titleOffset = CGPoint(x: 0, y: -30) // 날짜 위치
-        calendarView.rowHeight = 40
-        
+        calendarView.appearance.titleOffset = CGPoint(x: 0, y: -15) // 각 날짜 위치
+        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 16) // 날짜 폰트
         calendarView.appearance.borderRadius = 0.4 // 0: rectangle, 1: circle
-        calendarView.allowsMultipleSelection = true
-        calendarView.swipeToChooseGesture.isEnabled = true
-        calendarView.allowsSelection = true
         
-        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 20)
+//        calendarView.rowHeight = 40
+        
+        calendarView.allowsMultipleSelection = true
+        calendarView.allowsSelection = true
+        calendarView.swipeToChooseGesture.isEnabled = true
+        
+        
+//        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 20)
+//        calendarView.headerHeight
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,8 +71,7 @@ class FSCalendarTabController: UIViewController {
         view.addSubview(calendarView)
         calendarView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(10)
-//            make.bottom.equalToSuperview()
-            make.bottom.equalToSuperview().inset(200)
+            make.height.equalTo(calendarView.snp.width).multipliedBy(1.5)
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
         // calendarView Layout 에 따라 row size 가 변함
@@ -96,13 +104,19 @@ extension FSCalendarTabController: FSCalendarDelegate, FSCalendarDataSource {
         print(string + "deselected")
     }
     
-//    func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
-//        return "contents\ndarling"
-//    }
+    
+    
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CustomFSCalendarCell.reuseIdentifier, for: date, at: position) as! CustomFSCalendarCell
-        cell.contents = ["hello", "nice to meet you"]
+        
+        print("current date: \(Date())")
+        if date.get(.day) == Date().get(.day) {
+            print("special day is .. \(date)")
+        }
+        
+//        cell.contents = ["hello", "nice to meet you"]
+        print("dequeuing date: \(date)")
         return cell
     }
     

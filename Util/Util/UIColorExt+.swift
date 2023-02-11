@@ -74,7 +74,7 @@ extension UIColor {
      
      - Parameters:
         - hex6 : RGB값을 16진수로 사용. 각 자리수는 16진수 2자리씩 이용하여 6자리 사용 가능. 0x000000~0xFFFFFF
-        - alpha: 불투명도 값. 0.0~1.0 범위에 값을 지정 가능. 기본값은 불투명도 최대값
+        - alpha: 불투명도 값. 0.0~1.0 범위에 값을 지정 가능. 기본값: 1
      */
     
     public convenience init(hex6 color: Int, alpha: CGFloat? = nil) {
@@ -89,6 +89,7 @@ extension UIColor {
 extension UIColor {
     public static let indigoHex = 0x243763
     public static let ivoryHex = 0xFFEBB7
+    public static let orangeHex = 0xFF6E31
     
     public static let mainOrange = UIColor(hex6: 0xFF6E31)
     public static let indigo = UIColor(hex6: 0x243763)
