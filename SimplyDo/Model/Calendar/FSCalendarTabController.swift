@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import FSCalendar
 
-class CalendarTabController: UIViewController {
+class FSCalendarTabController: UIViewController {
     
     private var calendarView: FSCalendar = {
         let fs = FSCalendar()
@@ -29,7 +29,7 @@ class CalendarTabController: UIViewController {
         calendarView.dataSource = self
         
         // register
-        calendarView.register(CalendarCell.self, forCellReuseIdentifier: CalendarCell.reuseIdentifier)
+        calendarView.register(CustomFSCalendarCell.self, forCellReuseIdentifier: CustomFSCalendarCell.reuseIdentifier)
         
         
         calendarView.scope = .month // or .week
@@ -53,7 +53,8 @@ class CalendarTabController: UIViewController {
         calendarView.allowsMultipleSelection = true
         calendarView.swipeToChooseGesture.isEnabled = true
         calendarView.allowsSelection = true
-//        calendarView.
+        
+        calendarView.appearance.titleFont = UIFont.systemFont(ofSize: 20)
     }
     
     override func viewDidLayoutSubviews() {
@@ -61,7 +62,8 @@ class CalendarTabController: UIViewController {
         view.addSubview(calendarView)
         calendarView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(10)
-            make.bottom.equalToSuperview()
+//            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(200)
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
         // calendarView Layout 에 따라 row size 가 변함
@@ -79,7 +81,7 @@ class CalendarTabController: UIViewController {
     }
 }
 
-extension CalendarTabController: FSCalendarDelegate, FSCalendarDataSource {
+extension FSCalendarTabController: FSCalendarDelegate, FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MM-dd-YYYY"
@@ -99,10 +101,15 @@ extension CalendarTabController: FSCalendarDelegate, FSCalendarDataSource {
 //    }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.reuseIdentifier, for: date, at: position) as! CalendarCell
+        let cell = calendar.dequeueReusableCell(withIdentifier: CustomFSCalendarCell.reuseIdentifier, for: date, at: position) as! CustomFSCalendarCell
         cell.contents = ["hello", "nice to meet you"]
         return cell
     }
     
-    
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        calendar.snp.updateConstraints { make in
+            make.height.equalTo(40)
+        }
+        self.view.layoutIfNeeded()
+    }
 }

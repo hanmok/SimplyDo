@@ -34,7 +34,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         let calendar = templateNavigationController(
             unselectedImage: UIImage.calendar.withTintColor(.magenta),
             selectedImage: UIImage.calendar,
-            rootViewController: CalendarTabController(coreDataManager: coreDataManager))
+            rootViewController: FSCalendarTabController(coreDataManager: coreDataManager))
         
         let todo = templateNavigationController(
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),

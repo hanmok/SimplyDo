@@ -17,8 +17,7 @@ enum SelectionType : Int {
     case rightBorder
 }
 
-
-class CalendarCell: FSCalendarCell {
+class CustomFSCalendarCell: FSCalendarCell {
     
     weak var circleImageView: UIImageView!
     weak var selectionLayer: CAShapeLayer!
