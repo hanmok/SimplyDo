@@ -282,7 +282,9 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
         let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
         let size = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
 
-        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 20)], context: nil)
+//        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 20)], context: nil)
+        // 16: Contents label font 
+        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 16)], context: nil)
 
         // title top, titleHeight, contents spacing, bottom inset, contents inset
         let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
