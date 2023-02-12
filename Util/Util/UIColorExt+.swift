@@ -29,7 +29,7 @@ extension UIColor {
         - alpah: 불투명도 값. 0~255 CGFloat형 값을 대입 가능. 값이 없을 경우 불투명도 값 최대로 지정
      */
     
-    convenience init(r: Int, g: Int, b: Int, alpha: CGFloat? = nil) {
+    public convenience init(r: Int, g: Int, b: Int, alpha: CGFloat? = nil) {
         self.init(red: CGFloat(r) / 255,
                   green: CGFloat(g) / 255,
                   blue: CGFloat(b) / 255,
@@ -53,7 +53,7 @@ extension UIColor {
         - hex8 : 불투명도 값을 포함한 RGB값을 16진수로 사용. 각 자리수는 16진수 2자리씩 이용하여 8자리 사용 가능. 0x00000000~0xFFFFFFFF
      */
     
-    convenience init(hex8 color: Int) {
+    public convenience init(hex8 color: Int) {
         let mask = 0x000000FF
         let alpha = CGFloat(color >> 24 & mask) / 255.0
         self.init(hex6: color, alpha: alpha)
