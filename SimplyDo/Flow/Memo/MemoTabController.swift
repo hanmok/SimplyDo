@@ -14,7 +14,7 @@ import DesignKit
 import Toast
 
 class MemoTabController: UIViewController {
-    
+    let topSpacingHeight: CGFloat = 10
     let designKit = DesignKitImp()
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
@@ -24,6 +24,17 @@ class MemoTabController: UIViewController {
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        let gradientLayer = CAGradientLayer(start: .topCenter, end: .bottomCenter, colors: [
+            UIColor(white: 1.0, alpha: 1.0).cgColor,
+            UIColor(white: 1.0, alpha: 0.0).cgColor
+        ], type: .axial)
+        gradientLayer.locations = [0.0, 1.0]
+        
+        gradientLayer.frame = topSpacingView.bounds
+        topSpacingView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     required init?(coder: NSCoder) {
@@ -42,12 +53,18 @@ class MemoTabController: UIViewController {
     private func setupNavigationBar() {
         setupBiggerWorkspacePickerMenu()
         setupRightBarButton()
+        hideNavigationBarLine()
+    }
+    
+    private func hideNavigationBarLine() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     private func setupRightBarButton() {
         let menu = UIMenu(title: "정렬 기준",children: [
-            UIAction(title:"생성 시점", handler: { _ in}),
-            UIAction(title:"수정 시점", handler: { _ in })
+            UIAction(title:"생성일", handler: { _ in}),
+            UIAction(title:"수정일", handler: { _ in })
         ])
         let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "arrow.up.arrow.down"), menu: menu)
         rightBarButton.tintColor = .mainOrange
@@ -96,6 +113,7 @@ class MemoTabController: UIViewController {
     private func setupLayout() {
         addSubViews()
         setupFloatingButton()
+        setupTopSpacing()
         setupTableViewLayout()
         setupNavBarButton()
     }
@@ -131,12 +149,24 @@ class MemoTabController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
     
+    private let topSpacingView = UIView()
+    
+    private func setupTopSpacing() {
+        view.addSubview(topSpacingView)
+        topSpacingView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
+            make.height.equalTo(self.topSpacingHeight)
+        }
+    }
+    
     private func setupTableViewLayout() {
         memoTableView.delegate = self
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(8)
-            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
+//            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
@@ -267,6 +297,14 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
             coreDataManager.deleteMemo(memo: memoTarget)
             memoTableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.topSpacingHeight
     }
 }
 
