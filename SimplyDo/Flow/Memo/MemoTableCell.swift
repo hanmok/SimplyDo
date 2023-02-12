@@ -32,7 +32,8 @@ class MemoTableCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let inset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+//        let inset = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+        let inset = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
         contentView.frame = contentView.frame.inset(by: inset)
     }
     

@@ -163,7 +163,8 @@ class MemoTabController: UIViewController {
         memoTableView.delegate = self
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(8)
+//            make.leading.trailing.equalToSuperview().inset(8)
+            make.leading.trailing.equalToSuperview()
 //            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             make.bottom.equalToSuperview().offset(-tabbarHeight)

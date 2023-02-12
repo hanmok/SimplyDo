@@ -28,12 +28,12 @@ class MemoController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(self, #function)
+//        print(self, #function)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self, #function)
+//        print(self, #function)
         setupLayout()
         setDelegates()
         addTargets()
@@ -49,7 +49,7 @@ class MemoController: UIViewController {
     private func startSavingMemoTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
             self.save()
-            print("timer working")
+//            print("timer working")
         }
     }
     
@@ -71,7 +71,7 @@ class MemoController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        print(self, #function)
+//        print(self, #function)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,7 +158,7 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        print("current text: \(String(describing: textView.text))")
+//        print("current text: \(String(describing: textView.text))")
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
 
         if let firstLine = textView.text.split(separator: "\n").first {
