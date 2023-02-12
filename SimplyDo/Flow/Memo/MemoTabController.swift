@@ -57,8 +57,6 @@ class MemoTabController: UIViewController {
     }
     
     private func hideNavigationBarLine() {
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.hideNavigationBarLine()
     }
     
@@ -75,7 +73,7 @@ class MemoTabController: UIViewController {
     private func setupBiggerWorkspacePickerMenu() {
         print("workSpacePicker Tapped!")
 
-        var menu = UIMenu(title: "")
+        let menu = UIMenu(title: "")
         
         var children = [UIMenuElement]()
         
