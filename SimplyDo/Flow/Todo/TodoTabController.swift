@@ -141,6 +141,8 @@ class TodoTabController: UIViewController {
         
         navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
+        
+        self.navigationController?.hideNavigationBarLine()
     }
     
     private func addSubViews() {
@@ -206,7 +208,7 @@ class TodoTabController: UIViewController {
         todoTableView.dataSource = self
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
     }
