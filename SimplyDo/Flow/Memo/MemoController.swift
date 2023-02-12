@@ -16,8 +16,11 @@ class MemoController: UIViewController {
     var memo: Memo?
     var timer: Timer?
     
-    lazy var testWorkspaces = ["LifeStyle", "Work", "Personal"]
+    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
+//    var selectedWorkspace: String = ""
+    
+    // MARK: - Life Cycle
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
         self.memo = memo
@@ -28,14 +31,16 @@ class MemoController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        print(self, #function)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        save()
+        stopTimer()
+        guard let contents = contentsTextView.text, contents != "" else { return }
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print(self, #function)
         setupLayout()
         setDelegates()
         addTargets()
@@ -49,17 +54,41 @@ class MemoController: UIViewController {
         }
     }
     
-    private func startSavingMemoTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            self.save()
-//            print("timer working")
-        }
+    private func setDelegates() {
+        contentsTextView.delegate = self
     }
     
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
+    private func setupLayout() {
+        view.backgroundColor = .white
+        [contentsTextView].forEach { self.view.addSubview($0) }
+        
+        contentsTextView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+        }
+        
+        setupNavigationBar()
     }
+    
+    private func setupNavigationBar() {
+        let menu = UIMenu(title: "")
+        var children = [UIMenuElement]()
+        testWorkspaces.forEach { workspaceName in
+            children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
+                self?.barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+            }))
+        }
+        
+        let rightBarButton = UIBarButtonItem(customView: barButtonItem)
+        let newMenu = menu.replacingChildren(children)
+        
+        barButtonItem.menu = newMenu
+        barButtonItem.showsMenuAsPrimaryAction = true
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    
     
     // TODO: separate title and contents using attributed string
     private func configureLayout() {
@@ -72,18 +101,21 @@ class MemoController: UIViewController {
         contentsTextView.attributedText = attrString
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        save()
-        stopTimer()
-        guard let contents = contentsTextView.text, contents != "" else { return }
-        self.navigationController?.navigationBar.isHidden = false
-    }
-
     private func hideTabBar() {
         UIView.animate(withDuration: 0.3) {
             self.tabBarController?.tabBar.isHidden = true
         }
+    }
+    
+    private func startSavingMemoTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
+            self.save()
+        }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
     
     private func addTargets() {
@@ -108,10 +140,21 @@ class MemoController: UIViewController {
     private func makeMemo(contents: String) -> Memo? {
         return coreDataManager.createMemo(contents: contents)
     }
-    
-    private func setDelegates() {
-        contentsTextView.delegate = self
+
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
+    
+    // MARK: - UI Properties
+    
+    private let barButtonItem: UIButton = {
+        let btn = UIButton()
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+        btn.layer.cornerRadius = 10
+        btn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        return btn
+    }()
     
     private let contentsTextView: UITextView = {
         let view = UITextView()
@@ -122,48 +165,6 @@ class MemoController: UIViewController {
         return view
     }()
     
-    private func setupLayout() {
-        view.backgroundColor = .white
-        [contentsTextView].forEach { self.view.addSubview($0) }
-        
-        contentsTextView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        }
-        
-        setupNavigationBar()
-    }
-    
-    private func setupNavigationBar() {
-        
-        let barButtonItem: UIButton = {
-            let btn = UIButton()
-            btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
-            btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
-            btn.layer.cornerRadius = 10
-            return btn
-        }()
-        
-        let menu = UIMenu(title: "")
-        var children = [UIMenuElement]()
-        testWorkspaces.forEach { workspaceName in
-            children.append(UIAction(title: workspaceName, handler: { handler in
-                barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-            }))
-        }
-        
-        let rightBarButton = UIBarButtonItem(customView: barButtonItem)
-        let newMenu = menu.replacingChildren(children)
-        
-        barButtonItem.menu = newMenu
-        barButtonItem.showsMenuAsPrimaryAction = true
-        self.navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
-    @objc func hideKeyboard() {
-        view.endEditing(true)
-    }
 }
 
 // MARK: - For Title
@@ -184,7 +185,6 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-//        print("current text: \(String(describing: textView.text))")
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
 
         if let firstLine = textView.text.split(separator: "\n").first {

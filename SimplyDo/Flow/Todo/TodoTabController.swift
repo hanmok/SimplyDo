@@ -23,7 +23,7 @@ class TodoTabController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    lazy var testWorkspaces = ["LifeStyle", "Work", "Personal"]
+    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
     var inputBoxHeight: CGFloat = 90.0
     
@@ -89,9 +89,10 @@ class TodoTabController: UIViewController {
         
         // make image too if has one
         testWorkspaces.forEach { workspaceName in
-            children.append(UIAction(title: workspaceName, handler: { handler in
+            children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
                 print(workspaceName)
-                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+//                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
         }
 
@@ -340,7 +341,8 @@ class TodoTabController: UIViewController {
     
     private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0, alpha: 0.9)]), for: .normal)
+//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0, alpha: 0.9)]), for: .normal)
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
 //        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
         btn.layer.cornerRadius = 10
