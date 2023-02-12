@@ -35,7 +35,23 @@ class MemoTabController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupTargets()
+        setupNavigationBar()
+        
+    }
+    
+    private func setupNavigationBar() {
         setupBiggerWorkspacePickerMenu()
+        setupRightBarButton()
+    }
+    
+    private func setupRightBarButton() {
+        let menu = UIMenu(title: "정렬 기준",children: [
+            UIAction(title:"생성 시점", handler: { _ in}),
+            UIAction(title:"수정 시점", handler: { _ in })
+        ])
+        let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "arrow.up.arrow.down"), menu: menu)
+        rightBarButton.tintColor = .mainOrange
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
     private func setupBiggerWorkspacePickerMenu() {
@@ -264,3 +280,11 @@ extension MemoTabController: MemoTableCellDelegate {
         self.navigateToMemo(memo: memos[indexPath.row])
     }
 }
+
+// MARK: - Memo
+/*
+ Sort 기능을 넣어야함.
+ 생성순, or 편집순.
+ 항상 마지막에 생성했던 것 기준으로.
+ 
+ */
