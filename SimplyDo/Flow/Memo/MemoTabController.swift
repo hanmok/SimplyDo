@@ -312,6 +312,8 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 90 // bottom spacing
     }
+    
+    
 }
 
 
