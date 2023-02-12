@@ -42,10 +42,7 @@ class MemoTableCell: UITableViewCell {
     
     func setupLayout() {
         contentView.layer.cornerRadius = 8
-//        contentView.backgroundColor = UIColor(white: 0.92, alpha: 1)
         contentView.backgroundColor = UIColor(white: 0.95, alpha: 1)
-//        contentView.backgroundColor = UIColor(r: 244, g: 240, b: 211)
-
         contentView.addShadow(offset: CGSize(width: 2.5, height: 2.5), color: UIColor(white: 0.6, alpha: 1))
         [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
         

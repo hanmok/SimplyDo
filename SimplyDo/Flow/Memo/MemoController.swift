@@ -98,7 +98,7 @@ class MemoController: UIViewController {
         if let memo = memo {
             updateMemo(contents: contents,memo: memo)
         } else {
-            makeMemo(contents: contents)
+            memo = makeMemo(contents: contents)
         }
     }
     
@@ -106,8 +106,9 @@ class MemoController: UIViewController {
         coreDataManager.updateMemo(contents: contents, memo: memo)
     }
     
-    private func makeMemo(contents: String) {
-        coreDataManager.createMemo(contents: contents)
+    @discardableResult
+    private func makeMemo(contents: String) -> Memo? {
+        return coreDataManager.createMemo(contents: contents)
     }
     
     private func setDelegates() {
