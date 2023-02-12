@@ -17,6 +17,7 @@
 		9AC2B8982996874E00173596 /* UIImageViewExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8972996874E00173596 /* UIImageViewExt+.swift */; };
 		9AC2B8A72997BC0500173596 /* DateExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8A62997BC0500173596 /* DateExt+.swift */; };
 		9AC2B8A929988D6400173596 /* CAGradientLayerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */; };
+		9AC2B8AB299893EA00173596 /* NavigationControllerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8AA299893EA00173596 /* NavigationControllerExt+.swift */; };
 		9ACF5128296C57F000F75020 /* UIViewControllerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */; };
 		9ACF512E296C697800F75020 /* UITextViewExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACF512D296C697800F75020 /* UITextViewExt+.swift */; };
 		9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4377B295FD55B00156D47 /* StrintExt+.swift */; };
@@ -47,6 +48,7 @@
 		9AC2B8972996874E00173596 /* UIImageViewExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageViewExt+.swift"; sourceTree = "<group>"; };
 		9AC2B8A62997BC0500173596 /* DateExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateExt+.swift"; sourceTree = "<group>"; };
 		9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayerExt+.swift"; sourceTree = "<group>"; };
+		9AC2B8AA299893EA00173596 /* NavigationControllerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationControllerExt+.swift"; sourceTree = "<group>"; };
 		9ACF5127296C57F000F75020 /* UIViewControllerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewControllerExt+.swift"; sourceTree = "<group>"; };
 		9ACF512D296C697800F75020 /* UITextViewExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextViewExt+.swift"; sourceTree = "<group>"; };
 		9AD4377B295FD55B00156D47 /* StrintExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StrintExt+.swift"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				9A5D88C8296F07B700040C5B /* CircularButton.swift */,
 				9AC2B8972996874E00173596 /* UIImageViewExt+.swift */,
 				9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */,
+				9AC2B8AA299893EA00173596 /* NavigationControllerExt+.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				9A27479F29646D33004F9731 /* UIButtonExt+.swift in Sources */,
 				9AC2B8A929988D6400173596 /* CAGradientLayerExt+.swift in Sources */,
 				9ACF512E296C697800F75020 /* UITextViewExt+.swift in Sources */,
+				9AC2B8AB299893EA00173596 /* NavigationControllerExt+.swift in Sources */,
 				9AC2B8A72997BC0500173596 /* DateExt+.swift in Sources */,
 				9AC2B8982996874E00173596 /* UIImageViewExt+.swift in Sources */,
 				9A27478129645D70004F9731 /* UIViewExt+.swift in Sources */,

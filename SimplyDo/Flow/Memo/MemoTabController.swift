@@ -57,8 +57,9 @@ class MemoTabController: UIViewController {
     }
     
     private func hideNavigationBarLine() {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.hideNavigationBarLine()
     }
     
     private func setupRightBarButton() {
