@@ -61,14 +61,17 @@ class MemoTableCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 22, weight: .medium)
+//        view.font = UIFont.systemFont(ofSize: 22, weight: .medium)
+//        view.font = UIFont.preferredFont(forTextStyle: , compatibleWith: <#T##UITraitCollection?#>)
+        view.font = UIFont.preferredFont(forTextStyle: .headline)
         view.numberOfLines = 1
         return view
     }()
     
     private let contentsLabel: UILabel = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 16, weight: .light)
+//        view.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.numberOfLines = 5
         return view
     }()
