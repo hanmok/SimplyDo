@@ -46,6 +46,7 @@ extension UIImage {
     }
     
     public static var archiveBox: UIImage {
-        return UIImage(systemName: "archivebox.fill")!
+//        return UIImage(systemName: "archivebox.fill")!
+        return UIImage(systemName: "archivebox")!
     }
 }

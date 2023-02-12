@@ -506,7 +506,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
         view.clipsToBounds = true
         view.backgroundColor = .indigo
         
-        if section == .todo && uncheckedTodos.count != 0{
+        if section == .todo && uncheckedTodos.count != 0 {
             view.text = "오늘 할 것"
             view.textColor = .white
             return view

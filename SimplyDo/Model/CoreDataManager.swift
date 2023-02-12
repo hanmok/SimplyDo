@@ -106,7 +106,7 @@ extension CoreDataManager {
     
     func updateMemo(contents: String, memo: Memo) {
         let test = getSeparateText(from: contents)
-        print("test: \(test)")
+        print("test: \(String(describing: test))")
         guard let validContents = getSeparateText(from: contents) else {
             // TODO: remove
             

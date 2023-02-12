@@ -157,7 +157,7 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        print("current text: \(textView.text)")
+        print("current text: \(String(describing: textView.text))")
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
 
         if let firstLine = textView.text.split(separator: "\n").first {

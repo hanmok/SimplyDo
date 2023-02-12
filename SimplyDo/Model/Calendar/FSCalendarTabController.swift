@@ -63,7 +63,7 @@ class FSCalendarTabController: UIViewController {
 
         calendarView.locale = Locale(identifier: "ko_KR")
 
-        calendarView.allowsMultipleSelection = true
+//        calendarView.allowsMultipleSelection = true
         calendarView.allowsSelection = true
         calendarView.swipeToChooseGesture.isEnabled = true
     }

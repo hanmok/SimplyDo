@@ -52,7 +52,7 @@ class MemoTableCell: UITableViewCell {
         }
         
         contentsLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(6)
+            make.top.equalTo(titleLabel.snp.bottom).offset(3)
             make.leading.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(8)
         }
@@ -62,13 +62,15 @@ class MemoTableCell: UITableViewCell {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 22, weight: .medium)
         view.numberOfLines = 1
+//        view.backgroundColor = .magenta
         return view
     }()
     
     private let contentsLabel: UILabel = {
         let view = UILabel()
+//        view.backgroundColor = .cyan
         view.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        view.numberOfLines = 0
+        view.numberOfLines = 5
         return view
     }()
     
