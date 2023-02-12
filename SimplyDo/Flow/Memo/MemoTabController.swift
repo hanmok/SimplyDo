@@ -78,10 +78,10 @@ class MemoTabController: UIViewController {
         var children = [UIMenuElement]()
         
         // make image too if has one
-        testWorkspaces.forEach { workspaceName in
+        testWorkspaces.forEach { [weak self] workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
                 print(workspaceName)
-                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
         }
 
@@ -163,9 +163,7 @@ class MemoTabController: UIViewController {
         memoTableView.delegate = self
         memoTableView.dataSource = self
         memoTableView.snp.makeConstraints { make in
-//            make.leading.trailing.equalToSuperview().inset(8)
             make.leading.trailing.equalToSuperview()
-//            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
@@ -173,7 +171,6 @@ class MemoTabController: UIViewController {
     
     private func setupTargets() {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
-//        tagButton.addTarget(self, action: #selector(tagTapped), for: .touchUpInside)
     }
     
 //    @objc func tagTapped() {
@@ -210,7 +207,6 @@ class MemoTabController: UIViewController {
         let btn = UIButton()
         btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
-//        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
         btn.layer.cornerRadius = 10
         return btn
     }()

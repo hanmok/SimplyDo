@@ -16,6 +16,8 @@ class MemoController: UIViewController {
     var memo: Memo?
     var timer: Timer?
     
+    lazy var testWorkspaces = ["LifeStyle", "Work", "Personal"]
+    
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
         self.memo = memo
@@ -41,6 +43,7 @@ class MemoController: UIViewController {
         configureLayout()
         
         startSavingMemoTimer()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.contentsTextView.becomeFirstResponder()
         }
@@ -67,11 +70,6 @@ class MemoController: UIViewController {
         attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         
         contentsTextView.attributedText = attrString
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-//        print(self, #function)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,6 +131,34 @@ class MemoController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        
+        let barButtonItem: UIButton = {
+            let btn = UIButton()
+            btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 16, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+            btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+            btn.layer.cornerRadius = 10
+            return btn
+        }()
+        
+        let menu = UIMenu(title: "")
+        var children = [UIMenuElement]()
+        testWorkspaces.forEach { workspaceName in
+            children.append(UIAction(title: workspaceName, handler: { handler in
+                barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+            }))
+        }
+        
+        let rightBarButton = UIBarButtonItem(customView: barButtonItem)
+        let newMenu = menu.replacingChildren(children)
+        
+        barButtonItem.menu = newMenu
+        barButtonItem.showsMenuAsPrimaryAction = true
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
     @objc func hideKeyboard() {
