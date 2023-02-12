@@ -28,7 +28,7 @@ class TodoTabController: UIViewController {
     var inputBoxHeight: CGFloat = 90.0
     
 //    var shouldSpread = true
-    var isSpreading = false
+//    var isSpreading = false
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -42,7 +42,7 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationController?.navigationBar.isHidden = true
+
         fetchData()
         setupNotifications()
         setupTargets()
@@ -98,10 +98,7 @@ class TodoTabController: UIViewController {
         
         let newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
-//        self.triangleButton.menu = newMenu
-//        self.workspaceButton.show
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-//        self.triangleButton.showsMenuAsPrimaryAction = true
     }
     
     private func setupSmallerWorkspacePickerMenu() {
@@ -141,13 +138,6 @@ class TodoTabController: UIViewController {
         
         let rightBarButton = UIBarButtonItem(customView: stackview)
         self.navigationItem.rightBarButtonItem = rightBarButton
-        
-//        let workspaceStackView = UIStackView.init(arrangedSubviews: [navTitleWorkspaceButton
-////                                                                     , triangleButton
-//                                                                    ])
-//        workspaceStackView.distribution = .fill
-//        workspaceStackView.axis = .horizontal
-//        workspaceStackView.spacing = 4
         
         navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
@@ -348,7 +338,7 @@ class TodoTabController: UIViewController {
     
     private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0, alpha: 0.9)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
 //        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
         btn.layer.cornerRadius = 10

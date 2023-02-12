@@ -19,6 +19,8 @@ class MemoTabController: UIViewController {
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
     
+    lazy var testWorkspaces = ["LifeStyle", "Work", "Personal"]
+    
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +35,27 @@ class MemoTabController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupTargets()
+        setupBiggerWorkspacePickerMenu()
+    }
+    
+    private func setupBiggerWorkspacePickerMenu() {
+        print("workSpacePicker Tapped!")
+
+        var menu = UIMenu(title: "")
+        
+        var children = [UIMenuElement]()
+        
+        // make image too if has one
+        testWorkspaces.forEach { workspaceName in
+            children.append(UIAction(title: workspaceName, handler: { handler in
+                print(workspaceName)
+                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+            }))
+        }
+
+        let newMenu = menu.replacingChildren(children)
+        self.navTitleWorkspaceButton.menu = newMenu
+        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,18 +98,21 @@ class MemoTabController: UIViewController {
 //        self.navigationItem.rightBarButtonItem = rightBarButton
         
         
-        self.view.addSubview(workspaceButton)
-        workspaceButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(22)
-            make.top.equalTo(view.snp.top).offset(50)
-        }
+//        self.view.addSubview(workspaceButton)
+//        workspaceButton.snp.makeConstraints { make in
+//            make.leading.equalToSuperview().inset(22)
+//            make.top.equalTo(view.snp.top).offset(50)
+//        }
+//
+//        self.view.addSubview(triangleButton)
+//        triangleButton.snp.makeConstraints { make in
+//            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
+//            make.width.height.equalTo(26)
+//            make.centerY.equalTo(workspaceButton.snp.centerY)
+//        }
         
-        self.view.addSubview(triangleButton)
-        triangleButton.snp.makeConstraints { make in
-            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
-            make.width.height.equalTo(26)
-            make.centerY.equalTo(workspaceButton.snp.centerY)
-        }
+        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
     
     private func setupTableViewLayout() {
@@ -134,22 +160,30 @@ class MemoTabController: UIViewController {
     
     // MARK: - UI Components
     
-    
-    private let workspaceButton: UIButton = {
+    private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+//        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
+        btn.layer.cornerRadius = 10
         return btn
     }()
     
-    private let triangleButton: UIButton = {
-        let btn = UIButton()
-        let triangleImageView = UIImageView.leftTriangleImageView
-        btn.addSubview(triangleImageView)
-        triangleImageView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalToSuperview()
-        }
-        return btn
-    }()
+//    private let workspaceButton: UIButton = {
+//        let btn = UIButton()
+//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+//        return btn
+//    }()
+//
+//    private let triangleButton: UIButton = {
+//        let btn = UIButton()
+//        let triangleImageView = UIImageView.leftTriangleImageView
+//        btn.addSubview(triangleImageView)
+//        triangleImageView.snp.makeConstraints { make in
+//            make.leading.top.trailing.bottom.equalToSuperview()
+//        }
+//        return btn
+//    }()
     
     private let memoTableView: UITableView = {
         let view = UITableView()
