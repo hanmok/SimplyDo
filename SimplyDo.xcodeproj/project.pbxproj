@@ -396,6 +396,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9AC2B8AD299A7E2800173596 /* PBXTargetDependency */,
 				9ADD01672951ACDB00532DA5 /* PBXTargetDependency */,
 			);
 			name = SimplyDoTests;
@@ -558,6 +559,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9AC2B8AD299A7E2800173596 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9AC2B8AC299A7E2800173596 /* FSCalendar */;
+		};
 		9ADD01672951ACDB00532DA5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9ADD014E2951ACD800532DA5 /* SimplyDo */;
@@ -926,6 +931,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AC2B8A3299774A700173596 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */;
 			productName = JTAppleCalendar;
+		};
+		9AC2B8AC299A7E2800173596 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AC2B89C29973BBD00173596 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 /* End XCSwiftPackageProductDependency section */
 

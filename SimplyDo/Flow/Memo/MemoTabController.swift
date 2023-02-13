@@ -19,6 +19,8 @@ class MemoTabController: UIViewController {
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
     
+    lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+                                                                               
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
     init(coreDataManager: CoreDataManager) {
@@ -286,11 +288,23 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
 //        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.systemFont(ofSize: 16)], context: nil)
         
         let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
-
+        
+        let estimatedFrame2 = NSString(string: "").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+        
+        let estimatedFrame22 = NSString(string: "asd").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+        
+        let estimatedFrame3 = NSString(string: "\n").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+        
+        let estimatedFrame4 = NSString(string: "\n\n").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+        
+        print("heights: \(estimatedFrame2.height),\(estimatedFrame22.height),  \(estimatedFrame3.height), \(estimatedFrame4.height)")
+        
+        
         // title top, titleHeight, contents spacing, bottom inset, contents inset
         let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
-
-        return estimatedFrame.height + paddings
+        let contentsHeight = min(estimatedFrame.height, maximumContentsHeight.height)
+//        return estimatedFrame.height + paddings
+        return contentsHeight + paddings
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
