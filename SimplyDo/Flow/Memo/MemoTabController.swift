@@ -49,7 +49,21 @@ class MemoTabController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupTargets()
+        setupRightBarButton()
         setupNavigationBar()
+    }
+    
+    private func setupRightBarButton() {
+        // 이건 아님.
+//        let rightButton = UIBarButtonItem(image: UIImage.plainCheckmark, style: .done, target: self, action: #selector(checkmarkTapped))
+//        self.navigationItem.rightBarButtonItem = rightButton
+
+        let rightButton = UIButton(image: UIImage.plainCheckmark, tintColor: UIColor(white: 0.5, alpha: 0.5), hasInset: false)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+    }
+    
+    @objc func checkmarkTapped() {
+        
     }
     
     private func setupNavigationBar() {

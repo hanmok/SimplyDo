@@ -55,6 +55,7 @@ extension CoreDataManager {
     }
     
     // TODO: add fetching conditions like specific date, or month, all done lists
+    // TODO: need to fetch if Date().day <= dueDate.day
     func fetchTodos(predicate: TodoPredicate = (TodoPredicate())) throws -> [Todo] {
         let fetchRequest = NSFetchRequest<Todo>(entityName: String.EntityName.todo)
         
@@ -76,14 +77,6 @@ extension CoreDataManager {
 }
 
 
-extension Todo {
-    public static func printNames(todos: [Todo], message: String) {
-        print(message)
-        todos.forEach {
-            print($0.title)
-        }
-    }
-}
 
 
 extension CoreDataManager {

@@ -191,22 +191,14 @@ class TodoTabController: UIViewController {
         todoTitleTextField.delegate = self
         todoTitleTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-//            make.trailing.equalToSuperview().inset(60)
             make.trailing.equalToSuperview().inset(70)
             make.top.equalTo(datePickerButton.snp.bottom).offset(6)
             make.bottom.equalToSuperview().inset(6)
         }
         
         makeButton.snp.makeConstraints { make in
-//            make.trailing.equalToSuperview().inset(4)
-//            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(4)
-            
             make.trailing.equalToSuperview().inset(6)
             make.leading.equalTo(todoTitleTextField.snp.trailing).offset(6)
-            
-            
-//            make.bottom.equalToSuperview().inset(3)
-//            make.height.equalTo(40)
             make.top.bottom.equalTo(todoTitleTextField)
         }
     }
@@ -228,9 +220,6 @@ class TodoTabController: UIViewController {
             let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
-            Todo.printNames(todos: checkedTodos, message: "checkedTodos: ")
-            Todo.printNames(todos: uncheckedTodos, message: "uncheckedTodos: ")
-
         } catch let error {
             print(error.localizedDescription)
         }

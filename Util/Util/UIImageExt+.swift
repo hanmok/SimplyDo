@@ -13,6 +13,10 @@ extension UIImage {
         return UIImage(systemName: "checkmark.circle.fill")!
     }
     
+    public static var plainCheckmark: UIImage {
+        return UIImage(systemName: "checkmark.square.fill")!
+    }
+    
     public static var unchecked: UIImage {
         return UIImage(systemName: "checkmark.circle")!
     }
