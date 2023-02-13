@@ -191,16 +191,23 @@ class TodoTabController: UIViewController {
         todoTitleTextField.delegate = self
         todoTitleTextField.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-            make.trailing.equalToSuperview().inset(60)
+//            make.trailing.equalToSuperview().inset(60)
+            make.trailing.equalToSuperview().inset(70)
             make.top.equalTo(datePickerButton.snp.bottom).offset(6)
             make.bottom.equalToSuperview().inset(6)
         }
         
         makeButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
-            make.leading.equalTo(todoTitleTextField.snp.trailing)
-            make.bottom.equalToSuperview().inset(3)
-            make.height.equalTo(40)
+//            make.trailing.equalToSuperview().inset(4)
+//            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(4)
+            
+            make.trailing.equalToSuperview().inset(6)
+            make.leading.equalTo(todoTitleTextField.snp.trailing).offset(6)
+            
+            
+//            make.bottom.equalToSuperview().inset(3)
+//            make.height.equalTo(40)
+            make.top.bottom.equalTo(todoTitleTextField)
         }
     }
     
@@ -385,6 +392,9 @@ class TodoTabController: UIViewController {
     private var makeButton: UIButton = {
         let view = UIButton(image: UIImage.paperPlane, tintColor: UIColor.mainOrange, hasInset: true)
         view.contentMode = .scaleAspectFit
+        view.backgroundColor = UIColor(hex6: UIColor.indigoHex, alpha: 0.9)
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
         return view
     }()
     
