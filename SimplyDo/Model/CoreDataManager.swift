@@ -143,7 +143,9 @@ extension CoreDataManager {
         
         let fetchRequest = NSFetchRequest<Memo>(entityName: String.EntityName.memo)
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: .MemoAttributes.createdAt, ascending: false)]
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: .MemoAttributes.createdAt, ascending: false)]
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: .MemoAttributes.updatedAt, ascending: false)]
         
         do {
             let memos = try mainContext.fetch(fetchRequest)

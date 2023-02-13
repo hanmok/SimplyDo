@@ -36,7 +36,9 @@ class MemoController: UIViewController {
         super.viewWillDisappear(animated)
         save()
         stopTimer()
+        
 //        guard let contents = contentsTextView.text, contents != "" else { return }
+        
         if let contents = contentsTextView.text, contents == "", let memo = memo {
             coreDataManager.deleteMemo(memo: memo)
         }
