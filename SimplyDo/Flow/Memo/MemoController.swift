@@ -16,6 +16,9 @@ class MemoController: UIViewController {
     var memo: Memo?
     var timer: Timer?
     
+    let titleFont: UIFont = UIFont.preferredFont(forTextStyle: .title1)
+    let contentsFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
+    
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
 //    var selectedWorkspace: String = ""
@@ -94,9 +97,11 @@ class MemoController: UIViewController {
     private func configureLayout() {
         guard let memo = memo else { return }
         
-        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
+//        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
+        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: titleFont])
 
-        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
+//        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
+        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: contentsFont]))
         
         contentsTextView.attributedText = attrString
     }
@@ -156,11 +161,12 @@ class MemoController: UIViewController {
         return btn
     }()
     
-    private let contentsTextView: UITextView = {
+    private lazy var contentsTextView: UITextView = {
         let view = UITextView()
         view.autocorrectionType = .no
         view.keyboardDismissMode = .onDrag
-        view.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+//        view.font = UIFont.preferredFont(forTextStyle: .footnote)
+        view.font = contentsFont
         view.addDoneButtonOnKeyboard()
         return view
     }()
@@ -185,11 +191,12 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+//        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: contentsFont])
 
         if let firstLine = textView.text.split(separator: "\n").first {
             guard let range = textView.text.range(of: firstLine) else { return }
-            attributedString.addAttributes([.font: UIFont.systemFont(ofSize: 32, weight: .semibold)], range: textView.text.nsRange(from: range))
+            attributedString.addAttributes([.font: titleFont], range: textView.text.nsRange(from: range))
             textView.attributedText = attributedString
         }
     }
