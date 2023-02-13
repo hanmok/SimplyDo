@@ -21,8 +21,6 @@ class MemoController: UIViewController {
     
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
-//    var selectedWorkspace: String = ""
-    
     // MARK: - Life Cycle
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
@@ -38,7 +36,10 @@ class MemoController: UIViewController {
         super.viewWillDisappear(animated)
         save()
         stopTimer()
-        guard let contents = contentsTextView.text, contents != "" else { return }
+//        guard let contents = contentsTextView.text, contents != "" else { return }
+        if let contents = contentsTextView.text, contents == "", let memo = memo {
+            coreDataManager.deleteMemo(memo: memo)
+        }
         self.navigationController?.navigationBar.isHidden = false
     }
     
