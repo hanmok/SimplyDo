@@ -14,6 +14,7 @@ import DesignKit
 import Toast
 
 class MemoTabController: UIViewController {
+    
     let topSpacingHeight: CGFloat = 10
     let designKit = DesignKitImp()
     var memos: [Memo] = []
@@ -49,12 +50,10 @@ class MemoTabController: UIViewController {
         setupLayout()
         setupTargets()
         setupNavigationBar()
-        
     }
     
     private func setupNavigationBar() {
         setupBiggerWorkspacePickerMenu()
-        setupRightBarButton()
         hideNavigationBarLine()
     }
     
@@ -62,15 +61,6 @@ class MemoTabController: UIViewController {
         self.navigationController?.hideNavigationBarLine()
     }
     
-    private func setupRightBarButton() {
-        let menu = UIMenu(title: "정렬 기준",children: [
-            UIAction(title:"생성일", handler: { _ in}),
-            UIAction(title:"수정일", handler: { _ in })
-        ])
-        let rightBarButton = UIBarButtonItem(title: "", image: UIImage(systemName: "arrow.up.arrow.down"), menu: menu)
-        rightBarButton.tintColor = .mainOrange
-        self.navigationItem.rightBarButtonItem = rightBarButton
-    }
     
     private func setupBiggerWorkspacePickerMenu() {
         print("workSpacePicker Tapped!")
