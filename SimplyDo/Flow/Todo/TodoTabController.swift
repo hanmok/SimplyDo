@@ -207,7 +207,8 @@ class TodoTabController: UIViewController {
         todoTableView.delegate = self
         todoTableView.dataSource = self
         todoTableView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
+//            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
         }
@@ -372,6 +373,7 @@ class TodoTabController: UIViewController {
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+
         return view
     }()
     
@@ -437,8 +439,8 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 let isLastCell = indexPath.row == uncheckedTodos.count - 1
-                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
-                
+//                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 return cell
                 
             case .done:
@@ -448,7 +450,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 let isLastCell = indexPath.row == checkedTodos.count - 1
-                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 
                 return cell
         }
@@ -502,6 +504,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = makeTodoSection(using: section)
+        let emptyView = UIView()
         
         let view = PaddedLabel()
         view.layer.cornerRadius = 10
@@ -509,14 +512,20 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
         view.clipsToBounds = true
         view.backgroundColor = .indigo
         
+        emptyView.addSubview(view)
+        view.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview()
+        }
+        
         if section == .todo && uncheckedTodos.count != 0 {
             view.text = "오늘 할 것"
             view.textColor = .white
-            return view
+            return emptyView
         } else if section == .done && checkedTodos.count != 0 {
             view.text = "완료!"
             view.textColor = .white
-            return view
+            return emptyView
         }
         return nil
     }

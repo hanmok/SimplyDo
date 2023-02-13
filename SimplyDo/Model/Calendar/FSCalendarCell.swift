@@ -41,14 +41,12 @@ class CustomFSCalendarCell: FSCalendarCell {
     
     override var isSelected: Bool {
         didSet {
-            print("changeColor called")
             changeColor()
         }
     }
     
     override var isPlaceholder: Bool {
         didSet {
-            print("setPlaceHolderColor called")
             setPlaceHolderColor()
         }
     }
@@ -70,7 +68,7 @@ class CustomFSCalendarCell: FSCalendarCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("FSCalendarCell init called")
+        
 //        let circleImageView = UIImageView(image: UIImage(named: "circle")!)
 //        let circleImageView = UIImageView(image: UIImage(systemName: "circle")!)
         

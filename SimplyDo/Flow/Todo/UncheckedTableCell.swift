@@ -39,10 +39,18 @@ class UncheckedTableCell: UITableViewCell {
 //        contentView.snp.makeConstraints { make in
 //            make.leading.trailing.equalToSuperview().inset(40)
 //        }
-        contentView.clipsToBounds = true
-        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
-        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
+        
+//        contentView.snp.makeConstraints { make in
+//            make.leading.top.bottom.equalToSuperview()
+//            make.trailing.equalToSuperview().inset(30)
+//        }
+        
+//        contentView.clipsToBounds = true
+//        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
+//        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
     }
+    
+
 
     @objc func checkmarkTapped() {
         lottieView.isHidden = false
@@ -74,6 +82,15 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        let inset2 = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        contentView.frame = contentView.frame.inset(by: inset2)
+        
+        contentView.clipsToBounds = true
+        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
+//        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
+        contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
         let inset = 7
         let width = 26
         let mainInset = 16
