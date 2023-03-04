@@ -61,7 +61,6 @@ class MemoTableCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let view = UILabel()
-//        view.font = UIFont.preferredFont(forTextStyle: .headline)
         view.font = CustomFont.memoCellTitle
         view.numberOfLines = 1
         return view
@@ -69,7 +68,6 @@ class MemoTableCell: UITableViewCell {
     
     private let contentsLabel: UILabel = {
         let view = UILabel()
-//        view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.font = CustomFont.memoCellContents
         view.numberOfLines = 5
         return view

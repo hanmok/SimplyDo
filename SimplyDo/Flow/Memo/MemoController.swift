@@ -17,9 +17,9 @@ class MemoController: UIViewController {
     var timer: Timer?
     var originalTitle: String?
     var originalContents: String?
-    let titleFont: UIFont = UIFont.preferredFont(forTextStyle: .title1)
-    let contentsFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
     
+    let titleFont = CustomFont.memoTitle
+    let contentsFont = CustomFont.memoContents
     var keyboardHeight: CGFloat?
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
@@ -92,7 +92,7 @@ class MemoController: UIViewController {
         var children = [UIMenuElement]()
         testWorkspaces.forEach { workspaceName in
             children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
-                self?.barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+                self?.barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
             }))
         }
         
@@ -167,7 +167,7 @@ class MemoController: UIViewController {
     
     private let barButtonItem: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
         btn.layer.cornerRadius = 10
         btn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
@@ -178,7 +178,6 @@ class MemoController: UIViewController {
         let view = UITextView()
         view.autocorrectionType = .no
         view.keyboardDismissMode = .onDrag
-//        view.font = UIFont.preferredFont(forTextStyle: .footnote)
         view.font = contentsFont
         view.addDoneButtonOnKeyboard()
         return view

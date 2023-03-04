@@ -31,7 +31,7 @@ class CheckedTableCell: UITableViewCell {
             let attr = NSAttributedString(string: item.title,
                                           attributes: [
                                             .strikethroughStyle: 1,
-                                            .font: UIFont.systemFont(ofSize: 20, weight: .regular),
+                                            .font: CustomFont.todoCellTitle,
                                             .foregroundColor: UIColor(white: 0.6, alpha: 1)
                                           ])
             self.titleLabel.attributedText = attr
@@ -62,7 +62,7 @@ class CheckedTableCell: UITableViewCell {
     }
     
     private let titleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        $0.font = CustomFont.todoCellTitle
         $0.textColor = .black
     }
     

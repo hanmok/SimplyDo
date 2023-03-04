@@ -77,7 +77,7 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     private let titleLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        $0.font = CustomFont.todoCellTitle
         $0.textColor = .black
     }
     
@@ -89,7 +89,6 @@ class UncheckedTableCell: UITableViewCell {
         
         contentView.clipsToBounds = true
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
-//        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
         contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
         let inset = 7
         let width = 26
