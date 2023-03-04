@@ -398,13 +398,9 @@ class TodoTabController: UIViewController {
     }()
     
     private lazy var todoInputBoxView: UIView = {
-        // add top cornerRadius
-//        return self.designKit.View(color: UIColor(white: 0.9, alpha: 1))
         let view = self.designKit.View(color: UIColor(white: 0.7, alpha: 1))
         view.applyCornerRadius(on: .top, radius: 5)
         return view
-        
-//        return self.designKit.View(color: UIColor(white: 0.7, alpha: 1))
     }()
     
     private lazy var todoTitleTextField: UITextField = {
@@ -413,7 +409,6 @@ class TodoTabController: UIViewController {
         let attr = NSMutableAttributedString(string: "What are you going to do?", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
-//        view.backgroundColor = UIColor(white: 0.7, alpha: 1)
         view.inputAccessoryView = nil
         return view
     }()
