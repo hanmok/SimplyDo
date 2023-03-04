@@ -8,12 +8,61 @@
 import UIKit
 import SnapKit
 import CoreData
+import IQKeyboardManagerSwift
 
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        print("\(type(of: self)) \(#function)")
+//        switch selectedIndex {
+//            case 1:
+//                IQKeyboardManager.shared.enable = false
+//            default:
+//                IQKeyboardManager.shared.enable = true
+//        }
+//        print("viewWillAppear called, selectedIndex: \(selectedIndex)")
+//        if selectedIndex == 1 {
+//            IQKeyboardManager.shared.enable = false
+//        } else
+    }
+    
+    override var selectedIndex: Int {
+        didSet {
+            switch selectedIndex {
+                case 1:
+//                    IQKeyboardManager.shared.enable = false
+//                    IQKeyboardManager.shared.input
+                    print("keyboardManager enabled false")
+                default:
+//                    IQKeyboardManager.shared.enable = true
+                    print("keyboardManager enabled true")
+            }
+        }
+    }
+//    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+////        if item == self.tabBar.selectedItem as! [UITabBarItem][0] {
+//
+////        }
+//        if item == self.tabBar.selectedItem! as UITabBarItem {
+//
+//        }
+//    }
+    
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        
+        if item == (self.tabBar.items!)[1]{
+           //Do something if index is 1
+            print("index: 1, disable IQKeyboardManager")
+            IQKeyboardManager.shared.enable = false
+            IQKeyboardManager.shared.enableAutoToolbar = false
+        }
+        else {
+           //Do something if index is not 1
+            IQKeyboardManager.shared.enable = true
+            print("index: enable IQKeyboardManager")
+        }
     }
     
     var coreDataManager = CoreDataManager()
@@ -51,6 +100,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
 //            rootViewController: TagTabController())
         
 //        viewControllers = [todo, memo, tag]
+        
         viewControllers = [calendar, todo, memo]
     }
     
@@ -67,6 +117,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     func something() {
 //        self.tabBar.isHidden = true
     }
+    
     
     private func setupLayouts() {
 //        view.backgroundColor = .magenta

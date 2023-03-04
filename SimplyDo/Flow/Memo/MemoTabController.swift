@@ -86,8 +86,7 @@ class MemoTabController: UIViewController {
         // make image too if has one
         testWorkspaces.forEach { [weak self] workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
-//                print(workspaceName)
-                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.navigationWorkspace), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
         }
 

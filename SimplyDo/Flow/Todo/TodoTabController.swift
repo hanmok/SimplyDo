@@ -406,6 +406,7 @@ class TodoTabController: UIViewController {
         let attr = NSMutableAttributedString(string: "What are you going to do?", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
+        view.inputAccessoryView = nil
         return view
     }()
 }
