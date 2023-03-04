@@ -21,6 +21,7 @@
 		9A5D88C5296DBE0F00040C5B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */; };
 		9A5D88C7296DC20900040C5B /* Debugging in Resources */ = {isa = PBXBuildFile; fileRef = 9A5D88C6296DC20900040C5B /* Debugging */; };
 		9A80E75C29739838002536AE /* burriedCodes in Resources */ = {isa = PBXBuildFile; fileRef = 9A80E75B29739838002536AE /* burriedCodes */; };
+		9AB1218F29B37A3E00BDEE70 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9AB1218E29B37A3E00BDEE70 /* IQKeyboardManagerSwift */; };
 		9AC2B89629967E8900173596 /* FSCalendarTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B89529967E8900173596 /* FSCalendarTabController.swift */; };
 		9AC2B89A2996922500173596 /* Workspace+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8992996922500173596 /* Workspace+Helper.swift */; };
 		9AC2B89E29973BBD00173596 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AC2B89D29973BBD00173596 /* FSCalendar */; };
@@ -151,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A27478729646A4C004F9731 /* Lottie in Frameworks */,
+				9AB1218F29B37A3E00BDEE70 /* IQKeyboardManagerSwift in Frameworks */,
 				9AC2B89E29973BBD00173596 /* FSCalendar in Frameworks */,
 				9A274783296460A8004F9731 /* Util.framework in Frameworks */,
 				9A2747682961B55B004F9731 /* DesignKit.framework in Frameworks */,
@@ -383,6 +385,7 @@
 				9A27478629646A4C004F9731 /* Lottie */,
 				9AC2B89D29973BBD00173596 /* FSCalendar */,
 				9AC2B8A4299774A700173596 /* JTAppleCalendar */,
+				9AB1218E29B37A3E00BDEE70 /* IQKeyboardManagerSwift */,
 			);
 			productName = SimplyDo;
 			productReference = 9ADD014F2951ACD800532DA5 /* SimplyDo.app */;
@@ -462,6 +465,7 @@
 				9A27478529646A4C004F9731 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				9AC2B89C29973BBD00173596 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				9AC2B8A3299774A700173596 /* XCRemoteSwiftPackageReference "JTAppleCalendar" */,
+				9AB1218D29B37A3E00BDEE70 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 9ADD01502951ACD800532DA5 /* Products */;
 			projectDirPath = "";
@@ -897,6 +901,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		9AB1218D29B37A3E00BDEE70 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		9AC2B89C29973BBD00173596 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
@@ -925,6 +937,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9A27478529646A4C004F9731 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		9AB1218E29B37A3E00BDEE70 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AB1218D29B37A3E00BDEE70 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 		9AC2B89D29973BBD00173596 /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
