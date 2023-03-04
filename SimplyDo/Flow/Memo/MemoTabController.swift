@@ -268,7 +268,7 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
 
         // 16: Contents label font
 
-        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
+        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellContents], context: nil)
         
         // title top, titleHeight, contents spacing, bottom inset, contents inset
         let paddings: CGFloat = 8 + 24 + 6 + 8 + 16

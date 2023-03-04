@@ -14,6 +14,7 @@
 		9A5D88C9296F07B700040C5B /* CircularButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5D88C8296F07B700040C5B /* CircularButton.swift */; };
 		9A6131042965AD8B00E3E6E4 /* UIColorExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */; };
 		9A6131062965B45800E3E6E4 /* LottieExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6131052965B45800E3E6E4 /* LottieExt+.swift */; };
+		9AB1219129B37C3500BDEE70 /* CustomFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB1219029B37C3500BDEE70 /* CustomFont.swift */; };
 		9AC2B8982996874E00173596 /* UIImageViewExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8972996874E00173596 /* UIImageViewExt+.swift */; };
 		9AC2B8A72997BC0500173596 /* DateExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8A62997BC0500173596 /* DateExt+.swift */; };
 		9AC2B8A929988D6400173596 /* CAGradientLayerExt+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */; };
@@ -45,6 +46,7 @@
 		9A5D88C8296F07B700040C5B /* CircularButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButton.swift; sourceTree = "<group>"; };
 		9A6131032965AD8B00E3E6E4 /* UIColorExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColorExt+.swift"; sourceTree = "<group>"; };
 		9A6131052965B45800E3E6E4 /* LottieExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LottieExt+.swift"; sourceTree = "<group>"; };
+		9AB1219029B37C3500BDEE70 /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
 		9AC2B8972996874E00173596 /* UIImageViewExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageViewExt+.swift"; sourceTree = "<group>"; };
 		9AC2B8A62997BC0500173596 /* DateExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateExt+.swift"; sourceTree = "<group>"; };
 		9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayerExt+.swift"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				9AC2B8972996874E00173596 /* UIImageViewExt+.swift */,
 				9AC2B8A829988D6400173596 /* CAGradientLayerExt+.swift */,
 				9AC2B8AA299893EA00173596 /* NavigationControllerExt+.swift */,
+				9AB1219029B37C3500BDEE70 /* CustomFont.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				9A6131042965AD8B00E3E6E4 /* UIColorExt+.swift in Sources */,
 				9A27477F296459BF004F9731 /* PaddedLabel.swift in Sources */,
 				9A5D88C9296F07B700040C5B /* CircularButton.swift in Sources */,
+				9AB1219129B37C3500BDEE70 /* CustomFont.swift in Sources */,
 				9ACF5128296C57F000F75020 /* UIViewControllerExt+.swift in Sources */,
 				9AD4377C295FD55B00156D47 /* StrintExt+.swift in Sources */,
 			);

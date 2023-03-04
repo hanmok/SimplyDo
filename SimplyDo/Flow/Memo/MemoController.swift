@@ -65,18 +65,10 @@ class MemoController: UIViewController {
         
         startSavingMemoTimer()
         
-//        setupNotifications()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.contentsTextView.becomeFirstResponder()
         }
     }
-    
-//    private func setupNotifications() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
     
     private func setDelegates() {
         contentsTextView.delegate = self
@@ -191,7 +183,6 @@ class MemoController: UIViewController {
         view.addDoneButtonOnKeyboard()
         return view
     }()
-    
 }
 
 // MARK: - For Title
@@ -219,57 +210,5 @@ extension MemoController: UITextViewDelegate {
             attributedString.addAttributes([.font: titleFont], range: textView.text.nsRange(from: range))
             textView.attributedText = attributedString
         }
-//        scrollToCursorPositionIfBelowKeyboard()
     }
 }
-
-extension MemoController {
-//    @objc func keyboardWillShow(_ notification: Notification) {
-//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            keyboardHeight = keyboardRectangle.height + 50
-//        }
-//    }
-    
-//    @objc func keyboardWillHide(_ notification: Notification) {
-//        if self.view.frame.origin.y != 0 {
-//            self.view.frame.origin.y = 0
-//        }
-//    }
-}
-
-//extension MemoController {
-//    private func scrollToCursorPositionIfBelowKeyboard() {
-////        let caret = contentsTextView.caretRectForPosition(contentsTextView.selectedTextRange!.start)
-////        let keyboardTopBorder = contentsTextView.bounds.size.height - keyboardHeight!
-//        print("scrollToCursorPosition called, keyboardHeight: \(keyboardHeight)")
-//        guard let keyboardHeight = keyboardHeight else { return }
-////        let caret = contentsTextView.caretRect(for: contentsTextView.selectedTextRange!.start)
-//        var caret = contentsTextView.caretRect(for: contentsTextView.selectedTextRange!.start)
-////        let visibleRect = CGRect(x: 10, y: caret.maxY + keyboardHeight, width: 10, height: keyboardHeight)
-////        let visibleRect = CGRect(x: 10, y: 1000, width: 10, height: 500)
-//
-//        let keyboardTopBorder = contentsTextView.bounds.size.height - keyboardHeight
-//
-////        let caret = contentsTextView.caretRect(for: <#T##UITextPosition#>)
-//
-//       // Remember, the y-scale starts in the upper-left hand corner at "0", then gets
-//       // larger as you go down the screen from top-to-bottom. Therefore, the caret.origin.y
-//       // being larger than keyboardTopBorder indicates that the caret sits below the
-//       // keyboardTopBorder, and the textView needs to scroll to the position.
-//
-////        print("origin.y: \(caret.origin.y), keyboardTopBorder: \(keyboardTopBorder), caret: \(caret), visibleRect.maxY: \(visibleRect.maxY), height: \(visibleRect.height)")
-//        var offset = keyboardHeight - 300
-//
-//       if caret.origin.y > keyboardTopBorder {
-//           print("scroll called")
-//           if self.view.frame.origin.y == 0 {
-//               UIView.animate(withDuration: 0.2) {
-////                   self.view.frame.origin.y -= keyboardHeight
-//                   self.view.frame.origin.y -= offset
-//               }
-//           }
-//        }
-//     }
-//}
-
