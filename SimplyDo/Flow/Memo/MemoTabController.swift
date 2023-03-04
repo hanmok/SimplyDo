@@ -20,10 +20,11 @@ class MemoTabController: UIViewController {
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
     
+    var userDefault = UserDefaultSetup()
+    
     lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
-                                                                               
-//    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
-    lazy var workspaces = ["All"]
+
+    lazy var workspaces = [String]()
     
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
@@ -55,7 +56,8 @@ class MemoTabController: UIViewController {
         setupNavigationBar()
     }
     
-    private func fetchWorkspaces() {
+    private func initializeWorkspace() {
+        workspaces = ["All"]
         let fetchedWorkspaces = coreDataManager.fetchWorkspace()
 
         fetchedWorkspaces.forEach {
@@ -79,7 +81,7 @@ class MemoTabController: UIViewController {
     }
     
     private func setupWorkspaceNavigationBar() {
-        fetchWorkspaces()
+        initializeWorkspace()
         setupBiggerWorkspacePickerMenu()
     }
     
@@ -87,6 +89,10 @@ class MemoTabController: UIViewController {
         self.navigationController?.hideNavigationBarLine()
     }
     
+    // TODO: UserDefault 에 마지막으로 선택한 workspace 기억시킨 후 불러들이기.
+    private func setUsedWorkspace() {
+        
+    }
     
     private func setupBiggerWorkspacePickerMenu() {
 
@@ -98,12 +104,11 @@ class MemoTabController: UIViewController {
         workspaces.forEach { [weak self] workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
                 self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+                self?.userDefault.lastUsedWorkspace = workspaceName
             }))
         }
         
         children.append(UIAction(title: "Add", handler: { handler in
-            // present TextField
-//            UIAlertAction(title: "some alert action", style: .default)
             self.addWorkspaceAction()
             print("Add tapped")
         }))
@@ -111,6 +116,10 @@ class MemoTabController: UIViewController {
         let newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+        
+        // set lastUsedWorkspace to navigationWorkspace Title
+        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
     
     private func addWorkspaceAction() {
@@ -221,10 +230,6 @@ class MemoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
     }
     
-//    @objc func tagTapped() {
-//        print("tag Tapped")
-//    }
-    
     @objc func addTapped() {
         navigateToMemo(memo: nil)
     }
@@ -253,11 +258,14 @@ class MemoTabController: UIViewController {
     
     private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
-            btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
         btn.layer.cornerRadius = 10
         return btn
     }()
+    
+    private func setAttributedNavigationTitle(_ title: String) {
+        navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+    }
     
     private let memoTableView: UITableView = {
         let view = UITableView()

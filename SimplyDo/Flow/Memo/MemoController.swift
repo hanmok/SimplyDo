@@ -21,7 +21,9 @@ class MemoController: UIViewController {
     let titleFont = CustomFont.memoTitle
     let contentsFont = CustomFont.memoContents
     var keyboardHeight: CGFloat?
-    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
+    lazy var workspaces = [String]()
+//    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
+    
     
     // MARK: - Life Cycle
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
@@ -88,9 +90,17 @@ class MemoController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        self.workspaces = []
+        let fetchedWorkspaces = coreDataManager.fetchWorkspace()
+        
+        fetchedWorkspaces.forEach {
+            self.workspaces.append($0.title)
+        }
+        
         let menu = UIMenu(title: "")
         var children = [UIMenuElement]()
-        testWorkspaces.forEach { workspaceName in
+        
+        workspaces.forEach { workspaceName in
             children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
                 self?.barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
             }))

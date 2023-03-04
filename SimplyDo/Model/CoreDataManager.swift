@@ -161,6 +161,9 @@ extension CoreDataManager {
         newWorkspace.title = title
         newWorkspace.createdAt = Date()
         
+        // 기본적으로 가지고 있는 Default Workspace 도 필요하다..
+        // 삭제 불가능하도록.
+        
         do {
             try mainContext.save()
             return newWorkspace
