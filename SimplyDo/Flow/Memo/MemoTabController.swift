@@ -22,7 +22,8 @@ class MemoTabController: UIViewController {
     
     lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
                                                                                
-    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
+//    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
+    lazy var workspaces = ["All"]
     
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
@@ -50,14 +51,20 @@ class MemoTabController: UIViewController {
         setupLayout()
         setupTargets()
         setupRightBarButton()
+        
         setupNavigationBar()
     }
     
-    private func setupRightBarButton() {
-        // 이건 아님.
-//        let rightButton = UIBarButtonItem(image: UIImage.plainCheckmark, style: .done, target: self, action: #selector(checkmarkTapped))
-//        self.navigationItem.rightBarButtonItem = rightButton
+    private func fetchWorkspaces() {
+        let fetchedWorkspaces = coreDataManager.fetchWorkspace()
 
+        fetchedWorkspaces.forEach {
+            self.workspaces.append($0.title)
+        }
+    }
+    
+    
+    private func setupRightBarButton() {
         let rightButton = UIButton(image: UIImage.plainCheckmark, tintColor: UIColor(white: 0.5, alpha: 0.5), hasInset: false)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
     }
@@ -67,8 +74,13 @@ class MemoTabController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        setupBiggerWorkspacePickerMenu()
+        setupWorkspaceNavigationBar()
         hideNavigationBarLine()
+    }
+    
+    private func setupWorkspaceNavigationBar() {
+        fetchWorkspaces()
+        setupBiggerWorkspacePickerMenu()
     }
     
     private func hideNavigationBarLine() {
@@ -77,22 +89,53 @@ class MemoTabController: UIViewController {
     
     
     private func setupBiggerWorkspacePickerMenu() {
-//        print("workSpacePicker Tapped!")
 
         let menu = UIMenu(title: "")
         
         var children = [UIMenuElement]()
         
         // make image too if has one
-        testWorkspaces.forEach { [weak self] workspaceName in
+        workspaces.forEach { [weak self] workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
                 self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
         }
+        
+        children.append(UIAction(title: "Add", handler: { handler in
+            // present TextField
+//            UIAlertAction(title: "some alert action", style: .default)
+            self.addWorkspaceAction()
+            print("Add tapped")
+        }))
 
         let newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+    }
+    
+    private func addWorkspaceAction() {
+        
+        let alertController = UIAlertController(title: "Add Workspace", message: "", preferredStyle: .alert)
+
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter Second Name"
+        }
+
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak self] alert -> Void in
+            let firstTextField = alertController.textFields![0] as UITextField
+            guard firstTextField.text! != "" else { return }
+            self?.coreDataManager.createWorkspace(title: firstTextField.text!)
+            self?.view.makeToast("Workspace named '\(firstTextField.text!)' has been created")
+            self?.setupWorkspaceNavigationBar()
+        })
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(saveAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

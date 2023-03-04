@@ -101,7 +101,6 @@ extension CoreDataManager {
         memo.updatedAt = Date()
         do {
             try mainContext.save()
-            return
         } catch let error {
             fatalError(error.localizedDescription)
         }
@@ -109,7 +108,6 @@ extension CoreDataManager {
     
     func updateMemo(contents: String, memo: Memo) {
         let test = getSeparateText(from: contents)
-//        print("test: \(String(describing: test))")
         guard let validContents = getSeparateText(from: contents) else {
             // TODO: remove
             self.deleteMemo(memo: memo)
@@ -121,8 +119,6 @@ extension CoreDataManager {
             
         do {
             try mainContext.save()
-//            print("memo updated to title:\(memo.title), contents:\(memo.contents)")
-            return
         } catch let error {
             fatalError(error.localizedDescription)
         }
@@ -155,15 +151,37 @@ extension CoreDataManager {
             fatalError(error.localizedDescription)
         }
     }
-    
-     
-        public func isTwoMemosTheSame(_ memo1: Memo?, _ memo2: Memo?) -> Bool {
-            guard let memo1 = memo1, let memo2 = memo2 else { return false }
-            let ret = memo1.title == memo2.title && memo1.contents == memo2.contents
-//            print(ret ? "Two memos are the same" : "two memos are different")
-            // 두 메모가 다른데 같다고 하넹..??
-    //        return memo1.title == memo2.title && memo1.contents == memo2.contents
-            return ret
+}
+
+// MARK: - Workspace
+extension CoreDataManager {
+    @discardableResult
+    func createWorkspace(title: String) -> Workspace {
+        let newWorkspace = Workspace(context: mainContext)
+        newWorkspace.title = title
+        newWorkspace.createdAt = Date()
+        
+        do {
+            try mainContext.save()
+            return newWorkspace
+        } catch let error {
+            fatalError(error.localizedDescription)
         }
+    }
     
+    func deleteWorkspace(title: String) {
+        
+    }
+    
+    func fetchWorkspace() -> [Workspace] {
+        let fetchRequest = NSFetchRequest<Workspace>(entityName: String.EntityName.workspace)
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: String.WorkspaceAttributes.createdAt, ascending: true)]
+        do {
+            let workspaces = try mainContext.fetch(fetchRequest)
+            return workspaces
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
 }

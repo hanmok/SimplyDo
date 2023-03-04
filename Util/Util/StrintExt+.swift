@@ -11,6 +11,7 @@ extension String {
     public struct EntityName {
         public static let todo = "Todo"
         public static let memo = "Memo"
+        public static let workspace = "Workspace"
     }
     public struct TodoAttributes {
         public static let createdAt = "createdAt_"
@@ -32,7 +33,8 @@ extension String {
 //        public static let tags = "tags"
     }
     
-    public struct TagAttributes {
+//    public struct TagAttributes {
+    public struct WorkspaceAttributes {
         public static let createdAt = "createdAt_"
         public static let id = "id_"
         public static let title = "title_"
