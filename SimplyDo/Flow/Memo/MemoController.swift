@@ -14,8 +14,10 @@ class MemoController: UIViewController {
     
     var coreDataManager: CoreDataManager
     var memo: Memo?
+    var originalMemo: Memo?
     var timer: Timer?
-    
+    var originalTitle: String?
+    var originalContents: String?
     let titleFont: UIFont = UIFont.preferredFont(forTextStyle: .title1)
     let contentsFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
     
@@ -25,6 +27,9 @@ class MemoController: UIViewController {
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
         self.memo = memo
+        self.originalMemo = memo
+        self.originalTitle = memo?.title
+        self.originalContents = memo?.contents
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -35,13 +40,23 @@ class MemoController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         save()
-        stopTimer()
         
-//        guard let contents = contentsTextView.text, contents != "" else { return }
+        stopTimer()
         
         if let contents = contentsTextView.text, contents == "", let memo = memo {
             coreDataManager.deleteMemo(memo: memo)
         }
+        if let memo = memo, let originalTitle = originalTitle, let originalContents = originalContents {
+            print("flag 1")
+            print("memo: \(memo.title)\ncontents: \(memo.contents),\n originalTitle: \(originalTitle)\ncontents: \(originalContents)")
+            if memo.title != originalTitle || memo.contents != originalContents {
+         print("flag 2")
+                coreDataManager.renewUpdatedDate(memo: memo)
+            } else {
+                print("flag 3")
+            }
+        }
+        
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -100,10 +115,8 @@ class MemoController: UIViewController {
     private func configureLayout() {
         guard let memo = memo else { return }
         
-//        let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .semibold)])
         let attrString = NSMutableAttributedString(string: memo.title, attributes: [.font: titleFont])
 
-//        attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         attrString.append(NSAttributedString(string: "\n" + memo.contents, attributes: [.font: contentsFont]))
         
         contentsTextView.attributedText = attrString
@@ -130,11 +143,13 @@ class MemoController: UIViewController {
         let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
         contentsTextView.addGestureRecognizer(scrollGesture)
     }
-    
+
+    // 1초마다, Memo 화면에서 벗어날 때 호출
     private func save() {
         guard let contents = contentsTextView.text, contents != "" else { return }
-        if let memo = memo {
-            updateMemo(contents: contents,memo: memo)
+        if let validMemo = memo {
+            updateMemo(contents: contents, memo: validMemo)
+        
         } else {
             memo = makeMemo(contents: contents)
         }
@@ -194,7 +209,6 @@ extension MemoController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-//        let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)])
         let attributedString = NSMutableAttributedString(string: contentsTextView.text, attributes: [.font: contentsFont])
 
         if let firstLine = textView.text.split(separator: "\n").first {
