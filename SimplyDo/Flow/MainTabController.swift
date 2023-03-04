@@ -13,7 +13,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("\(type(of: self)) \(#function)")
+//        print("\(type(of: self)) \(#function)")
     }
     
     var coreDataManager = CoreDataManager()

@@ -79,7 +79,7 @@ class TodoTabController: UIViewController {
     }
     
     private func setupBiggerWorkspacePickerMenu() {
-        print("workSpacePicker Tapped!")
+//        print("workSpacePicker Tapped!")
 
         var menu = UIMenu(title: "")
 //        let some = UIMenu
@@ -90,7 +90,7 @@ class TodoTabController: UIViewController {
         // make image too if has one
         testWorkspaces.forEach { workspaceName in
             children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
-                print(workspaceName)
+//                print(workspaceName)
 //                self.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
                 self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
@@ -103,7 +103,7 @@ class TodoTabController: UIViewController {
     }
     
     private func setupSmallerWorkspacePickerMenu() {
-        print("workSpacePicker Tapped!")
+//        print("workSpacePicker Tapped!")
 
         var menu = UIMenu(title: "")
         
@@ -111,7 +111,7 @@ class TodoTabController: UIViewController {
         // make image too if has one
         testWorkspaces.forEach { workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
-                print(workspaceName)
+//                print(workspaceName)
                 self.workspacePickerButton.setTitle(workspaceName, for: .normal)
             }))
         }
@@ -227,7 +227,7 @@ class TodoTabController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
-        print(#function + "title: \(title)")
+//        print(#function + "title: \(title)")
         guard title != "" else {
             self.hideKeyboard()
             return
@@ -248,11 +248,11 @@ class TodoTabController: UIViewController {
     }
     
     @objc func tagTapped() {
-        print("tag Tapped")
+//        print("tag Tapped")
     }
     
     @objc func archiveTapped() {
-        print("archive Tapped")
+//        print("archive Tapped")
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -277,7 +277,7 @@ class TodoTabController: UIViewController {
     }
     
     @objc func makeTapped() {
-        print("makeTapped!")
+//        print("makeTapped!")
         guard let title = todoTitleTextField.text else { return }
         todoInputBoxView.transform = CGAffineTransform(translationX: 0, y: 0)
         todoTitleTextField.resignFirstResponder()
@@ -622,11 +622,11 @@ extension TodoTabController {
     func menu(for barButtonItem: UIBarButtonItem) -> UIMenu {
         UIMenu(title: "Some Menu", children: [UIDeferredMenuElement { [weak self, weak barButtonItem] completion in
             guard let self = self, let barButtonItem = barButtonItem else { return }
-            print("Menu shown - pause your game timers and such here")
+//            print("Menu shown - pause your game timers and such here")
             
             // Create your menu's real items here:
             let realMenuElements = [UIAction(title: "Some Action") { _ in
-                print("Menu action fired")
+//                print("Menu action fired")
             }]
             
             // Hand your real menu elements back to the deferred menu element

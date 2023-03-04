@@ -77,7 +77,7 @@ class MemoTabController: UIViewController {
     
     
     private func setupBiggerWorkspacePickerMenu() {
-        print("workSpacePicker Tapped!")
+//        print("workSpacePicker Tapped!")
 
         let menu = UIMenu(title: "")
         
@@ -86,7 +86,7 @@ class MemoTabController: UIViewController {
         // make image too if has one
         testWorkspaces.forEach { [weak self] workspaceName in
             children.append(UIAction(title: workspaceName, handler: { handler in
-                print(workspaceName)
+//                print(workspaceName)
 //                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.systemFont(ofSize: 30, weight: .semibold), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
                 self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
             }))
@@ -99,7 +99,7 @@ class MemoTabController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(self, #function)
+//        print(self, #function)
 //        self.navigationController?.navigationBar.isHidden = true
         
         fetchMemos()
@@ -110,7 +110,7 @@ class MemoTabController: UIViewController {
     
     private func fetchMemos() {
         memos = coreDataManager.fetchMemos()
-        print("fetch memos")
+//        print("fetch memos")
         DispatchQueue.main.async {
             self.memoTableView.reloadData()
         }

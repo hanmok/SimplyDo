@@ -88,14 +88,14 @@ extension FSCalendarTabController: FSCalendarDelegate, FSCalendarDataSource {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MM-dd-YYYY"
         let string = formatter.string(from: date)
-        print(string + "selected")
+//        print(string + "selected")
     }
     
     func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MM-dd-YYYY"
         let string = formatter.string(from: date)
-        print(string + "deselected")
+//        print(string + "deselected")
     }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {

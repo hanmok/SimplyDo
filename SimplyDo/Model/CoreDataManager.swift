@@ -88,9 +88,9 @@ extension CoreDataManager {
         newMemo.title = validContents[0]
         newMemo.contents = validContents[1]
         newMemo.createdAt = Date()
+        newMemo.updatedAt = Date()
         do {
             try mainContext.save()
-            print("createdMemo: \(newMemo)")
             return newMemo
         } catch let error {
             fatalError(error.localizedDescription)
@@ -98,7 +98,6 @@ extension CoreDataManager {
     }
     
     func renewUpdatedDate(memo: Memo) {
-        print("renewUpdatedDate called")
         memo.updatedAt = Date()
         do {
             try mainContext.save()
@@ -110,7 +109,7 @@ extension CoreDataManager {
     
     func updateMemo(contents: String, memo: Memo) {
         let test = getSeparateText(from: contents)
-        print("test: \(String(describing: test))")
+//        print("test: \(String(describing: test))")
         guard let validContents = getSeparateText(from: contents) else {
             // TODO: remove
             self.deleteMemo(memo: memo)
@@ -122,7 +121,7 @@ extension CoreDataManager {
             
         do {
             try mainContext.save()
-            print("memo updated to title:\(memo.title), contents:\(memo.contents)")
+//            print("memo updated to title:\(memo.title), contents:\(memo.contents)")
             return
         } catch let error {
             fatalError(error.localizedDescription)
@@ -131,7 +130,7 @@ extension CoreDataManager {
     
     func deleteMemo(memo: Memo) {
         mainContext.delete(memo)
-        print("memo deleted!")
+//        print("memo deleted!")
         do {
             try mainContext.save()
             return
@@ -161,7 +160,7 @@ extension CoreDataManager {
         public func isTwoMemosTheSame(_ memo1: Memo?, _ memo2: Memo?) -> Bool {
             guard let memo1 = memo1, let memo2 = memo2 else { return false }
             let ret = memo1.title == memo2.title && memo1.contents == memo2.contents
-            print(ret ? "Two memos are the same" : "two memos are different")
+//            print(ret ? "Two memos are the same" : "two memos are different")
             // 두 메모가 다른데 같다고 하넹..??
     //        return memo1.title == memo2.title && memo1.contents == memo2.contents
             return ret

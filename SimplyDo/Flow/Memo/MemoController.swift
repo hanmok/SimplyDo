@@ -14,20 +14,19 @@ class MemoController: UIViewController {
     
     var coreDataManager: CoreDataManager
     var memo: Memo?
-    var originalMemo: Memo?
     var timer: Timer?
     var originalTitle: String?
     var originalContents: String?
     let titleFont: UIFont = UIFont.preferredFont(forTextStyle: .title1)
     let contentsFont: UIFont = UIFont.preferredFont(forTextStyle: .body)
     
+    var keyboardHeight: CGFloat?
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
     // MARK: - Life Cycle
     init(coreDataManager: CoreDataManager, memo: Memo? = nil) {
         self.coreDataManager = coreDataManager
         self.memo = memo
-        self.originalMemo = memo
         self.originalTitle = memo?.title
         self.originalContents = memo?.contents
         super.init(nibName: nil, bundle: nil)
@@ -47,13 +46,8 @@ class MemoController: UIViewController {
             coreDataManager.deleteMemo(memo: memo)
         }
         if let memo = memo, let originalTitle = originalTitle, let originalContents = originalContents {
-            print("flag 1")
-            print("memo: \(memo.title)\ncontents: \(memo.contents),\n originalTitle: \(originalTitle)\ncontents: \(originalContents)")
             if memo.title != originalTitle || memo.contents != originalContents {
-         print("flag 2")
                 coreDataManager.renewUpdatedDate(memo: memo)
-            } else {
-                print("flag 3")
             }
         }
         
@@ -63,6 +57,7 @@ class MemoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        
         setDelegates()
         addTargets()
         hideTabBar()
@@ -70,9 +65,17 @@ class MemoController: UIViewController {
         
         startSavingMemoTimer()
         
+        setupNotifications()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.contentsTextView.becomeFirstResponder()
         }
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func setDelegates() {
@@ -146,10 +149,10 @@ class MemoController: UIViewController {
 
     // 1초마다, Memo 화면에서 벗어날 때 호출
     private func save() {
+        print("save called")
         guard let contents = contentsTextView.text, contents != "" else { return }
         if let validMemo = memo {
             updateMemo(contents: contents, memo: validMemo)
-        
         } else {
             memo = makeMemo(contents: contents)
         }
@@ -216,6 +219,55 @@ extension MemoController: UITextViewDelegate {
             attributedString.addAttributes([.font: titleFont], range: textView.text.nsRange(from: range))
             textView.attributedText = attributedString
         }
+        scrollToCursorPositionIfBelowKeyboard()
     }
+}
+
+extension MemoController {
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height + 50
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+}
+
+extension MemoController {
+    private func scrollToCursorPositionIfBelowKeyboard() {
+//        let caret = contentsTextView.caretRectForPosition(contentsTextView.selectedTextRange!.start)
+//        let keyboardTopBorder = contentsTextView.bounds.size.height - keyboardHeight!
+        print("scrollToCursorPosition called, keyboardHeight: \(keyboardHeight)")
+        guard let keyboardHeight = keyboardHeight else { return }
+//        let caret = contentsTextView.caretRect(for: contentsTextView.selectedTextRange!.start)
+        var caret = contentsTextView.caretRect(for: contentsTextView.selectedTextRange!.start)
+//        let visibleRect = CGRect(x: 10, y: caret.maxY + keyboardHeight, width: 10, height: keyboardHeight)
+//        let visibleRect = CGRect(x: 10, y: 1000, width: 10, height: 500)
+        
+        let keyboardTopBorder = contentsTextView.bounds.size.height - keyboardHeight
+        
+//        let caret = contentsTextView.caretRect(for: <#T##UITextPosition#>)
+        
+       // Remember, the y-scale starts in the upper-left hand corner at "0", then gets
+       // larger as you go down the screen from top-to-bottom. Therefore, the caret.origin.y
+       // being larger than keyboardTopBorder indicates that the caret sits below the
+       // keyboardTopBorder, and the textView needs to scroll to the position.
+        
+//        print("origin.y: \(caret.origin.y), keyboardTopBorder: \(keyboardTopBorder), caret: \(caret), visibleRect.maxY: \(visibleRect.maxY), height: \(visibleRect.height)")
+        
+       if caret.origin.y > keyboardTopBorder {
+           print("scroll called")
+           if self.view.frame.origin.y == 0 {
+               UIView.animate(withDuration: 0.2) {
+                   self.view.frame.origin.y -= keyboardHeight
+               }
+           }
+        }
+     }
 }
 

@@ -15,6 +15,6 @@ extension UIViewController {
 
 extension UIViewController {
     public func printSelf() {
-        print(self, #function)
+//        print(self, #function)
     }
 }
