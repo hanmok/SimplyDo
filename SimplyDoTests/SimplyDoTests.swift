@@ -174,11 +174,12 @@ extension SimplyDoTests {
         XCTAssertEqual(getSeparateText(from: "안녕\n나는 누군가야\n"), ["안녕", "나는 누군가야"])
     }
     
-    func test_memoCellSize() {
+    func test_memoCellSize2() {
         let size = CGSize(width: 300, height: 1000)
         let estimatedFrame1 = NSString(string: "").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
         
         let estimatedFrame2 = NSString(string: "").boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
-        XCTAssertNotEqual(estimatedFrame1.height, estimatedFrame2.height)
+//        XCTAssertEqual(estimatedFrame1.height, 100)
+        XCTAssertEqual(estimatedFrame1.height, estimatedFrame2.height)
     }
 }

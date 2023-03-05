@@ -97,6 +97,34 @@ extension CoreDataManager {
         }
     }
     
+    func updateMemoWorkspace(memo: Memo, _ workspace: String) {
+        
+        guard let matchingWorkspace = self.findWorkspace(workspace) else {
+            fatalError()
+        }
+        memo.workspace = matchingWorkspace
+        
+        do {
+            try mainContext.save()
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func updateTodoWorkspace(todo: Todo, _ workspace: String) {
+        
+        guard let matchingWorkspace = self.findWorkspace(workspace) else {
+            fatalError()
+        }
+        todo.workspace = matchingWorkspace
+        
+        do {
+            try mainContext.save()
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     func renewUpdatedDate(memo: Memo) {
         memo.updatedAt = Date()
         do {
@@ -136,7 +164,7 @@ extension CoreDataManager {
     }
     
     // TODO: Add more options (updatedDate, tag)
-    func fetchMemos() -> [Memo] {
+    func fetchMemos(workspaceTitle: String? = nil) -> [Memo] {
         
         let fetchRequest = NSFetchRequest<Memo>(entityName: String.EntityName.memo)
         
@@ -146,6 +174,11 @@ extension CoreDataManager {
         
         do {
             let memos = try mainContext.fetch(fetchRequest)
+            // if has workspaceTitle, fetch them only
+            if let workspaceTitle = workspaceTitle {
+                let matchedMemos = memos.filter { $0.workspace?.title == workspaceTitle }
+                return matchedMemos
+            }
             return memos
         } catch let error {
             fatalError(error.localizedDescription)
@@ -183,6 +216,20 @@ extension CoreDataManager {
         do {
             let workspaces = try mainContext.fetch(fetchRequest)
             return workspaces
+        } catch let error {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func findWorkspace(_ title: String) -> Workspace? {
+        let fetchRequest = NSFetchRequest<Workspace>(entityName: String.EntityName.workspace)
+        
+        do {
+            let workspaces = try mainContext.fetch(fetchRequest)
+            guard let matched = workspaces.first(where: { each in
+                each.title == title
+            }) else { fatalError() }
+            return matched
         } catch let error {
             fatalError(error.localizedDescription)
         }

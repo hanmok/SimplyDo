@@ -22,7 +22,8 @@ class MemoController: UIViewController {
     let contentsFont = CustomFont.memoContents
     var keyboardHeight: CGFloat?
     lazy var workspaces = [String]()
-//    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
+
+    var selectedWorkspace: String?
     
     
     // MARK: - Life Cycle
@@ -32,6 +33,7 @@ class MemoController: UIViewController {
         self.originalTitle = memo?.title
         self.originalContents = memo?.contents
         super.init(nibName: nil, bundle: nil)
+        self.selectedWorkspace = memo?.workspace?.title
     }
 
     required init?(coder: NSCoder) {
@@ -103,18 +105,21 @@ class MemoController: UIViewController {
         workspaces.forEach { workspaceName in
             children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
                 self?.barButtonItem.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+                self?.selectedWorkspace = workspaceName
             }))
         }
         
         let rightBarButton = UIBarButtonItem(customView: barButtonItem)
         let newMenu = menu.replacingChildren(children)
-        
+        let userDefault = UserDefaultSetup()
         barButtonItem.menu = newMenu
         barButtonItem.showsMenuAsPrimaryAction = true
+        let workspace = selectedWorkspace ?? userDefault.lastUsedWorkspace
+        self.barButtonItem.setAttributedTitle(NSAttributedString(string: workspace, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
+        barButtonItem.frame = CGRect(x: 0, y: 0, width: 110, height: 40)
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
-    
-    
     
     // TODO: separate title and contents using attributed string
     private func configureLayout() {
@@ -155,9 +160,15 @@ class MemoController: UIViewController {
         guard let contents = contentsTextView.text, contents != "" else { return }
         if let validMemo = memo {
             updateMemo(contents: contents, memo: validMemo)
+            guard let selectedWorkspace = selectedWorkspace else { return }
+            updateWorkspace(memo: validMemo, workspaceTitle: selectedWorkspace)
         } else {
             memo = makeMemo(contents: contents)
         }
+    }
+    
+    private func updateWorkspace(memo: Memo, workspaceTitle: String) {
+        coreDataManager.updateMemoWorkspace(memo: memo, workspaceTitle)
     }
     
     private func updateMemo(contents: String, memo: Memo) {
@@ -177,7 +188,7 @@ class MemoController: UIViewController {
     
     private let barButtonItem: UIButton = {
         let btn = UIButton()
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
         btn.layer.cornerRadius = 10
         btn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)

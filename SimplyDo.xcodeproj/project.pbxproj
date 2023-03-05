@@ -22,6 +22,7 @@
 		9A5D88C7296DC20900040C5B /* Debugging in Resources */ = {isa = PBXBuildFile; fileRef = 9A5D88C6296DC20900040C5B /* Debugging */; };
 		9A80E75C29739838002536AE /* burriedCodes in Resources */ = {isa = PBXBuildFile; fileRef = 9A80E75B29739838002536AE /* burriedCodes */; };
 		9AB1218F29B37A3E00BDEE70 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9AB1218E29B37A3E00BDEE70 /* IQKeyboardManagerSwift */; };
+		9AB1219529B40CAD00BDEE70 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AB1219429B40CAD00BDEE70 /* FSCalendar */; };
 		9AC2B89629967E8900173596 /* FSCalendarTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B89529967E8900173596 /* FSCalendarTabController.swift */; };
 		9AC2B89A2996922500173596 /* Workspace+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8992996922500173596 /* Workspace+Helper.swift */; };
 		9AC2B89E29973BBD00173596 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AC2B89D29973BBD00173596 /* FSCalendar */; };
@@ -166,6 +167,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB1219529B40CAD00BDEE70 /* FSCalendar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +408,9 @@
 				9ADD01672951ACDB00532DA5 /* PBXTargetDependency */,
 			);
 			name = SimplyDoTests;
+			packageProductDependencies = (
+				9AB1219429B40CAD00BDEE70 /* FSCalendar */,
+			);
 			productName = SimplyDoTests;
 			productReference = 9ADD01652951ACDB00532DA5 /* SimplyDoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -942,6 +947,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AB1218D29B37A3E00BDEE70 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		9AB1219429B40CAD00BDEE70 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AC2B89C29973BBD00173596 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 		9AC2B89D29973BBD00173596 /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;

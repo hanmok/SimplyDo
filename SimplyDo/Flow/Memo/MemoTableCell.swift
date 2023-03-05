@@ -45,24 +45,33 @@ class MemoTableCell: UITableViewCell {
         contentView.backgroundColor = UIColor(white: 0.95, alpha: 1)
         contentView.addShadow(offset: CGSize(width: 2.5, height: 2.5), color: UIColor(white: 0.6, alpha: 1))
         
-        [titleLabel, contentsLabel].forEach { contentView.addSubview($0)}
+        [titleLabel, contentsLabel, workspaceLabel].forEach { contentView.addSubview($0)}
         
         titleLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview().inset(8)
-            make.height.equalTo(24)
+//            make.top.leading.trailing.equalToSuperview().inset(8)
+            make.top.leading.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview().inset(100)
+//            make.height.equalTo(24)
         }
         
         contentsLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(3)
             make.leading.trailing.equalToSuperview().inset(8)
-            make.bottom.equalToSuperview().inset(8)
+            make.bottom.equalToSuperview().inset(12)
         }
+        
+        workspaceLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(10)
+            make.top.equalToSuperview().inset(8)
+        }
+        
+        workspaceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     private let titleLabel: UILabel = {
         let view = UILabel()
         view.font = CustomFont.memoCellTitle
-        view.numberOfLines = 1
+        view.numberOfLines = 2
         return view
     }()
     
@@ -76,5 +85,15 @@ class MemoTableCell: UITableViewCell {
     private func configureLayout(memo: Memo) {
         titleLabel.text = memo.title
         contentsLabel.text = memo.contents
+        if let memoWorkspace = memo.workspace {
+            workspaceLabel.text = memoWorkspace.title
+        }
     }
+    
+    private let workspaceLabel: UILabel = {
+        let view = UILabel()
+        view.font = CustomFont.memoCellworkspaceCaption.bold()
+        view.textColor = UIColor.mainOrange
+        return view
+    }()
 }

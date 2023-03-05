@@ -101,10 +101,11 @@ class MemoTabController: UIViewController {
         var children = [UIMenuElement]()
         
         // make image too if has one
-        workspaces.forEach { [weak self] workspaceName in
-            children.append(UIAction(title: workspaceName, handler: { handler in
-                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceName, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-                self?.userDefault.lastUsedWorkspace = workspaceName
+        workspaces.forEach { [weak self] workspaceTitle in
+            children.append(UIAction(title: workspaceTitle, handler: { handler in
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceTitle, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+                self?.userDefault.lastUsedWorkspace = workspaceTitle
+                self?.fetchMemos(workspaceTitle: workspaceTitle)
             }))
         }
         
@@ -127,7 +128,8 @@ class MemoTabController: UIViewController {
         let alertController = UIAlertController(title: "Add Workspace", message: "", preferredStyle: .alert)
 
         alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter Second Name"
+            textField.placeholder = "Enter Workspace Name"
+            textField.autocapitalizationType = .sentences
         }
 
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak self] alert -> Void in
@@ -144,23 +146,29 @@ class MemoTabController: UIViewController {
         alertController.addAction(saveAction)
         
         self.present(alertController, animated: true, completion: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        print(self, #function)
-//        self.navigationController?.navigationBar.isHidden = true
+        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        if ["none", "All"].contains(lastUsedWorkspace) == false {
+            fetchMemos(workspaceTitle: userDefault.lastUsedWorkspace)
+        } else {
+            fetchMemos()
+        }
         
-        fetchMemos()
-        memoTableView.rowHeight = UITableView.automaticDimension
-        memoTableView.estimatedRowHeight = 20
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    private func fetchMemos() {
-        memos = coreDataManager.fetchMemos()
-//        print("fetch memos")
+    private func fetchMemos(workspaceTitle: String? = nil) {
+        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        if ["none", "All"].contains(lastUsedWorkspace) == false {
+//            fetchMemos(workspaceTitle: userDefault.lastUsedWorkspace)
+            memos = coreDataManager.fetchMemos(workspaceTitle: lastUsedWorkspace)
+        } else {
+            memos = coreDataManager.fetchMemos()
+        }
+        
         DispatchQueue.main.async {
             self.memoTableView.reloadData()
         }
@@ -202,6 +210,8 @@ class MemoTabController: UIViewController {
 //        }
         
         navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
+        navTitleWorkspaceButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
     
@@ -260,6 +270,7 @@ class MemoTabController: UIViewController {
         let btn = UIButton()
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
         btn.layer.cornerRadius = 10
+        btn.sizeToFit()
         return btn
     }()
     
@@ -272,6 +283,8 @@ class MemoTabController: UIViewController {
         view.register(MemoTableCell.self, forCellReuseIdentifier: MemoTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
+        view.rowHeight = UITableView.automaticDimension
+        view.estimatedRowHeight = 20
         return view
     }()
     
@@ -313,15 +326,20 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
-        let size = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
-
+        let contentsSize = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
+        let titleSize = CGSize(width: approximatedWidthOfBioTextView - 100, height: 1000)
         // 16: Contents label font
 
-        let estimatedFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: size, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellContents], context: nil)
+        let estimatedTitleFrame = NSString(string: memos[indexPath.row].title).boundingRect(with: titleSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellTitle], context: nil)
         
-        // title top, titleHeight, contents spacing, bottom inset, contents inset
-        let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
-        let contentsHeight = min(estimatedFrame.height, maximumContentsHeight.height)
+        let estimatedContentsFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: contentsSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellContents], context: nil)
+        
+        let estimatedWorkspaceFrame = NSString(string: memos[indexPath.row].workspace?.title ?? "All").boundingRect(with: contentsSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellworkspaceCaption], context: nil)
+        
+        // title top, titleHeight, contents spacing, bottom inset, contents inset, workspace margin
+//        let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
+        let paddings: CGFloat = 8 + 6 + 8 + 16 + 10
+        let contentsHeight = min(estimatedTitleFrame.height + estimatedContentsFrame.height + estimatedWorkspaceFrame.height, maximumContentsHeight.height)
 
         return contentsHeight + paddings
     }
