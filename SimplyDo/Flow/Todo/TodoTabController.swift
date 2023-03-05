@@ -525,6 +525,9 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView.numberOfRows(inSection: section) == 0 {
+            return 0
+        }
         return 40
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
