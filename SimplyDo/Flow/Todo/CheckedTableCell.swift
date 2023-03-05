@@ -50,6 +50,8 @@ class CheckedTableCell: UITableViewCell {
     }
     
     @objc func checkmarkTapped() {
+//        UINotificationFeedbackGenerator().notificationOccurred(<#T##notificationType: UINotificationFeedbackGenerator.FeedbackType##UINotificationFeedbackGenerator.FeedbackType#>)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
         todoCellDelegate?.checkmarkTapped(self)
     }
 
