@@ -69,9 +69,9 @@ class MemoController: UIViewController {
         
         startSavingMemoTimer()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.contentsTextView.becomeFirstResponder()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//            self.contentsTextView.becomeFirstResponder()
+//        }
     }
     
     private func setDelegates() {

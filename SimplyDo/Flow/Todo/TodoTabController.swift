@@ -12,6 +12,7 @@ import Util
 import CoreData
 import Toast
 import DesignKit
+import AudioToolbox
 
 class TodoTabController: UIViewController {
     
@@ -597,6 +598,7 @@ extension TodoTabController: CheckedTableCellDelegate {
             
             todoTableView.performBatchUpdates {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+//                AudioServicesPlaySystemSound(1003)
             } completion: { success in
                 self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
             }

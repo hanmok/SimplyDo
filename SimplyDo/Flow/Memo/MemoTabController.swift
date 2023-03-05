@@ -293,7 +293,8 @@ class MemoTabController: UIViewController {
     
     private let floatingAddBtn: CircularButton = {
         let btn = CircularButton()
-        let image = UIImage(systemName: "plus")!
+//        let image = UIImage(systemName: "plus")!
+        let image = UIImage.plus
         btn.addImage(image, tintColor: .mainOrange)
         btn.backgroundColor = UIColor.indigo
         return btn
