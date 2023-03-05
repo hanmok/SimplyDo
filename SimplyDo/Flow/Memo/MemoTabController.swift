@@ -12,6 +12,8 @@ import Lottie
 import Util
 import DesignKit
 import Toast
+import AVFAudio
+import AVFoundation
 
 class MemoTabController: UIViewController {
     
@@ -185,6 +187,7 @@ class MemoTabController: UIViewController {
         setupNavBarButton()
     }
     
+   
 //    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
     
     private func setupNavBarButton(){

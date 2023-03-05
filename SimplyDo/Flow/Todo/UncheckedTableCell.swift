@@ -10,6 +10,7 @@ import SnapKit
 import Then
 import DesignKit
 import Lottie
+import AVFoundation
 
 // MARK: - Delegate
 
@@ -19,7 +20,7 @@ protocol UncheckedTableCellDelegate: AnyObject {
 }
 
 class UncheckedTableCell: UITableViewCell {
-    
+    var player: AVAudioPlayer?
     let designKit = DesignKitImp()
     
     public var todoItem: Todo? {
@@ -50,13 +51,41 @@ class UncheckedTableCell: UITableViewCell {
 //        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
     }
     
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
 
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            /* iOS 10 and earlier require the following line:
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+
+            guard let player = player else { return }
+
+            player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
 
     @objc func checkmarkTapped() {
         lottieView.isHidden = false
+        
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(makeSound), userInfo: nil, repeats: false)
+        
         lottieView.play { _ in
             self.todoCellDelegate?.checkmarkTapped(self)
         }
+    }
+    
+    @objc func makeSound() {
+        self.playSound()
     }
     
     private let checkmarkButton: UIButton = {

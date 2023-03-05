@@ -13,6 +13,7 @@ import CoreData
 import Toast
 import DesignKit
 import AudioToolbox
+import AVFoundation
 
 class TodoTabController: UIViewController {
     
@@ -23,7 +24,7 @@ class TodoTabController: UIViewController {
     }
     
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
-    
+    var player: AVAudioPlayer?
     var inputBoxHeight: CGFloat = 90.0
     
     required init?(coder: NSCoder) {
@@ -48,6 +49,29 @@ class TodoTabController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            /* iOS 10 and earlier require the following line:
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+
+            guard let player = player else { return }
+
+            player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     private func hideKeyboard() {
@@ -562,7 +586,7 @@ extension TodoTabController: UncheckedTableCellDelegate {
             
             try coreDataManager.toggleDoneState(todo: targetTodo)
             let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
-            
+//            self.playSound()
             uncheckedTodos.remove(at: targetIndexRow)
             checkedTodos.insert(targetTodo, at: 0)
 
@@ -570,6 +594,7 @@ extension TodoTabController: UncheckedTableCellDelegate {
             
             todoTableView.performBatchUpdates {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+                
             } completion: { _ in
                 self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .automatic)
             }
