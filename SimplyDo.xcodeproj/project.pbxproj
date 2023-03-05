@@ -23,6 +23,7 @@
 		9A80E75C29739838002536AE /* burriedCodes in Resources */ = {isa = PBXBuildFile; fileRef = 9A80E75B29739838002536AE /* burriedCodes */; };
 		9AB1218F29B37A3E00BDEE70 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9AB1218E29B37A3E00BDEE70 /* IQKeyboardManagerSwift */; };
 		9AB1219529B40CAD00BDEE70 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AB1219429B40CAD00BDEE70 /* FSCalendar */; };
+		9AB1219729B4217F00BDEE70 /* WorkspaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB1219629B4217F00BDEE70 /* WorkspaceController.swift */; };
 		9AC2B89629967E8900173596 /* FSCalendarTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B89529967E8900173596 /* FSCalendarTabController.swift */; };
 		9AC2B89A2996922500173596 /* Workspace+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8992996922500173596 /* Workspace+Helper.swift */; };
 		9AC2B89E29973BBD00173596 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AC2B89D29973BBD00173596 /* FSCalendar */; };
@@ -107,6 +108,7 @@
 		9A5D88C4296DBE0F00040C5B /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9A5D88C6296DC20900040C5B /* Debugging */ = {isa = PBXFileReference; lastKnownFileType = text; path = Debugging; sourceTree = "<group>"; };
 		9A80E75B29739838002536AE /* burriedCodes */ = {isa = PBXFileReference; lastKnownFileType = text; path = burriedCodes; sourceTree = "<group>"; };
+		9AB1219629B4217F00BDEE70 /* WorkspaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceController.swift; sourceTree = "<group>"; };
 		9AC2B89529967E8900173596 /* FSCalendarTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarTabController.swift; sourceTree = "<group>"; };
 		9AC2B8992996922500173596 /* Workspace+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workspace+Helper.swift"; sourceTree = "<group>"; };
 		9AC2B89F299767C500173596 /* FSCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarCell.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				9AC2B8AE299A8F0A00173596 /* CodeTomb.swift */,
 				9AD43754295F21CE00156D47 /* Model */,
 				9AD43779295FD4A800156D47 /* Flow */,
+				9AB1219629B4217F00BDEE70 /* WorkspaceController.swift */,
 				9ADD01B22959E8DE00532DA5 /* Register */,
 				9ADD01B12959E8D700532DA5 /* Login */,
 				9ADD015B2951ACDA00532DA5 /* Assets.xcassets */,
@@ -536,6 +539,7 @@
 				9AC2B8A0299767C500173596 /* FSCalendarCell.swift in Sources */,
 				9AD43766295F21DB00156D47 /* TodoManager.swift in Sources */,
 				9AD43768295F21DB00156D47 /* CoreDataStack.swift in Sources */,
+				9AB1219729B4217F00BDEE70 /* WorkspaceController.swift in Sources */,
 				9ACF512C296C681C00F75020 /* SampleCode.swift in Sources */,
 				9ACF512A296C596A00F75020 /* MemoController.swift in Sources */,
 				9AC2B89A2996922500173596 /* Workspace+Helper.swift in Sources */,

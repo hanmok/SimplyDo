@@ -33,7 +33,7 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         
         configureViewControllers()
         setupLayouts()
-        selectedIndex = 2
+        selectedIndex = 1
         if selectedIndex == 2 {
             IQKeyboardManager.shared.enable = true
         }

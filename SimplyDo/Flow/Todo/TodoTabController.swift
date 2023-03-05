@@ -14,8 +14,6 @@ import Toast
 import DesignKit
 
 class TodoTabController: UIViewController {
-
-//    let todoManager = TodoManager()
     
     var coreDataManager: CoreDataManager
     init(coreDataManager: CoreDataManager) {
@@ -26,9 +24,6 @@ class TodoTabController: UIViewController {
     lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
     
     var inputBoxHeight: CGFloat = 90.0
-    
-//    var shouldSpread = true
-//    var isSpreading = false
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -79,11 +74,8 @@ class TodoTabController: UIViewController {
     }
     
     private func setupBiggerWorkspacePickerMenu() {
-//        print("workSpacePicker Tapped!")
 
         var menu = UIMenu(title: "")
-//        let some = UIMenu
-//        let some = UIMenu
         
         var children = [UIMenuElement]()
         
@@ -102,8 +94,6 @@ class TodoTabController: UIViewController {
     }
     
     private func setupSmallerWorkspacePickerMenu() {
-//        print("workSpacePicker Tapped!")
-
         var menu = UIMenu(title: "")
         
         var children = [UIMenuElement]()
@@ -226,7 +216,6 @@ class TodoTabController: UIViewController {
     }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
-//        print(#function + "title: \(title)")
         guard title != "" else {
             self.hideKeyboard()
             return
@@ -236,11 +225,13 @@ class TodoTabController: UIViewController {
             let newTodo = try coreDataManager.createTodo(title: title, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
+            
             todoTableView.performBatchUpdates {
                 todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
             } completion: { _ in
                 self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
             }
+            
         } catch let e {
             print(e.localizedDescription)
         }
@@ -406,7 +397,7 @@ class TodoTabController: UIViewController {
     private lazy var todoTitleTextField: UITextField = {
         let view = self.designKit.PaddedTextField()
         view.applyCornerRadius(on: .all, radius: 8.0)
-        let attr = NSMutableAttributedString(string: "What are you going to do?", attributes: [.foregroundColor: UIColor(white: 0.9, alpha: 1)])
+        let attr = NSMutableAttributedString(string: "What are you going to do?", attributes: [.foregroundColor: UIColor(white: 0.5, alpha: 1)])
         view.attributedPlaceholder = attr
         view.backgroundColor = UIColor(white: 0.8, alpha: 1)
         view.inputAccessoryView = nil
@@ -564,17 +555,23 @@ extension TodoTabController: UncheckedTableCellDelegate {
     func checkmarkTapped(_ cell: UncheckedTableCell) {
         guard let targetTodo = cell.todoItem, let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
         do {
+            
             try coreDataManager.toggleDoneState(todo: targetTodo)
             let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
+            
             uncheckedTodos.remove(at: targetIndexRow)
             checkedTodos.insert(targetTodo, at: 0)
 
+            let newIndexPath = IndexPath(row: 0, section: 1)
+            
             todoTableView.performBatchUpdates {
-                let newIndexPath = IndexPath(row: 0, section: 1)
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
             } completion: { _ in
-                self.todoTableView.reloadData()
+//                self.todoTableView.reloadData()
+
+                self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .automatic)
             }
+            
         } catch {
             self.view.makeToast("failed toggle")
         }
@@ -596,12 +593,14 @@ extension TodoTabController: CheckedTableCellDelegate {
             
             uncheckedTodos.insert(targetTodo, at: 0)
             checkedTodos.remove(at: targetIndexRow)
+            let newIndexPath = IndexPath(row: 0, section: 0)
             
             todoTableView.performBatchUpdates {
-                todoTableView.moveRow(at: targetIndexPath, to: IndexPath(row: 0, section: 0))
+                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
             } completion: { success in
-                self.todoTableView.reloadData()
+                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
             }
+            
         } catch {
             self.view.makeToast("failed toggle")
         }
