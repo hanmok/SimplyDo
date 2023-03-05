@@ -54,7 +54,7 @@ class MemoController: UIViewController {
                 coreDataManager.renewUpdatedDate(memo: memo)
             }
         }
-        
+
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -69,9 +69,11 @@ class MemoController: UIViewController {
         
         startSavingMemoTimer()
         
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//            self.contentsTextView.becomeFirstResponder()
-//        }
+        if memo == nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.contentsTextView.becomeFirstResponder()
+            }
+        }
     }
     
     private func setDelegates() {
