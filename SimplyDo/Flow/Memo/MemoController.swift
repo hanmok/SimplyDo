@@ -154,8 +154,8 @@ class MemoController: UIViewController {
     }
     
     private func addTargets() {
-        let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        contentsTextView.addGestureRecognizer(scrollGesture)
+//        let scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(hideKeyboard))
+//        contentsTextView.addGestureRecognizer(scrollGesture)
     }
 
     // 1초마다, Memo 화면에서 벗어날 때 호출
