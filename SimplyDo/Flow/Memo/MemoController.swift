@@ -120,9 +120,9 @@ class MemoController: UIViewController {
         barButtonItem.showsMenuAsPrimaryAction = true
         
         let workspace = selectedWorkspace ?? userDefault.lastUsedWorkspace
-        selectedWorkspace = workspace
+        selectedWorkspace = workspace == "All" ? "Default" : workspace
         
-        self.barButtonItem.setAttributedTitle(NSAttributedString(string: workspace, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
+        self.barButtonItem.setAttributedTitle(NSAttributedString(string: selectedWorkspace!, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
         barButtonItem.frame = CGRect(x: 0, y: 0, width: 110, height: 40)
         self.navigationItem.rightBarButtonItem = rightBarButton
@@ -198,7 +198,6 @@ class MemoController: UIViewController {
     
     private let barButtonItem: UIButton = {
         let btn = UIButton()
-//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
         btn.layer.cornerRadius = 10
         btn.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)

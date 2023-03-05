@@ -37,6 +37,11 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         if selectedIndex == 2 {
             IQKeyboardManager.shared.enable = true
         }
+    
+        let workspaceTitles = coreDataManager.fetchWorkspace().map { $0.title }
+        if workspaceTitles.contains("Default") == false {
+            coreDataManager.createWorkspace(title: "Default")
+        }
     }
     
     func configureViewControllers() {

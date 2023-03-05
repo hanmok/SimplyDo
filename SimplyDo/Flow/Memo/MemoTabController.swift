@@ -63,6 +63,7 @@ class MemoTabController: UIViewController {
         fetchedWorkspaces.forEach {
             self.workspaces.append($0.title)
         }
+        memoTableView.reloadData()
     }
     
     
@@ -164,12 +165,13 @@ class MemoTabController: UIViewController {
     private func fetchMemos(workspaceTitle: String? = nil) {
         let lastUsedWorkspace = userDefault.lastUsedWorkspace
         if ["none", "All"].contains(lastUsedWorkspace) == false {
-//            fetchMemos(workspaceTitle: userDefault.lastUsedWorkspace)
             memos = coreDataManager.fetchMemos(workspaceTitle: lastUsedWorkspace)
         } else {
             memos = coreDataManager.fetchMemos()
         }
-        
+        memos.forEach {
+            print("fetched Memo title: \($0.title)")
+        }
         DispatchQueue.main.async {
             self.memoTableView.reloadData()
         }
@@ -300,6 +302,7 @@ class MemoTabController: UIViewController {
 
 extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return memos.count
     }
     
@@ -322,27 +325,36 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
         
         let titlePadding: CGFloat = 8 + 24 + 8 + 16
         
-        if memos[indexPath.row].contents == "" {
-            return titlePadding
-        }
+        let targetMemo = memos[indexPath.row]
+//        if memos[indexPath.row].title == "" && memos[indexPath]
         
         let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
         let contentsSize = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
         let titleSize = CGSize(width: approximatedWidthOfBioTextView - 100, height: 1000)
         // 16: Contents label font
-
-        let estimatedTitleFrame = NSString(string: memos[indexPath.row].title).boundingRect(with: titleSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellTitle], context: nil)
         
-        let estimatedContentsFrame = NSString(string: memos[indexPath.row].contents).boundingRect(with: contentsSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellContents], context: nil)
         
-        let estimatedWorkspaceFrame = NSString(string: memos[indexPath.row].workspace?.title ?? "All").boundingRect(with: contentsSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellworkspaceCaption], context: nil)
+        let estimatedTitleFrame = NSString(string: targetMemo.title).boundingRect(with: titleSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellTitle], context: nil)
+        
+        let estimatedContentsFrame = NSString(string: targetMemo.contents).boundingRect(with: contentsSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellContents], context: nil)
+        
+        if targetMemo.title == "" {
+            let insets: CGFloat = 8 + 12 + 8
+            return estimatedContentsFrame.height + insets
+        } else if targetMemo.contents == "" {
+            let insets: CGFloat = 8 + 8 + 8 + 20
+            return estimatedTitleFrame.height + insets
+        }
         
         // title top, titleHeight, contents spacing, bottom inset, contents inset, workspace margin
 //        let paddings: CGFloat = 8 + 24 + 6 + 8 + 16
-        let paddings: CGFloat = 8 + 6 + 8 + 16 + 10
-        let contentsHeight = min(estimatedTitleFrame.height + estimatedContentsFrame.height + estimatedWorkspaceFrame.height, maximumContentsHeight.height)
-
-        return contentsHeight + paddings
+//        let paddings: CGFloat = 8 + 6 + 8 + 16
+        
+        let paddings: CGFloat = 8 + 8 + 3 + 8 + 12 + 8 // contentView
+        let contentsHeight = min(estimatedContentsFrame.height, maximumContentsHeight.height)
+        let titleHeight = estimatedTitleFrame.height
+        print("title: \(targetMemo.title), CellHeight: \(titleHeight + contentsHeight + paddings)")
+        return titleHeight + contentsHeight + paddings
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

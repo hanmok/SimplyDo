@@ -97,3 +97,25 @@ class MemoTableCell: UITableViewCell {
         return view
     }()
 }
+
+
+
+
+
+/*
+          8
+ 
+      contentView
+ 
+          8
+ 
+8     titleLabel   100
+ 
+           3
+ 
+8    contentsLabel   8
+ 
+           12
+ 
+            8 (contentView)
+ */
