@@ -108,6 +108,10 @@ class UncheckedTableCell: UITableViewCell {
     private let titleLabel = UILabel().then {
         $0.font = CustomFont.todoCellTitle
         $0.textColor = .black
+        $0.sizeToFit()
+        $0.adjustsFontSizeToFitWidth = true
+        $0.minimumScaleFactor = 0.5
+        $0.numberOfLines = 1
     }
     
     override func layoutSubviews() {
