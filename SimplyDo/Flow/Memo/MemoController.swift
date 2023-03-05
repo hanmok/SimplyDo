@@ -23,11 +23,7 @@ class MemoController: UIViewController {
     var keyboardHeight: CGFloat?
     lazy var workspaces = [String]()
 
-    var selectedWorkspace: String? {
-        willSet {
-            print("selectedWorkspace: \(selectedWorkspace)")
-        }
-    }
+    var selectedWorkspace: String?
     
     
     // MARK: - Life Cycle
@@ -118,10 +114,10 @@ class MemoController: UIViewController {
         let userDefault = UserDefaultSetup()
         barButtonItem.menu = newMenu
         barButtonItem.showsMenuAsPrimaryAction = true
-        print("selectedWorkspace: \(selectedWorkspace) flag 1")
-        let workspace = selectedWorkspace ?? userDefault.lastUsedWorkspace
-        selectedWorkspace = workspace == "All" ? "Default" : workspace
-        print("selectedWorkspace: \(selectedWorkspace) flag 2")
+        
+        if selectedWorkspace == nil {
+            selectedWorkspace = userDefault.lastUsedWorkspace != "All" ? userDefault.lastUsedWorkspace : "Default"
+        }
         
         self.barButtonItem.setAttributedTitle(NSAttributedString(string: selectedWorkspace!, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.

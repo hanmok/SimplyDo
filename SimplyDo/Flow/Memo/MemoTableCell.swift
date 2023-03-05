@@ -48,10 +48,8 @@ class MemoTableCell: UITableViewCell {
         [titleLabel, contentsLabel, workspaceLabel].forEach { contentView.addSubview($0)}
         
         titleLabel.snp.makeConstraints { make in
-//            make.top.leading.trailing.equalToSuperview().inset(8)
             make.top.leading.equalToSuperview().inset(8)
             make.trailing.equalToSuperview().inset(100)
-//            make.height.equalTo(24)
         }
         
         contentsLabel.snp.makeConstraints { make in
