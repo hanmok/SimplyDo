@@ -149,6 +149,7 @@ class MemoTabController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear called, lastUsedWorkspace: \(userDefault.lastUsedWorkspace)")
         super.viewWillAppear(animated)
         let lastUsedWorkspace = userDefault.lastUsedWorkspace
         if ["none", "All"].contains(lastUsedWorkspace) == false {

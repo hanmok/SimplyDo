@@ -570,11 +570,8 @@ extension TodoTabController: UncheckedTableCellDelegate {
             todoTableView.performBatchUpdates {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
             } completion: { _ in
-//                self.todoTableView.reloadData()
-
                 self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .automatic)
             }
-            
         } catch {
             self.view.makeToast("failed toggle")
         }
