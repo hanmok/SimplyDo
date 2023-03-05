@@ -88,10 +88,21 @@ class MemoController: UIViewController {
             make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        setupNavigationBar()
+        setupRightNavigationBar()
+        setupLeftNavigationBar()
     }
     
-    private func setupNavigationBar() {
+    private func setupLeftNavigationBar() {
+        let backButton = UIButton(image: UIImage.left, tintColor: .orange, hasInset: false)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage.left.withTintColor(.mainOrange, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(dismissTapped))
+//        backButton.addTarget(self, action: #selector(dismissTapped), for: .touchUpInside)
+    }
+    
+    @objc func dismissTapped() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func setupRightNavigationBar() {
         self.workspaces = []
         let fetchedWorkspaces = coreDataManager.fetchWorkspace()
         
@@ -122,7 +133,22 @@ class MemoController: UIViewController {
         self.barButtonItem.setAttributedTitle(NSAttributedString(string: selectedWorkspace!, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)
         // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
         barButtonItem.frame = CGRect(x: 0, y: 0, width: 110, height: 40)
-        self.navigationItem.rightBarButtonItem = rightBarButton
+        
+        var copyButton = UIButton(image: UIImage.copy, tintColor: UIColor.mainOrange, hasInset: true)
+        copyButton.addTarget(self, action: #selector(copyTapped), for: .touchUpInside)
+        
+        let stackView = UIStackView(arrangedSubviews: [copyButton, barButtonItem])
+        stackView.spacing = 10
+        stackView.axis = .horizontal
+//        self.navigationItem.rightBarButtonItem = rightBarButton
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+    }
+    
+    @objc func copyTapped() {
+        if let memo = memo {
+            UIPasteboard.general.string = memo.title + "\n" + memo.contents
+            self.view.makeToast("복사되었습니다", position: .top)
+        }
     }
     
     // TODO: separate title and contents using attributed string
@@ -160,7 +186,6 @@ class MemoController: UIViewController {
 
     // 1초마다, Memo 화면에서 벗어날 때 호출
     private func save() {
-        print("save called")
         guard let contents = contentsTextView.text, contents != "" else { return }
         if let validMemo = memo {
             updateMemo(contents: contents, memo: validMemo)
@@ -168,7 +193,6 @@ class MemoController: UIViewController {
             updateWorkspace(memo: validMemo, workspaceTitle: selectedWorkspace)
         } else {
             memo = makeMemo(contents: contents)
-            print("new Memo created")
             guard let selectedWorkspace = selectedWorkspace else { return }
             updateWorkspace(memo: memo!, workspaceTitle: selectedWorkspace)
         }

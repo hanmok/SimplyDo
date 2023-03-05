@@ -50,7 +50,14 @@ extension UIImage {
     }
     
     public static var archiveBox: UIImage {
-//        return UIImage(systemName: "archivebox.fill")!
         return UIImage(systemName: "archivebox")!
+    }
+    
+    public static var copy: UIImage {
+        return UIImage(systemName: "doc.on.clipboard.fill")!
+    }
+    
+    public static var left: UIImage {
+        return UIImage(systemName: "chevron.left")!
     }
 }

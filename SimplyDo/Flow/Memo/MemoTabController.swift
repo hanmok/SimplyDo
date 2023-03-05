@@ -353,7 +353,6 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
         let paddings: CGFloat = 8 + 8 + 3 + 8 + 12 + 8 // contentView
         let contentsHeight = min(estimatedContentsFrame.height, maximumContentsHeight.height)
         let titleHeight = estimatedTitleFrame.height
-        print("title: \(targetMemo.title), CellHeight: \(titleHeight + contentsHeight + paddings)")
         return titleHeight + contentsHeight + paddings
     }
     
