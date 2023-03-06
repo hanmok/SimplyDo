@@ -77,7 +77,10 @@ class UncheckedTableCell: UITableViewCell {
     @objc func checkmarkTapped() {
         lottieView.isHidden = false
         
-        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(makeSound), userInfo: nil, repeats: false)
+        // 0.1 은 약간 애매
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(makeSound), userInfo: nil, repeats: false)
+    
+        lottieView.currentTime = 0.7
         
         lottieView.play { _ in
             self.todoCellDelegate?.checkmarkTapped(self)
