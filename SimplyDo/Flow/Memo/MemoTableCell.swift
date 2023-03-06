@@ -77,6 +77,7 @@ class MemoTableCell: UITableViewCell {
         let view = UILabel()
         view.font = CustomFont.memoCellContents
         view.numberOfLines = 5
+        view.textColor = UIColor(white: 0.32, alpha: 1)
         return view
     }()
     

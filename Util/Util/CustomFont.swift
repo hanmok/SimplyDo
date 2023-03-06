@@ -7,9 +7,13 @@
 
 import UIKit
 
+
+
 public struct CustomFont {
+//    public static let memoCellTitle = UIFont.preferredFont(forTextStyle: .title2)
+    public static let memoCellTitle = UIFont.preferredFont(forTextStyle: .title3)
     public static let memoCellContents = UIFont.preferredFont(forTextStyle: .subheadline)
-    public static let memoCellTitle = UIFont.preferredFont(forTextStyle: .title2)
+    
     public static let memoCellworkspaceCaption = UIFont.preferredFont(forTextStyle: .caption1)
     
     public static let barButton = UIFont.systemFont(ofSize: 16)
@@ -37,3 +41,19 @@ extension UIFont {
         return withTraits(traits: .traitItalic)
     }
 }
+
+
+/* Font Size
+ Large Title
+ Title 1
+ Title 2
+ title 3
+ headline
+ body
+ callout
+ subhead
+ footnote
+ caption1
+ caption2
+ */
+
