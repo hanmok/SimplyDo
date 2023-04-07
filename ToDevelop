@@ -42,7 +42,7 @@ Workspace 이름 바꾸거나, 제거하는 화면 필요.
 왜지 ??
 
 
-Todo 의 LottieView 를 더 .. 진행시킨 상태에서 시작시키기.
+
 
 TODO 수정할 수 있어야함.
 1. 날짜
@@ -58,7 +58,6 @@ Memo 에서
 
 
 
-
 Todo 및 Memo 에서 LifeStyle별로 fetch
 
 음.. 메모에서 중간 작업 못하는 거 수정하는게 일단 가장 급함. (되어있음)
@@ -69,3 +68,5 @@ Todo 및 Memo 에서 LifeStyle별로 fetch
 
 여러 설문조사를 한번에 시행!
 그럼 분당 10분 안에 1000 원 정도를 벌어갈 수 있음.
+
+Todo 의 LottieView 를 더 .. 진행시킨 상태에서 시작시키기.

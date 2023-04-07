@@ -124,12 +124,12 @@ class MemoController: UIViewController {
         
         let rightBarButton = UIBarButtonItem(customView: barButtonItem)
         let newMenu = menu.replacingChildren(children)
-        let userDefault = UserDefaultSetup()
+        
         barButtonItem.menu = newMenu
         barButtonItem.showsMenuAsPrimaryAction = true
         
         if selectedWorkspace == nil {
-            selectedWorkspace = userDefault.lastUsedWorkspace != "All" ? userDefault.lastUsedWorkspace : "Default"
+            selectedWorkspace = UserDefaults.standard.lastUsedWorkspace != "All" ? UserDefaults.standard.lastUsedWorkspace : "Default"
         }
         
         self.barButtonItem.setAttributedTitle(NSAttributedString(string: selectedWorkspace!, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)

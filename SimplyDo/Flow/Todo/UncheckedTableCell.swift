@@ -36,6 +36,7 @@ class UncheckedTableCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         [lottieView, checkmarkButton, titleLabel].forEach { self.contentView.addSubview($0)}
 //        contentView.snp.makeConstraints { make in
 //            make.leading.trailing.equalToSuperview().inset(40)
@@ -52,7 +53,9 @@ class UncheckedTableCell: UITableViewCell {
     }
     
     func playSound() {
-        guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
+//        guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
+        
+        guard let url = Bundle.main.url(forResource: "checkSound_3.8", withExtension: "wav") else { return }
 
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
@@ -77,7 +80,6 @@ class UncheckedTableCell: UITableViewCell {
     @objc func checkmarkTapped() {
         lottieView.isHidden = false
         
-        // 0.1 은 약간 애매
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(makeSound), userInfo: nil, repeats: false)
     
         lottieView.currentTime = 0.7

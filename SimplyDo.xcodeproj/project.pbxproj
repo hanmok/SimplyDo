@@ -27,6 +27,7 @@
 		9AB1219929B4545700BDEE70 /* iOSSystemSoundList in Resources */ = {isa = PBXBuildFile; fileRef = 9AB1219829B4545700BDEE70 /* iOSSystemSoundList */; };
 		9AB1219B29B4546900BDEE70 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB1219A29B4546900BDEE70 /* TestViewController.swift */; };
 		9AB1219D29B4DB6100BDEE70 /* checked.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9AB1219C29B4DB6100BDEE70 /* checked.wav */; };
+		9AB1219F29B8B4A700BDEE70 /* checkSound_3.8.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9AB1219E29B8B4A700BDEE70 /* checkSound_3.8.wav */; };
 		9AC2B89629967E8900173596 /* FSCalendarTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B89529967E8900173596 /* FSCalendarTabController.swift */; };
 		9AC2B89A2996922500173596 /* Workspace+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC2B8992996922500173596 /* Workspace+Helper.swift */; };
 		9AC2B89E29973BBD00173596 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 9AC2B89D29973BBD00173596 /* FSCalendar */; };
@@ -115,6 +116,7 @@
 		9AB1219829B4545700BDEE70 /* iOSSystemSoundList */ = {isa = PBXFileReference; lastKnownFileType = text; path = iOSSystemSoundList; sourceTree = "<group>"; };
 		9AB1219A29B4546900BDEE70 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		9AB1219C29B4DB6100BDEE70 /* checked.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = checked.wav; path = ../../../Downloads/checked.wav; sourceTree = "<group>"; };
+		9AB1219E29B8B4A700BDEE70 /* checkSound_3.8.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = checkSound_3.8.wav; path = ../../../Downloads/checkSound_3.8.wav; sourceTree = "<group>"; };
 		9AC2B89529967E8900173596 /* FSCalendarTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarTabController.swift; sourceTree = "<group>"; };
 		9AC2B8992996922500173596 /* Workspace+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Workspace+Helper.swift"; sourceTree = "<group>"; };
 		9AC2B89F299767C500173596 /* FSCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSCalendarCell.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				9A80E75B29739838002536AE /* burriedCodes */,
 				9AB1219829B4545700BDEE70 /* iOSSystemSoundList */,
 				9AB1219A29B4546900BDEE70 /* TestViewController.swift */,
+				9AB1219E29B8B4A700BDEE70 /* checkSound_3.8.wav */,
 				9AB1219C29B4DB6100BDEE70 /* checked.wav */,
 				9A2747A6296475BD004F9731 /* check.json */,
 				9ADD01512951ACD800532DA5 /* SimplyDo */,
@@ -501,6 +504,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB1219D29B4DB6100BDEE70 /* checked.wav in Resources */,
+				9AB1219F29B8B4A700BDEE70 /* checkSound_3.8.wav in Resources */,
 				9ADD015F2951ACDA00532DA5 /* LaunchScreen.storyboard in Resources */,
 				9A2747A7296475BD004F9731 /* check.json in Resources */,
 				9A80E75C29739838002536AE /* burriedCodes in Resources */,

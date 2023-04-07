@@ -22,7 +22,7 @@ class MemoTabController: UIViewController {
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
     
-    var userDefault = UserDefaultSetup()
+//    var userDefault = UserDefaultSetup()
     
     lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
 
@@ -107,7 +107,8 @@ class MemoTabController: UIViewController {
         workspaces.forEach { [weak self] workspaceTitle in
             children.append(UIAction(title: workspaceTitle, handler: { handler in
                 self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceTitle, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-                self?.userDefault.lastUsedWorkspace = workspaceTitle
+//                self?.userDefault.lastUsedWorkspace = workspaceTitle
+                UserDefaults.standard.lastUsedWorkspace = workspaceTitle
                 self?.fetchMemos(workspaceTitle: workspaceTitle)
             }))
         }
@@ -122,7 +123,8 @@ class MemoTabController: UIViewController {
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
         
         // set lastUsedWorkspace to navigationWorkspace Title
-        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? ""
         self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
     
@@ -152,11 +154,12 @@ class MemoTabController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear called, lastUsedWorkspace: \(userDefault.lastUsedWorkspace)")
+        print("viewWillAppear called, lastUsedWorkspace: \(UserDefaults.standard.lastUsedWorkspace)")
         super.viewWillAppear(animated)
-        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+//        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         if ["none", "All"].contains(lastUsedWorkspace) == false {
-            fetchMemos(workspaceTitle: userDefault.lastUsedWorkspace)
+            fetchMemos(workspaceTitle: UserDefaults.standard.lastUsedWorkspace)
         } else {
             fetchMemos()
         }
@@ -165,7 +168,7 @@ class MemoTabController: UIViewController {
     }
     
     private func fetchMemos(workspaceTitle: String? = nil) {
-        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         if ["none", "All"].contains(lastUsedWorkspace) == false {
             memos = coreDataManager.fetchMemos(workspaceTitle: lastUsedWorkspace)
         } else {

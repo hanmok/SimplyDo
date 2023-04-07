@@ -12,9 +12,11 @@ import IQKeyboardManagerSwift
 
 class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
+    private let initialTabIndex = 0
+    
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         // Memo Tab
-        if item == (self.tabBar.items!)[2]{
+        if item == (self.tabBar.items!)[1]{
             IQKeyboardManager.shared.enable = true
             print("keyboardManager enabled")
             
@@ -33,8 +35,9 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         
         configureViewControllers()
         setupLayouts()
-        selectedIndex = 1
-        if selectedIndex == 2 {
+//        selectedIndex = 1
+        selectedIndex = initialTabIndex
+        if selectedIndex == 1 {
             IQKeyboardManager.shared.enable = true
         }
     
@@ -46,12 +49,12 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
     
     func configureViewControllers() {
         
-        let calendar = templateNavigationController(
-            unselectedImage: UIImage.calendar.withTintColor(.magenta),
-            selectedImage: UIImage.calendar,
-            rootViewController: FSCalendarTabController(coreDataManager: coreDataManager)
-//            rootViewController: TestViewController()
-        )
+//        let calendar = templateNavigationController(
+//            unselectedImage: UIImage.calendar.withTintColor(.magenta),
+//            selectedImage: UIImage.calendar,
+//            rootViewController: FSCalendarTabController(coreDataManager: coreDataManager)
+////            rootViewController: TestViewController()
+//        )
         
         let todo = templateNavigationController(
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),
@@ -70,7 +73,9 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
         
 //        viewControllers = [todo, memo, tag]
         
-        viewControllers = [calendar, todo, memo]
+//        viewControllers = [calendar, todo, memo]
+        
+        viewControllers = [todo, memo]
     }
     
     func templateNavigationController(unselectedImage: UIImage,
