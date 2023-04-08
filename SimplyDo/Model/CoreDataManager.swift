@@ -25,7 +25,12 @@ extension CoreDataManager {
         todo.targetDate = targetDate
         todo.isDone = false
         todo.createdAt = Date()
+//        todo.workspace?.title = workspace
+//        todo.workspace_?.title = workspace
+        todo.workspaceTitle = workspace
+        todo.workspace_?.title = workspace
         
+        print("new todo's workspaceTitle: \(workspace)")
         do {
             try mainContext.save()
             return todo
@@ -63,13 +68,29 @@ extension CoreDataManager {
             case (let isAscending, let status):
                 if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
                     let arg = status == .done ? true : false
-                    fetchRequest.predicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
+                    let statusPredicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
+                    
+//                    let workspacePredicate = NSPredicate(format: "\(String.TodoAttributes.workspaceTitle) == %@", predicate.workspaceTitle)
+//                    let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [statusPredicate, workspacePredicate])
+//                    fetchRequest.predicate = compoundPredicate
+                    
+                    fetchRequest.predicate = statusPredicate
                 }
                 fetchRequest.sortDescriptors = [NSSortDescriptor(key: .TodoAttributes.createdAt, ascending: isAscending)]
         }
         do {
             let todos = try mainContext.fetch(fetchRequest)
-            return todos
+            
+            if predicate.workspaceTitle == "All" {
+                return todos
+            } else {
+                print("predicate: \(predicate.workspaceTitle)")
+//                print("todos: \(todos.)")
+                print("workspace titles:")
+                todos.forEach { print($0.title, $0.workspaceTitle)}
+                let filteredTodos = todos.filter { $0.workspace_?.title == predicate.workspaceTitle }
+                return filteredTodos
+            }
         } catch let error {
             throw TodoError.read(error.localizedDescription)
         }
@@ -102,8 +123,10 @@ extension CoreDataManager {
         guard let matchingWorkspace = self.findWorkspace(workspace) else {
             fatalError()
         }
-        memo.workspace = matchingWorkspace
-        
+//        memo.workspace = matchingWorkspace
+//        memo.workspaceTitle = matchingWorkspace
+//        memo.workspaceTitle = matchingWorkspace
+        memo.workspaceTitle = matchingWorkspace.title
         do {
             try mainContext.save()
         } catch let error {
@@ -116,7 +139,8 @@ extension CoreDataManager {
         guard let matchingWorkspace = self.findWorkspace(workspace) else {
             fatalError()
         }
-        todo.workspace = matchingWorkspace
+//        todo.workspace = matchingWorkspace
+        todo.workspaceTitle = matchingWorkspace.title
         
         do {
             try mainContext.save()
@@ -176,7 +200,7 @@ extension CoreDataManager {
             let memos = try mainContext.fetch(fetchRequest)
             // if has workspaceTitle, fetch them only
             if let workspaceTitle = workspaceTitle {
-                let matchedMemos = memos.filter { $0.workspace?.title == workspaceTitle }
+                let matchedMemos = memos.filter { $0.workspaceTitle == workspaceTitle }
                 return matchedMemos
             }
             return memos

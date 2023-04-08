@@ -84,9 +84,10 @@ class MemoTableCell: UITableViewCell {
     private func configureLayout(memo: Memo) {
         titleLabel.text = memo.title
         contentsLabel.text = memo.contents
-        if let memoWorkspace = memo.workspace {
-            workspaceLabel.text = memoWorkspace.title
-        }
+//        if let memoWorkspace = memo.workspace {
+//            workspaceLabel.text = memoWorkspace.title
+//        }
+        workspaceLabel.text = memo.workspaceTitle
     }
     
     private let workspaceLabel: UILabel = {

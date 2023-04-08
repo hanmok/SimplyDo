@@ -10,8 +10,10 @@ import Foundation
 struct TodoPredicate {
     var shouldSortAscendingOrder: Bool
     var completion: CompletionStatus
+    var workspaceTitle: String
     
-    init(shouldSortAscendingOrder: Bool = false, completion: CompletionStatus = .none) {
+    init(workspaceTitle: String = "All", shouldSortAscendingOrder: Bool = false, completion: CompletionStatus = .none) {
+        self.workspaceTitle = workspaceTitle
         self.shouldSortAscendingOrder = shouldSortAscendingOrder
         self.completion = completion
     }

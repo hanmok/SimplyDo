@@ -20,7 +20,7 @@ extension Workspace {
     }
     
     public var title: String {
-        get { self.title_ ?? "Workspace" }
+        get { self.title_ ?? "Default" }
         set { self.title_ = newValue }
     }
     

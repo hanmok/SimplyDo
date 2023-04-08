@@ -43,7 +43,8 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
+//        fetchData()
+        fetchTodos()
         setupNotifications()
         setupTargets()
         setupLayout()
@@ -117,24 +118,38 @@ class TodoTabController: UIViewController {
     }
     
     func setupWorkspaceNavigationBar() {
-        setupWorkspacePickerMenu({ workspaceTitle in
-//            self.fetchMemos(workspaceTitle: workspaceTitle)
-//            self.fetchtodos
+        setupWorkspacePickerMenu({ [weak self] workspaceTitle in
+            self?.fetchTodos(workspaceTitle: workspaceTitle)
         })
     }
     
     private func fetchTodos(workspaceTitle: String? = nil) {
+        
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
-        if ["none", "All"].contains(lastUsedWorkspace) == false {
-//            memos = coreDataManager.fetchTodos()(workspaceTitle: lastUsedWorkspace)
-        } else {
-//            memos = coreDataManager.fetchTodos()
+        
+        do {
+            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(
+                workspaceTitle: lastUsedWorkspace ?? "All",
+                shouldSortAscendingOrder: true,
+                completion: CompletionStatus.none))
+            print("Todo fetched. workspaceTitle: \(lastUsedWorkspace ?? "All" )")
+//            allTodos.forEach { print($0.workspace. )}
+            allTodos.forEach { print($0.workspaceTitle) }
+            checkedTodos = allTodos.filter { $0.isDone == true }
+            uncheckedTodos = allTodos.filter { $0.isDone == false }
+            
+            DispatchQueue.main.async {
+                self.todoTableView.reloadData()
+            }
+            
+        } catch let error {
+            print(error.localizedDescription)
         }
-//        todo.forEach {
-//            print("fetched Memo title: \($0.title)")
-//        }
+        
+//        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
+
         DispatchQueue.main.async {
-//            self.memoTableView.reloadData()
+            //            self.memoTableView.reloadData()
             self.todoTableView.reloadData()
             
         }
@@ -171,23 +186,6 @@ class TodoTabController: UIViewController {
         navTitleWorkspaceButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
-    
-//    private func setupNavigationBar() {
-//
-//        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
-//        stackview.distribution = .equalSpacing
-//        stackview.axis = .horizontal
-//        stackview.alignment = .center
-//        stackview.spacing = 16
-//
-//        let rightBarButton = UIBarButtonItem(customView: stackview)
-//        self.navigationItem.rightBarButtonItem = rightBarButton
-//
-//        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-//        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
-//
-//        self.navigationController?.hideNavigationBarLine()
-//    }
     
     private func addSubViews() {
         [todoTableView, floatingAddBtn, todoInputBoxView].forEach { self.view.addSubview($0)}
@@ -267,15 +265,15 @@ class TodoTabController: UIViewController {
     
     // MARK: - Actions
     
-    private func fetchData() {
-        do {
-            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
-            checkedTodos = allTodos.filter { $0.isDone == true }
-            uncheckedTodos = allTodos.filter { $0.isDone == false }
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
+//    private func fetchData() {
+//        do {
+//            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
+//            checkedTodos = allTodos.filter { $0.isDone == true }
+//            uncheckedTodos = allTodos.filter { $0.isDone == false }
+//        } catch let error {
+//            print(error.localizedDescription)
+//        }
+//    }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
         guard title != "" else {
@@ -284,7 +282,10 @@ class TodoTabController: UIViewController {
         }
         
         do {
-            let newTodo = try coreDataManager.createTodo(title: title, workspace: pickedWorkspaceForNewTodo, targetDate: targetDate)
+//            print("create todo, pickedWorkspaceForNewTodo: ")
+            let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "Default"
+            print("create todo, pickedWorkspaceForNewTodo: \(lastUsedWorkspace)")
+            let newTodo = try coreDataManager.createTodo(title: title, workspace: lastUsedWorkspace, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
             
@@ -707,7 +708,8 @@ extension TodoTabController: HasWorkspace {
                         .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
                                                                  for: .normal)
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
-//                myHandler(workspaceTitle)
+                print("fetch with workspace title \(workspaceTitle)")
+                myHandler(workspaceTitle)
                 self?.workspacePickerButton.setTitle(workspaceTitle, for: .normal)
                 self?.pickedWorkspaceForNewTodo = workspaceTitle
             }))
@@ -721,8 +723,8 @@ extension TodoTabController: HasWorkspace {
         var newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-//        newMenu = newMenu.replacingChildren(children.removeFirst())
-        children.removeFirst() // Remove 'All' 
+        
+        children.removeFirst() // Remove 'All'
         newMenu = menu.replacingChildren(children)
         self.workspacePickerButton.menu = newMenu
         self.workspacePickerButton.showsMenuAsPrimaryAction = true
