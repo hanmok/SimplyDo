@@ -22,7 +22,7 @@ class TodoTabController: UIViewController {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,22 +53,22 @@ class TodoTabController: UIViewController {
     
     func playSound() {
         guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
-
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
-
+            
             /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
             
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-
+            
             /* iOS 10 and earlier require the following line:
-            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
-
+             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+            
             guard let player = player else { return }
-
+            
             player.play()
-
+            
         } catch let error {
             print(error.localizedDescription)
         }
@@ -90,8 +90,6 @@ class TodoTabController: UIViewController {
     private func setupTargets() {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
-        
-//        archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -123,28 +121,21 @@ class TodoTabController: UIViewController {
     }
     
     private func fetchTodos(workspaceTitle: String? = nil) {
-        
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
-        
         self.fetchData()
         DispatchQueue.main.async {
-<<<<<<< HEAD
-
-=======
->>>>>>> fineCode
             self.todoTableView.reloadData()
         }
     }
     
     private func addWorkspaceAction() {
-        
         let alertController = UIAlertController(title: "Add Workspace", message: "", preferredStyle: .alert)
-
+        
         alertController.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = "Enter Workspace Name"
             textField.autocapitalizationType = .sentences
         }
-
+        
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak self] alert -> Void in
             let firstTextField = alertController.textFields![0] as UITextField
             guard firstTextField.text! != "" else { return }
@@ -152,9 +143,9 @@ class TodoTabController: UIViewController {
             self?.view.makeToast("Workspace named '\(firstTextField.text!)' has been created")
             self?.setupWorkspaceNavigationBar()
         })
-
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-
+        
         alertController.addAction(cancelAction)
         alertController.addAction(saveAction)
         
@@ -167,23 +158,6 @@ class TodoTabController: UIViewController {
         navTitleWorkspaceButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
-    
-//    private func setupNavigationBar() {
-//
-//        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
-//        stackview.distribution = .equalSpacing
-//        stackview.axis = .horizontal
-//        stackview.alignment = .center
-//        stackview.spacing = 16
-//
-//        let rightBarButton = UIBarButtonItem(customView: stackview)
-//        self.navigationItem.rightBarButtonItem = rightBarButton
-//
-//        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-//        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
-//
-//        self.navigationController?.hideNavigationBarLine()
-//    }
     
     private func addSubViews() {
         [todoTableView, floatingAddBtn, todoInputBoxView].forEach { self.view.addSubview($0)}
@@ -205,9 +179,8 @@ class TodoTabController: UIViewController {
     }
     
     private func setupTextInputBoxView() {
-
-        [
-            datePickerButton, dividerView, workspacePickerButton,
+        
+        [datePickerButton, dividerView, workspacePickerButton,
             todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
         
         todoInputBoxView.snp.makeConstraints { make in
@@ -228,7 +201,7 @@ class TodoTabController: UIViewController {
             make.top.bottom.equalTo(datePickerButton).inset(3)
             make.width.equalTo(1)
         }
-
+        
         workspacePickerButton.snp.makeConstraints { make in
             make.leading.equalTo(dividerView.snp.trailing).offset(8)
             make.top.height.equalTo(datePickerButton)
@@ -264,10 +237,10 @@ class TodoTabController: UIViewController {
     // MARK: - Actions
     
     private func fetchData() {
-        let lastOne = UserDefaults.standard.lastUsedWorkspace ?? "All"
+        let latestWorkspace = UserDefaults.standard.lastUsedWorkspace ?? .all
         do {
             let allTodos = try coreDataManager.fetchTodos(
-                predicate: TodoPredicate(workspaceTitle: lastOne, completion: CompletionStatus.none))
+                predicate: TodoPredicate(workspaceTitle: latestWorkspace, completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
         } catch let error {
@@ -390,11 +363,11 @@ class TodoTabController: UIViewController {
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
-
+        
         return view
     }()
     
-
+    
     private let archiveButton = UIButton(image: UIImage.archiveBox, tintColor: .mainOrange, hasInset: true, inset: 0)
     
     private var makeButton: UIButton = {
@@ -447,7 +420,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         viewTapped()
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = makeTodoSection(using: indexPath.section)
         
@@ -459,7 +432,6 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                 cell.todoItem = todoItem
                 
                 let isLastCell = indexPath.row == uncheckedTodos.count - 1
-//                cell.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 return cell
                 
@@ -521,7 +493,7 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let section = makeTodoSection(using: section)
         let emptyView = UIView()
@@ -587,10 +559,10 @@ extension TodoTabController: UncheckedTableCellDelegate {
             
             try coreDataManager.toggleDoneState(todo: targetTodo)
             let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
-//            self.playSound()
+            //            self.playSound()
             uncheckedTodos.remove(at: targetIndexRow)
             checkedTodos.insert(targetTodo, at: 0)
-
+            
             let newIndexPath = IndexPath(row: 0, section: 1)
             
             todoTableView.performBatchUpdates {
@@ -624,7 +596,7 @@ extension TodoTabController: CheckedTableCellDelegate {
             
             todoTableView.performBatchUpdates {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
-//                AudioServicesPlaySystemSound(1003)
+                //                AudioServicesPlaySystemSound(1003)
             } completion: { success in
                 self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
             }
@@ -652,11 +624,11 @@ extension TodoTabController {
     func menu(for barButtonItem: UIBarButtonItem) -> UIMenu {
         UIMenu(title: "Some Menu", children: [UIDeferredMenuElement { [weak self, weak barButtonItem] completion in
             guard let self = self, let barButtonItem = barButtonItem else { return }
-//            print("Menu shown - pause your game timers and such here")
+            //            print("Menu shown - pause your game timers and such here")
             
             // Create your menu's real items here:
             let realMenuElements = [UIAction(title: "Some Action") { _ in
-//                print("Menu action fired")
+                //                print("Menu action fired")
             }]
             
             // Hand your real menu elements back to the deferred menu element
@@ -675,10 +647,10 @@ extension TodoTabController {
 
 extension TodoTabController: HasWorkspace {
     internal func setupWorkspacePickerMenu(_ myHandler: @escaping (String) -> ()) {
-
-        var workspaces = ["All"]
+        
+        var workspaces: [String] = [.all]
         let fetchedWorkspaces = coreDataManager.fetchWorkspace()
-
+        
         fetchedWorkspaces.forEach {
             workspaces.append($0.title)
         }
@@ -694,7 +666,7 @@ extension TodoTabController: HasWorkspace {
                     string: workspaceTitle,
                     attributes:
                         [.font: CustomFont.navigationWorkspace,
-                        .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
+                         .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
                                                                  for: .normal)
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
                 myHandler(workspaceTitle)
@@ -711,11 +683,8 @@ extension TodoTabController: HasWorkspace {
         var newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-
-<<<<<<< HEAD
-
-=======
->>>>>>> fineCode
+        
+        
         children.removeFirst() // Remove 'All'
         children.reverse()
         newMenu = menu.replacingChildren(children)
@@ -723,8 +692,8 @@ extension TodoTabController: HasWorkspace {
         self.workspacePickerButton.showsMenuAsPrimaryAction = true
         
         // set lastUsedWorkspace to navigationWorkspace Title
-        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "All"
-
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? .all
+        
         self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
 }

@@ -129,7 +129,7 @@ class MemoController: UIViewController {
         barButtonItem.showsMenuAsPrimaryAction = true
         
         if selectedWorkspace == nil {
-            selectedWorkspace = UserDefaults.standard.lastUsedWorkspace != "All" ? UserDefaults.standard.lastUsedWorkspace : "Default"
+            selectedWorkspace = UserDefaults.standard.lastUsedWorkspace != .all ? UserDefaults.standard.lastUsedWorkspace : "Default"
         }
         
         self.barButtonItem.setAttributedTitle(NSAttributedString(string: selectedWorkspace!, attributes: [.font: CustomFont.barButton, .foregroundColor: UIColor(white: 0.1, alpha: 0.9)]), for: .normal)

@@ -8,6 +8,9 @@
 import Foundation
 
 extension String {
+    
+    public static let all = "All"
+    
     public struct EntityName {
         public static let todo = "Todo"
         public static let memo = "Memo"

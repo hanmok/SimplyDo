@@ -71,7 +71,7 @@ extension CoreDataManager {
         do {
             let todos = try mainContext.fetch(fetchRequest)
             
-            if predicate.workspaceTitle == "All" {
+            if predicate.workspaceTitle == String.all {
                 print("flag 1, returning \(todos.count)")
                 
                 return todos

@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 extension Todo {
     public var createdAt: Date {
         get { self.createdAt_ ?? Date() }
@@ -39,9 +38,4 @@ extension Todo {
         get { self.title_ ?? "" }
         set { self.title_ = newValue }
     }
-    
-//    public var tags: Set<Tag> {
-//        get { self.tags_ as? Set<Tag> ?? [] }
-//        set { self.tags_ = newValue as NSSet }
-//    }
 }
