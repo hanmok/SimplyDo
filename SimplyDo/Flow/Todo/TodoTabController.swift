@@ -92,7 +92,7 @@ class TodoTabController: UIViewController {
         floatingAddBtn.addTarget(self, action: #selector(addTapped), for: .touchUpInside)
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
-        archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
+//        archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -120,8 +120,6 @@ class TodoTabController: UIViewController {
     func setupWorkspaceNavigationBar() {
         setupWorkspacePickerMenu({ workspaceTitle in
             self.fetchTodos(workspaceTitle: workspaceTitle)
-//            self.fetchMemos(workspaceTitle: workspaceTitle)
-//            self.fetchtodos
         })
     }
     
@@ -129,22 +127,10 @@ class TodoTabController: UIViewController {
         
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         
-        if ["none", "All"].contains(lastUsedWorkspace) == false {
-//            memos = coreDataManager.fetchTodos()(workspaceTitle: lastUsedWorkspace)
-        } else {
-//            memos = coreDataManager.fetchTodos()
-        }
-//        coreDataManager.fetchtodos
-        
-//        todo.forEach {
-//            print("fetched Memo title: \($0.title)")
-//        }
         self.fetchData()
-        
         DispatchQueue.main.async {
-            //            self.memoTableView.reloadData()
+
             self.todoTableView.reloadData()
-            
         }
     }
     
@@ -295,14 +281,6 @@ class TodoTabController: UIViewController {
         } catch let e {
             print(e.localizedDescription)
         }
-    }
-    
-    @objc func tagTapped() {
-//        print("tag Tapped")
-    }
-    
-    @objc func archiveTapped() {
-//        print("archive Tapped")
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -712,14 +690,15 @@ extension TodoTabController: HasWorkspace {
         
         children.append(UIAction(title: "Add", handler: { handler in
             self.addWorkspaceAction()
-            print("Add tapped")
         }))
         
         var newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-        
+
+
         children.removeFirst() // Remove 'All'
+        children.reverse()
         newMenu = menu.replacingChildren(children)
         self.workspacePickerButton.menu = newMenu
         self.workspacePickerButton.showsMenuAsPrimaryAction = true
