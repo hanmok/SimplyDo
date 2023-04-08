@@ -718,10 +718,12 @@ extension TodoTabController: HasWorkspace {
             print("Add tapped")
         }))
         
-        let newMenu = menu.replacingChildren(children)
+        var newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-        
+//        newMenu = newMenu.replacingChildren(children.removeFirst())
+        children.removeFirst() // Remove 'All' 
+        newMenu = menu.replacingChildren(children)
         self.workspacePickerButton.menu = newMenu
         self.workspacePickerButton.showsMenuAsPrimaryAction = true
         
