@@ -22,11 +22,13 @@ class MemoTabController: UIViewController {
     var memos: [Memo] = []
     var coreDataManager: CoreDataManager
     
-//    var userDefault = UserDefaultSetup()
-    
+    private func initializeMemos() {
+//        self.initializeWorkspace()
+        memoTableView.reloadData()
+    }
     lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
 
-    lazy var workspaces = [String]()
+    
     
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
@@ -58,24 +60,10 @@ class MemoTabController: UIViewController {
         setupNavigationBar()
     }
     
-    private func initializeWorkspace() {
-        workspaces = ["All"]
-        let fetchedWorkspaces = coreDataManager.fetchWorkspace()
-
-        fetchedWorkspaces.forEach {
-            self.workspaces.append($0.title)
-        }
-        memoTableView.reloadData()
-    }
-    
     
     private func setupRightBarButton() {
         let rightButton = UIButton(image: UIImage.plainCheckmark, tintColor: UIColor(white: 0.5, alpha: 0.5), hasInset: false)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-    }
-    
-    @objc func checkmarkTapped() {
-        
     }
     
     private func setupNavigationBar() {
@@ -84,49 +72,18 @@ class MemoTabController: UIViewController {
     }
     
     private func setupWorkspaceNavigationBar() {
-        initializeWorkspace()
-        setupBiggerWorkspacePickerMenu()
+//        initializeWorkspace()
+//        setupBiggerWorkspacePickerMenu()
+        setupWorkspacePickerMenu({ workspaceTitle in
+            self.fetchMemos(workspaceTitle: workspaceTitle)
+        })
     }
     
     private func hideNavigationBarLine() {
         self.navigationController?.hideNavigationBarLine()
     }
     
-    // TODO: UserDefault 에 마지막으로 선택한 workspace 기억시킨 후 불러들이기.
-    private func setUsedWorkspace() {
-        
-    }
     
-    private func setupBiggerWorkspacePickerMenu() {
-
-        let menu = UIMenu(title: "")
-        
-        var children = [UIMenuElement]()
-        
-        // make image too if has one
-        workspaces.forEach { [weak self] workspaceTitle in
-            children.append(UIAction(title: workspaceTitle, handler: { handler in
-                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: workspaceTitle, attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-//                self?.userDefault.lastUsedWorkspace = workspaceTitle
-                UserDefaults.standard.lastUsedWorkspace = workspaceTitle
-                self?.fetchMemos(workspaceTitle: workspaceTitle)
-            }))
-        }
-        
-        children.append(UIAction(title: "Add", handler: { handler in
-            self.addWorkspaceAction()
-            print("Add tapped")
-        }))
-
-        let newMenu = menu.replacingChildren(children)
-        self.navTitleWorkspaceButton.menu = newMenu
-        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-        
-        // set lastUsedWorkspace to navigationWorkspace Title
-        
-        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? ""
-        self.setAttributedNavigationTitle(lastUsedWorkspace)
-    }
     
     private func addWorkspaceAction() {
         
@@ -156,7 +113,7 @@ class MemoTabController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear called, lastUsedWorkspace: \(UserDefaults.standard.lastUsedWorkspace)")
         super.viewWillAppear(animated)
-//        let lastUsedWorkspace = userDefault.lastUsedWorkspace
+        
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         if ["none", "All"].contains(lastUsedWorkspace) == false {
             fetchMemos(workspaceTitle: UserDefaults.standard.lastUsedWorkspace)
@@ -299,7 +256,6 @@ class MemoTabController: UIViewController {
     
     private let floatingAddBtn: CircularButton = {
         let btn = CircularButton()
-//        let image = UIImage(systemName: "plus")!
         let image = UIImage.plus
         btn.addImage(image, tintColor: .mainOrange)
         btn.backgroundColor = UIColor.indigo
@@ -405,3 +361,47 @@ extension MemoTabController: MemoTableCellDelegate {
  항상 마지막에 생성했던 것 기준으로.
  Nope. 편집 역순만 넣기.
  */
+
+extension MemoTabController: HasWorkspace {
+    
+    internal func setupWorkspacePickerMenu(_ myHandler: @escaping (String) -> ()) {
+
+        var workspaces = ["All"]
+        let fetchedWorkspaces = coreDataManager.fetchWorkspace()
+
+        fetchedWorkspaces.forEach {
+            workspaces.append($0.title)
+        }
+        
+        let menu = UIMenu(title: "")
+        
+        var children = [UIMenuElement]()
+        
+        // make image too if has one
+        workspaces.forEach { [weak self] workspaceTitle in
+            children.append(UIAction(title: workspaceTitle, handler: { handler in
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(
+                    string: workspaceTitle,
+                    attributes:
+                        [.font: CustomFont.navigationWorkspace,
+                        .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
+                                                                 for: .normal)
+                UserDefaults.standard.lastUsedWorkspace = workspaceTitle
+                myHandler(workspaceTitle)
+            }))
+        }
+        
+        children.append(UIAction(title: "Add", handler: { handler in
+            self.addWorkspaceAction()
+            print("Add tapped")
+        }))
+        
+        let newMenu = menu.replacingChildren(children)
+        self.navTitleWorkspaceButton.menu = newMenu
+        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+        
+        // set lastUsedWorkspace to navigationWorkspace Title
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? ""
+        self.setAttributedNavigationTitle(lastUsedWorkspace)
+    }
+}

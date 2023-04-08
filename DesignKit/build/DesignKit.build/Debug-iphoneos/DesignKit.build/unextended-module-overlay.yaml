@@ -1,0 +1,14 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/macmini/Desktop/Working XCode/SimplyDo2/DesignKit/build/Debug-iphoneos/DesignKit.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/macmini/Desktop/Working XCode/SimplyDo2/DesignKit/build/DesignKit.build/Debug-iphoneos/DesignKit.build/unextended-module.modulemap",
+    }]
+  }]
+}

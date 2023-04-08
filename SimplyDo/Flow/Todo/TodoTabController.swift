@@ -22,14 +22,16 @@ class TodoTabController: UIViewController {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
     }
-    
-    lazy var testWorkspaces = ["All", "LifeStyle", "Work", "Personal"]
-    var player: AVAudioPlayer?
-    var inputBoxHeight: CGFloat = 90.0
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    var player: AVAudioPlayer?
+    
+    var inputBoxHeight: CGFloat = 90.0
+    
+    
     let designKit = DesignKitImp()
     
     var uncheckedTodos = [Todo]()
@@ -44,9 +46,6 @@ class TodoTabController: UIViewController {
         setupNotifications()
         setupTargets()
         setupLayout()
-        setupSmallerWorkspacePickerMenu()
-        setupBiggerWorkspacePickerMenu()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
     }
@@ -92,47 +91,6 @@ class TodoTabController: UIViewController {
         makeButton.addTarget(self, action: #selector(makeTapped), for: .touchUpInside)
         
         archiveButton.addTarget(self, action: #selector(archiveTapped), for: .touchUpInside)
-        
-//        workspaceButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
-        
-//         triangleButton.addTarget(self, action: #selector(workspaceTapped), for: .touchUpInside)
-    }
-    
-    private func setupBiggerWorkspacePickerMenu() {
-
-        var menu = UIMenu(title: "")
-        
-        var children = [UIMenuElement]()
-        
-        // make image too if has one
-        testWorkspaces.forEach { workspaceName in
-            children.append(UIAction(title: workspaceName, handler: { [weak self] handler in
-//                print(workspaceName)
-                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-            }))
-        }
-
-        
-        let newMenu = menu.replacingChildren(children)
-        self.navTitleWorkspaceButton.menu = newMenu
-        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
-    }
-    
-    private func setupSmallerWorkspacePickerMenu() {
-        var menu = UIMenu(title: "")
-        
-        var children = [UIMenuElement]()
-        // make image too if has one
-        testWorkspaces.forEach { workspaceName in
-            children.append(UIAction(title: workspaceName, handler: { handler in
-//                print(workspaceName)
-                self.workspacePickerButton.setTitle(workspaceName, for: .normal)
-            }))
-        }
-        
-        let newMenu = menu.replacingChildren(children)
-        self.workspacePickerButton.menu = newMenu
-        self.workspacePickerButton.showsMenuAsPrimaryAction = true
     }
     
     private func setupLayout() {
@@ -141,24 +99,94 @@ class TodoTabController: UIViewController {
         setupFloatingButton()
         setupTextInputBoxView()
         setupNavigationBar()
+        setupNavBarButton()
     }
     
     private func setupNavigationBar() {
-        
-        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
-        stackview.distribution = .equalSpacing
-        stackview.axis = .horizontal
-        stackview.alignment = .center
-        stackview.spacing = 16
-        
-        let rightBarButton = UIBarButtonItem(customView: stackview)
-        self.navigationItem.rightBarButtonItem = rightBarButton
-        
-        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
-        
+        setupWorkspaceNavigationBar()
+        hideNavigationBarLine()
+    }
+    
+    private func hideNavigationBarLine() {
         self.navigationController?.hideNavigationBarLine()
     }
+    
+    private func setAttributedNavigationTitle(_ title: String) {
+        navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(string: title, attributes: [.font: UIFont.preferredFont(forTextStyle: .largeTitle), .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+    }
+    
+    func setupWorkspaceNavigationBar() {
+        setupWorkspacePickerMenu({ workspaceTitle in
+//            self.fetchMemos(workspaceTitle: workspaceTitle)
+//            self.fetchtodos
+        })
+    }
+    
+    private func fetchTodos(workspaceTitle: String? = nil) {
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
+        if ["none", "All"].contains(lastUsedWorkspace) == false {
+//            memos = coreDataManager.fetchTodos()(workspaceTitle: lastUsedWorkspace)
+        } else {
+//            memos = coreDataManager.fetchTodos()
+        }
+//        todo.forEach {
+//            print("fetched Memo title: \($0.title)")
+//        }
+        DispatchQueue.main.async {
+//            self.memoTableView.reloadData()
+            self.todoTableView.reloadData()
+            
+        }
+    }
+    
+    private func addWorkspaceAction() {
+        
+        let alertController = UIAlertController(title: "Add Workspace", message: "", preferredStyle: .alert)
+
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter Workspace Name"
+            textField.autocapitalizationType = .sentences
+        }
+
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak self] alert -> Void in
+            let firstTextField = alertController.textFields![0] as UITextField
+            guard firstTextField.text! != "" else { return }
+            self?.coreDataManager.createWorkspace(title: firstTextField.text!)
+            self?.view.makeToast("Workspace named '\(firstTextField.text!)' has been created")
+            self?.setupWorkspaceNavigationBar()
+        })
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(saveAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func setupNavBarButton() {
+        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+        // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
+        navTitleWorkspaceButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
+    }
+    
+//    private func setupNavigationBar() {
+//
+//        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
+//        stackview.distribution = .equalSpacing
+//        stackview.axis = .horizontal
+//        stackview.alignment = .center
+//        stackview.spacing = 16
+//
+//        let rightBarButton = UIBarButtonItem(customView: stackview)
+//        self.navigationItem.rightBarButtonItem = rightBarButton
+//
+//        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+//        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
+//
+//        self.navigationController?.hideNavigationBarLine()
+//    }
     
     private func addSubViews() {
         [todoTableView, floatingAddBtn, todoInputBoxView].forEach { self.view.addSubview($0)}
@@ -257,6 +285,8 @@ class TodoTabController: UIViewController {
                 self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
             }
             
+            self.view.makeToast("Added", position: .top)
+            
         } catch let e {
             print(e.localizedDescription)
         }
@@ -292,7 +322,6 @@ class TodoTabController: UIViewController {
     }
     
     @objc func makeTapped() {
-//        print("makeTapped!")
         guard let title = todoTitleTextField.text else { return }
         todoInputBoxView.transform = CGAffineTransform(translationX: 0, y: 0)
         todoTitleTextField.resignFirstResponder()
@@ -352,25 +381,23 @@ class TodoTabController: UIViewController {
         return button
     }()
     
-    private let navTitleWorkspaceButton: UIButton = {
-        let btn = UIButton()
-
-        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
-//        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
-        btn.layer.cornerRadius = 10
-        return btn
-    }()
-    
-//    private let triangleButton: UIButton = {
+//    private let navTitleWorkspaceButton: UIButton = {
 //        let btn = UIButton()
-//        let triangleImageView = UIImageView.leftTriangleImageView
-//        btn.addSubview(triangleImageView)
-//        triangleImageView.snp.makeConstraints { make in
-//            make.leading.top.trailing.bottom.equalToSuperview()
-//        }
+//
+//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
+//        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+////        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
+//        btn.layer.cornerRadius = 10
 //        return btn
 //    }()
+    
+    private let navTitleWorkspaceButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
+        btn.layer.cornerRadius = 10
+        btn.sizeToFit()
+        return btn
+    }()
     
     private let calendarCell: UIButton = {
         let btn = UIButton()
@@ -665,5 +692,53 @@ extension TodoTabController {
             // fire again on future taps of the bar button item.
             barButtonItem.menu = self.menu(for: barButtonItem)
         }])
+    }
+}
+
+
+
+
+
+extension TodoTabController: HasWorkspace {
+    internal func setupWorkspacePickerMenu(_ myHandler: @escaping (String) -> ()) {
+
+        var workspaces = ["All"]
+        let fetchedWorkspaces = coreDataManager.fetchWorkspace()
+
+        fetchedWorkspaces.forEach {
+            workspaces.append($0.title)
+        }
+        
+        let menu = UIMenu(title: "")
+        
+        var children = [UIMenuElement]()
+        
+        // make image too if has one
+        workspaces.forEach { [weak self] workspaceTitle in
+            children.append(UIAction(title: workspaceTitle, handler: { handler in
+                self?.navTitleWorkspaceButton.setAttributedTitle(NSAttributedString(
+                    string: workspaceTitle,
+                    attributes:
+                        [.font: CustomFont.navigationWorkspace,
+                        .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
+                                                                 for: .normal)
+                UserDefaults.standard.lastUsedWorkspace = workspaceTitle
+//                myHandler(workspaceTitle)
+            }))
+        }
+        
+        children.append(UIAction(title: "Add", handler: { handler in
+            self.addWorkspaceAction()
+            print("Add tapped")
+        }))
+        
+        let newMenu = menu.replacingChildren(children)
+        self.navTitleWorkspaceButton.menu = newMenu
+        self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+        
+        // set lastUsedWorkspace to navigationWorkspace Title
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "All"
+        print("attributedNavigationTitle")
+        self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
 }

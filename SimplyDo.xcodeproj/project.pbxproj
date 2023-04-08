@@ -48,6 +48,7 @@
 		9AD4376E295F228500156D47 /* Todo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4376C295F228500156D47 /* Todo.xcdatamodeld */; };
 		9AD43777295FD43900156D47 /* TodoTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD43776295FD43900156D47 /* TodoTabController.swift */; };
 		9AD4377E295FDA5200156D47 /* TodoDataTestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4377D295FDA5200156D47 /* TodoDataTestStack.swift */; };
+		9AD65B8C29E0D6530091630B /* HasWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD65B8B29E0D6530091630B /* HasWorkspace.swift */; };
 		9ADD01532951ACD800532DA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01522951ACD800532DA5 /* AppDelegate.swift */; };
 		9ADD01552951ACD800532DA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADD01542951ACD800532DA5 /* SceneDelegate.swift */; };
 		9ADD015C2951ACDA00532DA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADD015B2951ACDA00532DA5 /* Assets.xcassets */; };
@@ -135,6 +136,7 @@
 		9AD4376D295F228500156D47 /* Todo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Todo.xcdatamodel; sourceTree = "<group>"; };
 		9AD43776295FD43900156D47 /* TodoTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoTabController.swift; sourceTree = "<group>"; };
 		9AD4377D295FDA5200156D47 /* TodoDataTestStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDataTestStack.swift; sourceTree = "<group>"; };
+		9AD65B8B29E0D6530091630B /* HasWorkspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HasWorkspace.swift; sourceTree = "<group>"; };
 		9ADD014F2951ACD800532DA5 /* SimplyDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADD01522951ACD800532DA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ADD01542951ACD800532DA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				9ADD01522951ACD800532DA5 /* AppDelegate.swift */,
 				9ADD01542951ACD800532DA5 /* SceneDelegate.swift */,
 				9AC2B8AE299A8F0A00173596 /* CodeTomb.swift */,
+				9AD65B8B29E0D6530091630B /* HasWorkspace.swift */,
 				9AD43754295F21CE00156D47 /* Model */,
 				9AD43779295FD4A800156D47 /* Flow */,
 				9AB1219629B4217F00BDEE70 /* WorkspaceController.swift */,
@@ -561,6 +564,7 @@
 				9AC2B8AF299A8F0A00173596 /* CodeTomb.swift in Sources */,
 				9ACF5123296B0FEF00F75020 /* Tag+Helper.swift in Sources */,
 				9AB1219B29B4546900BDEE70 /* TestViewController.swift in Sources */,
+				9AD65B8C29E0D6530091630B /* HasWorkspace.swift in Sources */,
 				9A5D88C5296DBE0F00040C5B /* CoreDataManager.swift in Sources */,
 				9AD43764295F21DB00156D47 /* TodoTagManager.swift in Sources */,
 				9ADD01B92959E9B500532DA5 /* LoginController.swift in Sources */,

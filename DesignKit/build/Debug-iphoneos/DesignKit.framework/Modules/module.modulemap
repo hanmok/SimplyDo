@@ -1,0 +1,11 @@
+framework module DesignKit {
+  umbrella header "DesignKit.h"
+
+  export *
+  module * { export * }
+}
+
+module DesignKit.Swift {
+  header "DesignKit-Swift.h"
+  requires objc
+}

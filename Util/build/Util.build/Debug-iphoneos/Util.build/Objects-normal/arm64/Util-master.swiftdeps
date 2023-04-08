@@ -1,0 +1,11 @@
+version: "Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)"
+options: "2623b18efbb4d17cc7149c8052ec27d92ecd60c585442f2e958da0e2d20dea62"
+build_start_time: [1672835244, 183905124]
+build_end_time: [1672835244, 246561050]
+inputs:
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/PaddedLabel.swift": !private [1672749934, 701556682]
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/StrintExt+.swift": !private [1672500816, 10914802]
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/UIButtonExt+.swift": !private [1672835167, 120816707]
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/UIImageExt+.swift": !private [1672575187, 927581787]
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/UITableViewCellExt+.swift": !private [1672452220, 731835365]
+  "/Users/macmini/Desktop/Working XCode/SimplyDo2/Util/Util/UIViewExt+.swift": !private [1672760224, 938754081]

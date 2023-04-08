@@ -1,0 +1,66 @@
+{
+  "_buildCommand2" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildAndRun"
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "e612b61c4b4d4d4c59737cd279399bea4669bec41ff154b72bb5bc3ee61abac9"
+    }
+  ],
+  "containerPath" : "/Users/macmini/Desktop/Working XCode/SimplyDo2/SimplyDo.xcworkspace",
+  "continueBuildingAfterErrors" : false,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos16.1",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64v8",
+        "arm64",
+        "armv8"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "",
+      "buildProductsPath" : "",
+      "derivedDataPath" : "/Users/macmini/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/macmini/Library/Developer/Xcode/DerivedData/SimplyDo-gmjlhcibqkeddfdfiyyqwsrnjqda/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/macmini/Library/Developer/Xcode/DerivedData/SimplyDo-gmjlhcibqkeddfdfiyyqwsrnjqda/Index.noindex/PrecompiledHeaders",
+      "pchPath" : ""
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ASSETCATALOG_FILTER_FOR_DEVICE_MODEL" : "iPhone11,8",
+          "ASSETCATALOG_FILTER_FOR_DEVICE_OS_VERSION" : "16.0.2",
+          "ASSETCATALOG_FILTER_FOR_THINNING_DEVICE_CONFIGURATION" : "iPhone11,8",
+          "BUILD_ACTIVE_RESOURCES_ONLY" : "YES",
+          "ENABLE_PREVIEWS" : "NO",
+          "TARGET_DEVICE_IDENTIFIER" : "00008020-00121099213A002E",
+          "TARGET_DEVICE_MODEL" : "iPhone11,8",
+          "TARGET_DEVICE_OS_VERSION" : "16.0.2",
+          "TARGET_DEVICE_PLATFORM_NAME" : "iphoneos"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
