@@ -22,8 +22,6 @@ extension String {
         public static let targetDate = "targetDate_"
         public static let title = "title_"
 //        public static let tags = "tags"
-//        public static let workspace = "workspace"
-        public static let workspaceTitle = "workspace_.title"
     }
     
     public struct MemoAttributes {

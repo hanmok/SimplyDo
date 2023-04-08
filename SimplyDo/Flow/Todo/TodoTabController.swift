@@ -43,8 +43,7 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        fetchData()
-        fetchTodos()
+        fetchData()
         setupNotifications()
         setupTargets()
         setupLayout()
@@ -129,7 +128,10 @@ class TodoTabController: UIViewController {
         
         self.fetchData()
         DispatchQueue.main.async {
+<<<<<<< HEAD
 
+=======
+>>>>>>> fineCode
             self.todoTableView.reloadData()
         }
     }
@@ -165,6 +167,23 @@ class TodoTabController: UIViewController {
         navTitleWorkspaceButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
     }
+    
+//    private func setupNavigationBar() {
+//
+//        let stackview = UIStackView.init(arrangedSubviews: [archiveButton])
+//        stackview.distribution = .equalSpacing
+//        stackview.axis = .horizontal
+//        stackview.alignment = .center
+//        stackview.spacing = 16
+//
+//        let rightBarButton = UIBarButtonItem(customView: stackview)
+//        self.navigationItem.rightBarButtonItem = rightBarButton
+//
+//        navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+//        navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: navTitleWorkspaceButton)
+//
+//        self.navigationController?.hideNavigationBarLine()
+//    }
     
     private func addSubViews() {
         [todoTableView, floatingAddBtn, todoInputBoxView].forEach { self.view.addSubview($0)}
@@ -263,10 +282,7 @@ class TodoTabController: UIViewController {
         }
         
         do {
-//            print("create todo, pickedWorkspaceForNewTodo: ")
-            let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "Default"
-            print("create todo, pickedWorkspaceForNewTodo: \(lastUsedWorkspace)")
-            let newTodo = try coreDataManager.createTodo(title: title, workspace: lastUsedWorkspace, targetDate: targetDate)
+            let newTodo = try coreDataManager.createTodo(title: title, workspace: pickedWorkspaceForNewTodo, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
             
@@ -696,7 +712,10 @@ extension TodoTabController: HasWorkspace {
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fineCode
         children.removeFirst() // Remove 'All'
         children.reverse()
         newMenu = menu.replacingChildren(children)

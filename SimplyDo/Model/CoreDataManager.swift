@@ -64,13 +64,7 @@ extension CoreDataManager {
             case (let isAscending, let status):
                 if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
                     let arg = status == .done ? true : false
-                    let statusPredicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
-                    
-//                    let workspacePredicate = NSPredicate(format: "\(String.TodoAttributes.workspaceTitle) == %@", predicate.workspaceTitle)
-//                    let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [statusPredicate, workspacePredicate])
-//                    fetchRequest.predicate = compoundPredicate
-                    
-                    fetchRequest.predicate = statusPredicate
+                    fetchRequest.predicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
                 }
                 fetchRequest.sortDescriptors = [NSSortDescriptor(key: .TodoAttributes.createdAt, ascending: isAscending)]
         }
@@ -195,7 +189,7 @@ extension CoreDataManager {
             let memos = try mainContext.fetch(fetchRequest)
             // if has workspaceTitle, fetch them only
             if let workspaceTitle = workspaceTitle {
-                let matchedMemos = memos.filter { $0.workspaceTitle == workspaceTitle }
+                let matchedMemos = memos.filter { $0.workspace?.title == workspaceTitle }
                 return matchedMemos
             }
             return memos

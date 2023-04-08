@@ -33,8 +33,7 @@ class MemoController: UIViewController {
         self.originalTitle = memo?.title
         self.originalContents = memo?.contents
         super.init(nibName: nil, bundle: nil)
-//        self.selectedWorkspace = memo?.workspace?.title
-        self.selectedWorkspace = memo?.workspaceTitle
+        self.selectedWorkspace = memo?.workspace?.title
     }
 
     required init?(coder: NSCoder) {
