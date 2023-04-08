@@ -87,7 +87,7 @@ class MemoTableCell: UITableViewCell {
 //        if let memoWorkspace = memo.workspace {
 //            workspaceLabel.text = memoWorkspace.title
 //        }
-        workspaceLabel.text = memo.workspaceTitle
+        workspaceLabel.text = memo.workspace?.title
     }
     
     private let workspaceLabel: UILabel = {

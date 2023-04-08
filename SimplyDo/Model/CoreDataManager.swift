@@ -195,7 +195,7 @@ extension CoreDataManager {
             let memos = try mainContext.fetch(fetchRequest)
             // if has workspaceTitle, fetch them only
             if let workspaceTitle = workspaceTitle {
-                let matchedMemos = memos.filter { $0.workspaceTitle == workspaceTitle }
+                let matchedMemos = memos.filter { $0.workspace?.title == workspaceTitle }
                 return matchedMemos
             }
             return memos

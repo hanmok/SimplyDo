@@ -46,10 +46,10 @@ extension Todo {
 //        set { self.workspace_ = newValue }
 //    }
     
-    public var workspaceTitle: String {
-        get { self.workspace_?.title ?? "Default" }
-        set { self.workspace_?.title = newValue }
-    }
+//    public var workspaceTitle: String {
+//        get { self.workspace_?.title ?? "Default" }
+//        set { self.workspace_?.title = newValue }
+//    }
     
 //    public var tags: Set<Tag> {
 //        get { self.tags_ as? Set<Tag> ?? [] }
