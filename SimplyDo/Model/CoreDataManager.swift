@@ -19,7 +19,7 @@ public class CoreDataManager {
 // static 으로 하는게 낫지 않나??
 extension CoreDataManager {
     @discardableResult
-    func createTodo(title: String, targetDate: Date = Date()) throws -> Todo {
+    func createTodo(title: String, workspace: String, targetDate: Date = Date()) throws -> Todo {
         let todo = Todo(context: mainContext)
         todo.title = title
         todo.targetDate = targetDate

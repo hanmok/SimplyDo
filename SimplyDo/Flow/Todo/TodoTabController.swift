@@ -31,6 +31,7 @@ class TodoTabController: UIViewController {
     
     var inputBoxHeight: CGFloat = 90.0
     
+    var pickedWorkspaceForNewTodo = ""
     var availableWorkspaces = [String]()
     
     let designKit = DesignKitImp()
@@ -207,7 +208,6 @@ class TodoTabController: UIViewController {
         $0.backgroundColor = UIColor(white: 0.5, alpha: 1.0)
     }
     
-    
     private func setupTextInputBoxView() {
 
         [
@@ -234,7 +234,6 @@ class TodoTabController: UIViewController {
         }
 
         workspacePickerButton.snp.makeConstraints { make in
-//            make.leading.equalTo(datePickerButton.snp.trailing).offset(12)
             make.leading.equalTo(dividerView.snp.trailing).offset(8)
             make.top.height.equalTo(datePickerButton)
             make.width.equalTo(100)
@@ -258,8 +257,8 @@ class TodoTabController: UIViewController {
     private func setupTableViewLayout() {
         todoTableView.delegate = self
         todoTableView.dataSource = self
+        
         todoTableView.snp.makeConstraints { make in
-//            make.leading.trailing.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
             make.bottom.equalToSuperview().offset(-tabbarHeight)
@@ -285,7 +284,7 @@ class TodoTabController: UIViewController {
         }
         
         do {
-            let newTodo = try coreDataManager.createTodo(title: title, targetDate: targetDate)
+            let newTodo = try coreDataManager.createTodo(title: title, workspace: pickedWorkspaceForNewTodo, targetDate: targetDate)
             let firstIndexPath = IndexPath(row: 0, section: 0)
             uncheckedTodos.insert(newTodo, at: 0)
             
@@ -343,21 +342,6 @@ class TodoTabController: UIViewController {
         todoTitleTextField.becomeFirstResponder()
     }
     
-//    @objc func workspaceTapped() {
-//        print("workspaceTapped")
-//        isSpreading.toggle()
-//        UIView.animate(withDuration: 0.2) {
-//
-//            if self.isSpreading {
-//                let t = CGAffineTransform(rotationAngle: -Double.pi/2)
-//                self.triangleButton.transform = t
-//            } else {
-//                let t = CGAffineTransform(rotationAngle: 0)
-//                self.triangleButton.transform = t
-//            }
-//        }
-//    }
-    
     // MARK: - UI Components
     
     private let datePicker: UIDatePicker = {
@@ -382,8 +366,6 @@ class TodoTabController: UIViewController {
     
     private let workspacePickerButton: UIButton = {
         let button = UIButton()
-        // TODO: change to current every time ..
-//        button.setTitle("LifeStyle", for: .normal)
         button.setTitle(UserDefaults.standard.lastUsedWorkspace ?? "", for: .normal)
         button.layer.cornerRadius = 5
         button.setTitleColor(UIColor.systemBlue, for: .normal)
@@ -727,6 +709,7 @@ extension TodoTabController: HasWorkspace {
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
 //                myHandler(workspaceTitle)
                 self?.workspacePickerButton.setTitle(workspaceTitle, for: .normal)
+                self?.pickedWorkspaceForNewTodo = workspaceTitle
             }))
         }
         
@@ -738,6 +721,9 @@ extension TodoTabController: HasWorkspace {
         let newMenu = menu.replacingChildren(children)
         self.navTitleWorkspaceButton.menu = newMenu
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
+        
+        self.workspacePickerButton.menu = newMenu
+        self.workspacePickerButton.showsMenuAsPrimaryAction = true
         
         // set lastUsedWorkspace to navigationWorkspace Title
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "All"
