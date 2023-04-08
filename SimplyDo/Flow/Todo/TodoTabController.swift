@@ -118,6 +118,7 @@ class TodoTabController: UIViewController {
     
     func setupWorkspaceNavigationBar() {
         setupWorkspacePickerMenu({ workspaceTitle in
+            self.fetchTodos(workspaceTitle: workspaceTitle)
 //            self.fetchMemos(workspaceTitle: workspaceTitle)
 //            self.fetchtodos
         })
@@ -125,14 +126,19 @@ class TodoTabController: UIViewController {
     
     private func fetchTodos(workspaceTitle: String? = nil) {
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
+        
         if ["none", "All"].contains(lastUsedWorkspace) == false {
 //            memos = coreDataManager.fetchTodos()(workspaceTitle: lastUsedWorkspace)
         } else {
 //            memos = coreDataManager.fetchTodos()
         }
+//        coreDataManager.fetchtodos
+        
 //        todo.forEach {
 //            print("fetched Memo title: \($0.title)")
 //        }
+        self.fetchData()
+        
         DispatchQueue.main.async {
 //            self.memoTableView.reloadData()
             self.todoTableView.reloadData()
@@ -268,8 +274,10 @@ class TodoTabController: UIViewController {
     // MARK: - Actions
     
     private func fetchData() {
+        let lastOne = UserDefaults.standard.lastUsedWorkspace ?? "All"
         do {
-            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
+            let allTodos = try coreDataManager.fetchTodos(
+                predicate: TodoPredicate(workspaceTitle: lastOne, completion: CompletionStatus.none))
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
         } catch let error {
@@ -707,7 +715,8 @@ extension TodoTabController: HasWorkspace {
                         .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
                                                                  for: .normal)
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
-//                myHandler(workspaceTitle)
+                myHandler(workspaceTitle)
+                print("selected workspace: \(workspaceTitle)")
                 self?.workspacePickerButton.setTitle(workspaceTitle, for: .normal)
                 self?.pickedWorkspaceForNewTodo = workspaceTitle
             }))
