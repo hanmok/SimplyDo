@@ -118,8 +118,10 @@ class TodoTabController: UIViewController {
     }
     
     func setupWorkspaceNavigationBar() {
-        setupWorkspacePickerMenu({ [weak self] workspaceTitle in
-            self?.fetchTodos(workspaceTitle: workspaceTitle)
+        setupWorkspacePickerMenu({ workspaceTitle in
+            self.fetchTodos(workspaceTitle: workspaceTitle)
+//            self.fetchMemos(workspaceTitle: workspaceTitle)
+//            self.fetchtodos
         })
     }
     
@@ -127,27 +129,18 @@ class TodoTabController: UIViewController {
         
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         
-        do {
-            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(
-                workspaceTitle: lastUsedWorkspace ?? "All",
-                shouldSortAscendingOrder: true,
-                completion: CompletionStatus.none))
-            print("Todo fetched. workspaceTitle: \(lastUsedWorkspace ?? "All" )")
-//            allTodos.forEach { print($0.workspace. )}
-            allTodos.forEach { print($0.workspaceTitle) }
-            checkedTodos = allTodos.filter { $0.isDone == true }
-            uncheckedTodos = allTodos.filter { $0.isDone == false }
-            
-            DispatchQueue.main.async {
-                self.todoTableView.reloadData()
-            }
-            
-        } catch let error {
-            print(error.localizedDescription)
+        if ["none", "All"].contains(lastUsedWorkspace) == false {
+//            memos = coreDataManager.fetchTodos()(workspaceTitle: lastUsedWorkspace)
+        } else {
+//            memos = coreDataManager.fetchTodos()
         }
+//        coreDataManager.fetchtodos
         
-//        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
-
+//        todo.forEach {
+//            print("fetched Memo title: \($0.title)")
+//        }
+        self.fetchData()
+        
         DispatchQueue.main.async {
             //            self.memoTableView.reloadData()
             self.todoTableView.reloadData()
@@ -265,15 +258,17 @@ class TodoTabController: UIViewController {
     
     // MARK: - Actions
     
-//    private func fetchData() {
-//        do {
-//            let allTodos = try coreDataManager.fetchTodos(predicate: TodoPredicate(completion: CompletionStatus.none))
-//            checkedTodos = allTodos.filter { $0.isDone == true }
-//            uncheckedTodos = allTodos.filter { $0.isDone == false }
-//        } catch let error {
-//            print(error.localizedDescription)
-//        }
-//    }
+    private func fetchData() {
+        let lastOne = UserDefaults.standard.lastUsedWorkspace ?? "All"
+        do {
+            let allTodos = try coreDataManager.fetchTodos(
+                predicate: TodoPredicate(workspaceTitle: lastOne, completion: CompletionStatus.none))
+            checkedTodos = allTodos.filter { $0.isDone == true }
+            uncheckedTodos = allTodos.filter { $0.isDone == false }
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
     
     private func makeTodo(title: String, targetDate: Date = Date()) {
         guard title != "" else {
@@ -708,8 +703,8 @@ extension TodoTabController: HasWorkspace {
                         .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]),
                                                                  for: .normal)
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
-                print("fetch with workspace title \(workspaceTitle)")
                 myHandler(workspaceTitle)
+                print("selected workspace: \(workspaceTitle)")
                 self?.workspacePickerButton.setTitle(workspaceTitle, for: .normal)
                 self?.pickedWorkspaceForNewTodo = workspaceTitle
             }))

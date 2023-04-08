@@ -25,12 +25,8 @@ extension CoreDataManager {
         todo.targetDate = targetDate
         todo.isDone = false
         todo.createdAt = Date()
-//        todo.workspace?.title = workspace
-//        todo.workspace_?.title = workspace
-        todo.workspaceTitle = workspace
-        todo.workspace_?.title = workspace
-        
-        print("new todo's workspaceTitle: \(workspace)")
+        let matchingWorkspace = self.findWorkspace(workspace)
+        todo.workspace = matchingWorkspace
         do {
             try mainContext.save()
             return todo
@@ -82,15 +78,14 @@ extension CoreDataManager {
             let todos = try mainContext.fetch(fetchRequest)
             
             if predicate.workspaceTitle == "All" {
+                print("flag 1, returning \(todos.count)")
+                
                 return todos
             } else {
-                print("predicate: \(predicate.workspaceTitle)")
-//                print("todos: \(todos.)")
-                print("workspace titles:")
-                todos.forEach { print($0.title, $0.workspaceTitle)}
-                let filteredTodos = todos.filter { $0.workspace_?.title == predicate.workspaceTitle }
-                return filteredTodos
+                let matchingWorkspace = self.findWorkspace(predicate.workspaceTitle)
+                return todos.filter { $0.workspace == matchingWorkspace}
             }
+            
         } catch let error {
             throw TodoError.read(error.localizedDescription)
         }
@@ -120,13 +115,12 @@ extension CoreDataManager {
     
     func updateMemoWorkspace(memo: Memo, _ workspace: String) {
         
-        guard let matchingWorkspace = self.findWorkspace(workspace) else {
-            fatalError()
-        }
-//        memo.workspace = matchingWorkspace
-//        memo.workspaceTitle = matchingWorkspace
-//        memo.workspaceTitle = matchingWorkspace
-        memo.workspaceTitle = matchingWorkspace.title
+//        guard let matchingWorkspace = self.findWorkspace(workspace) else {
+//            fatalError()
+//        }
+        let matchingWorkspace = self.findWorkspace(workspace)
+        memo.workspace = matchingWorkspace
+        
         do {
             try mainContext.save()
         } catch let error {
@@ -136,11 +130,12 @@ extension CoreDataManager {
     
     func updateTodoWorkspace(todo: Todo, _ workspace: String) {
         
-        guard let matchingWorkspace = self.findWorkspace(workspace) else {
-            fatalError()
-        }
-//        todo.workspace = matchingWorkspace
-        todo.workspaceTitle = matchingWorkspace.title
+//        guard let matchingWorkspace = self.findWorkspace(workspace) else {
+//            fatalError()
+//        }
+        
+        let matchingWorkspace = self.findWorkspace(workspace)
+        todo.workspace = matchingWorkspace
         
         do {
             try mainContext.save()
@@ -245,15 +240,24 @@ extension CoreDataManager {
         }
     }
     
-    func findWorkspace(_ title: String) -> Workspace? {
+    func findWorkspace(_ title: String) -> Workspace {
         let fetchRequest = NSFetchRequest<Workspace>(entityName: String.EntityName.workspace)
         
         do {
             let workspaces = try mainContext.fetch(fetchRequest)
-            guard let matched = workspaces.first(where: { each in
-                each.title == title
-            }) else { fatalError() }
-            return matched
+//            guard let matched = workspaces.first(where: { each in
+//                each.title == title
+//            }) else {
+//                fatalError()
+//            }
+            
+            if let matched = workspaces.first(where: { each in each.title == title}) {
+                return matched
+            } else {
+                return workspaces.first!
+            }
+            
+            
         } catch let error {
             fatalError(error.localizedDescription)
         }
