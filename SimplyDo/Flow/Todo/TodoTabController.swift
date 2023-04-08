@@ -31,6 +31,7 @@ class TodoTabController: UIViewController {
     
     var inputBoxHeight: CGFloat = 90.0
     
+    var availableWorkspaces = [String]()
     
     let designKit = DesignKitImp()
     
@@ -41,7 +42,6 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         fetchData()
         setupNotifications()
         setupTargets()
@@ -203,12 +203,15 @@ class TodoTabController: UIViewController {
         }
     }
     
+    private let dividerView = UIView().then {
+        $0.backgroundColor = UIColor(white: 0.5, alpha: 1.0)
+    }
     
     
     private func setupTextInputBoxView() {
 
         [
-            datePickerButton, workspacePickerButton,
+            datePickerButton, dividerView, workspacePickerButton,
             todoTitleTextField, makeButton].forEach { self.todoInputBoxView.addSubview($0) }
         
         todoInputBoxView.snp.makeConstraints { make in
@@ -223,9 +226,16 @@ class TodoTabController: UIViewController {
             make.height.equalTo(32)
             make.width.equalTo(60)
         }
+        
+        dividerView.snp.makeConstraints { make in
+            make.leading.equalTo(datePickerButton.snp.trailing).offset(8)
+            make.top.bottom.equalTo(datePickerButton).inset(3)
+            make.width.equalTo(1)
+        }
 
         workspacePickerButton.snp.makeConstraints { make in
-            make.leading.equalTo(datePickerButton.snp.trailing).offset(6)
+//            make.leading.equalTo(datePickerButton.snp.trailing).offset(12)
+            make.leading.equalTo(dividerView.snp.trailing).offset(8)
             make.top.height.equalTo(datePickerButton)
             make.width.equalTo(100)
         }
@@ -372,7 +382,9 @@ class TodoTabController: UIViewController {
     
     private let workspacePickerButton: UIButton = {
         let button = UIButton()
-        button.setTitle("LifeStyle", for: .normal)
+        // TODO: change to current every time ..
+//        button.setTitle("LifeStyle", for: .normal)
+        button.setTitle(UserDefaults.standard.lastUsedWorkspace ?? "", for: .normal)
         button.layer.cornerRadius = 5
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.backgroundColor = UIColor(hex6: 0xDBDBDA)
@@ -380,16 +392,6 @@ class TodoTabController: UIViewController {
         button.sizeToFit()
         return button
     }()
-    
-//    private let navTitleWorkspaceButton: UIButton = {
-//        let btn = UIButton()
-//
-//        btn.setAttributedTitle(NSAttributedString(string: "LifeStyle", attributes: [.font: CustomFont.navigationWorkspace, .foregroundColor: UIColor(white: 0.1, alpha: 0.8)]), for: .normal)
-//        btn.backgroundColor = UIColor(hex6: 0xDBDBDA)
-////        btn.titleEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5) // 이거만 쓰면 글씨가 잘린다 ??
-//        btn.layer.cornerRadius = 10
-//        return btn
-//    }()
     
     private let navTitleWorkspaceButton: UIButton = {
         let btn = UIButton()
@@ -724,6 +726,7 @@ extension TodoTabController: HasWorkspace {
                                                                  for: .normal)
                 UserDefaults.standard.lastUsedWorkspace = workspaceTitle
 //                myHandler(workspaceTitle)
+                self?.workspacePickerButton.setTitle(workspaceTitle, for: .normal)
             }))
         }
         
@@ -738,7 +741,7 @@ extension TodoTabController: HasWorkspace {
         
         // set lastUsedWorkspace to navigationWorkspace Title
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "All"
-        print("attributedNavigationTitle")
+
         self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
 }
