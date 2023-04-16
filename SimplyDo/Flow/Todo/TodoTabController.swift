@@ -569,7 +569,7 @@ extension TodoTabController: UncheckedTableCellDelegate {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
                 
             } completion: { _ in
-                self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .automatic)
+                self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .none)
             }
         } catch {
             self.view.makeToast("failed toggle")
@@ -598,7 +598,7 @@ extension TodoTabController: CheckedTableCellDelegate {
                 todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
                 //                AudioServicesPlaySystemSound(1003)
             } completion: { success in
-                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .automatic)
+                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .none)
             }
             
         } catch {

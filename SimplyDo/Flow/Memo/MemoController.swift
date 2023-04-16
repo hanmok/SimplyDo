@@ -142,7 +142,6 @@ class MemoController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [copyButton, barButtonItem])
         stackView.spacing = 10
         stackView.axis = .horizontal
-//        self.navigationItem.rightBarButtonItem = rightBarButton
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
     }
     
