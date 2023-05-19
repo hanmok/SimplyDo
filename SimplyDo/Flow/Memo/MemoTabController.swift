@@ -23,13 +23,11 @@ class MemoTabController: UIViewController {
     var coreDataManager: CoreDataManager
     
     private func initializeMemos() {
-//        self.initializeWorkspace()
         memoTableView.reloadData()
     }
+    
     lazy var maximumContentsHeight = NSString(string: "\n\n\n\n").boundingRect(with:CGSize(width:view.frame.width - 32, height: 1000), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote)], context: nil)
 
-    
-    
     init(coreDataManager: CoreDataManager) {
         self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
@@ -72,8 +70,6 @@ class MemoTabController: UIViewController {
     }
     
     private func setupWorkspaceNavigationBar() {
-//        initializeWorkspace()
-//        setupBiggerWorkspacePickerMenu()
         setupWorkspacePickerMenu({ workspaceTitle in
             self.fetchMemos(workspaceTitle: workspaceTitle)
         })
@@ -82,8 +78,6 @@ class MemoTabController: UIViewController {
     private func hideNavigationBarLine() {
         self.navigationController?.hideNavigationBarLine()
     }
-    
-    
     
     private func addWorkspaceAction() {
         
@@ -115,7 +109,7 @@ class MemoTabController: UIViewController {
         super.viewWillAppear(animated)
         
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
-        if ["none", "All"].contains(lastUsedWorkspace) == false {
+        if lastUsedWorkspace != .all {
             fetchMemos(workspaceTitle: UserDefaults.standard.lastUsedWorkspace)
         } else {
             fetchMemos()
@@ -126,7 +120,7 @@ class MemoTabController: UIViewController {
     
     private func fetchMemos(workspaceTitle: String? = nil) {
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
-        if ["none", "All"].contains(lastUsedWorkspace) == false {
+        if lastUsedWorkspace != .all {
             memos = coreDataManager.fetchMemos(workspaceTitle: lastUsedWorkspace)
         } else {
             memos = coreDataManager.fetchMemos()
@@ -147,33 +141,7 @@ class MemoTabController: UIViewController {
         setupNavBarButton()
     }
     
-   
-//    private let tagButton = UIButton(image: UIImage.tag, tintColor: .mainOrange, hasInset: true, inset: 4)
-    
     private func setupNavBarButton(){
-        
-//        let stackview = UIStackView.init(arrangedSubviews: [tagButton])
-//        stackview.distribution = .equalSpacing
-//        stackview.axis = .horizontal
-//        stackview.alignment = .center
-//        stackview.spacing = 16
-        
-//        let rightBarButton = UIBarButtonItem(customView: stackview)
-//        self.navigationItem.rightBarButtonItem = rightBarButton
-        
-        
-//        self.view.addSubview(workspaceButton)
-//        workspaceButton.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(22)
-//            make.top.equalTo(view.snp.top).offset(50)
-//        }
-//
-//        self.view.addSubview(triangleButton)
-//        triangleButton.snp.makeConstraints { make in
-//            make.leading.equalTo(workspaceButton.snp.trailing).offset(4)
-//            make.width.height.equalTo(26)
-//            make.centerY.equalTo(workspaceButton.snp.centerY)
-//        }
         
         navTitleWorkspaceButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         // FIXME: Text Size 에 따라 크기 달라지도록 설정해야함.
@@ -265,7 +233,6 @@ class MemoTabController: UIViewController {
 
 extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return memos.count
     }
     
@@ -278,24 +245,18 @@ extension MemoTabController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: navigate to memo Controller
-        
         memoTapped(indexPath)
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        let titlePadding: CGFloat = 8 + 24 + 8 + 16
-        
         let targetMemo = memos[indexPath.row]
-//        if memos[indexPath.row].title == "" && memos[indexPath]
         
         let approximatedWidthOfBioTextView = view.frame.width - 16 - 16
         let contentsSize = CGSize(width: approximatedWidthOfBioTextView, height: 1000)
         let titleSize = CGSize(width: approximatedWidthOfBioTextView - 100, height: 1000)
         // 16: Contents label font
-        
         
         let estimatedTitleFrame = NSString(string: targetMemo.title).boundingRect(with: titleSize, options: .usesLineFragmentOrigin,attributes: [.font: CustomFont.memoCellTitle], context: nil)
         
@@ -366,7 +327,7 @@ extension MemoTabController: HasWorkspace {
     
     internal func setupWorkspacePickerMenu(_ myHandler: @escaping (String) -> ()) {
 
-        var workspaces = ["All"]
+        var workspaces: [String] = [.all]
         let fetchedWorkspaces = coreDataManager.fetchWorkspace()
 
         fetchedWorkspaces.forEach {
@@ -401,7 +362,7 @@ extension MemoTabController: HasWorkspace {
         self.navTitleWorkspaceButton.showsMenuAsPrimaryAction = true
         
         // set lastUsedWorkspace to navigationWorkspace Title
-        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? ""
+        let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace ?? "Default"
         self.setAttributedNavigationTitle(lastUsedWorkspace)
     }
 }

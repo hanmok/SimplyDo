@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 extension Todo {
     public var createdAt: Date {
         get { self.createdAt_ ?? Date() }

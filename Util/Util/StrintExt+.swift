@@ -8,6 +8,9 @@
 import Foundation
 
 extension String {
+    
+    public static let all = "All"
+    
     public struct EntityName {
         public static let todo = "Todo"
         public static let memo = "Memo"
@@ -22,8 +25,6 @@ extension String {
         public static let targetDate = "targetDate_"
         public static let title = "title_"
 //        public static let tags = "tags"
-//        public static let workspace = "workspace"
-        public static let workspaceTitle = "workspace_.title"
     }
     
     public struct MemoAttributes {
