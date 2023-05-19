@@ -15,7 +15,19 @@ import DesignKit
 import AudioToolbox
 import AVFoundation
 
+// TODO: Turn Into DiffableTableView
+
+
+
 class TodoTabController: UIViewController {
+    
+    enum Section: Int, CaseIterable {
+        case unchecked = 0
+        case checked
+    }
+    
+    var dataSource: UITableViewDiffableDataSource<Section, Todo>!
+    
     
     var coreDataManager: CoreDataManager
     init(coreDataManager: CoreDataManager) {
@@ -43,13 +55,65 @@ class TodoTabController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         fetchData()
+        configureDataSource()
         setupNotifications()
         setupTargets()
         setupLayout()
+        
+        updateDataSource()
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         view.addGestureRecognizer(tapGesture)
     }
+    
+    private func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource(tableView: todoTableView, cellProvider: { [weak self] tableView, indexPath, todoItem in
+            
+            guard let self = self else { fatalError() }
+//            print("section: \(Section(rawValue: indexPath.section))")
+            
+            if Section(rawValue: indexPath.section) == .unchecked {
+                let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
+//                print("cell registered, item: \(todoItem.title)")
+                cell.todoCellDelegate = self
+                cell.todoItem = todoItem
+                
+                let isLastCell = indexPath.row == self.uncheckedTodos.count - 1
+                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+                return cell
+                
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
+                
+                cell.todoCellDelegate = self
+                cell.todoItem = todoItem
+                
+                let isLastCell = indexPath.row == self.checkedTodos.count - 1
+                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+                
+                return cell
+            }
+            
+        })
+    }
+    
+    private func updateDataSource(shouldReload: Bool = false ) {
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Todo>()
+        snapshot.appendSections([.unchecked, .checked])
+        
+        snapshot.appendItems(uncheckedTodos, toSection: .unchecked)
+        snapshot.appendItems(checkedTodos, toSection: .checked)
+
+        dataSource.apply(snapshot, animatingDifferences: true) {
+            if shouldReload {
+                self.dataSource.applySnapshotUsingReloadData(snapshot)
+            }
+        }
+    }
+    
     
     func playSound() {
         guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
@@ -123,9 +187,9 @@ class TodoTabController: UIViewController {
     private func fetchTodos(workspaceTitle: String? = nil) {
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         self.fetchData()
-        DispatchQueue.main.async {
-            self.todoTableView.reloadData()
-        }
+//        DispatchQueue.main.async {
+//            self.todoTableView.reloadData()
+//        }
     }
     
     private func addWorkspaceAction() {
@@ -225,7 +289,7 @@ class TodoTabController: UIViewController {
     
     private func setupTableViewLayout() {
         todoTableView.delegate = self
-        todoTableView.dataSource = self
+//        todoTableView.dataSource = self
         
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
@@ -241,8 +305,11 @@ class TodoTabController: UIViewController {
         do {
             let allTodos = try coreDataManager.fetchTodos(
                 predicate: TodoPredicate(workspaceTitle: latestWorkspace, completion: CompletionStatus.none))
+            
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
+//            print("checkedTodos.first: \(checkedTodos.first!.title)")
+//            print("uncheckedTodos.first: \(uncheckedTodos.first!.title)")
         } catch let error {
             print(error.localizedDescription)
         }
@@ -256,14 +323,18 @@ class TodoTabController: UIViewController {
         
         do {
             let newTodo = try coreDataManager.createTodo(title: title, workspace: pickedWorkspaceForNewTodo, targetDate: targetDate)
-            let firstIndexPath = IndexPath(row: 0, section: 0)
-            uncheckedTodos.insert(newTodo, at: 0)
             
-            todoTableView.performBatchUpdates {
-                todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
-            } completion: { _ in
-                self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
-            }
+//            let firstIndexPath = IndexPath(row: 0, section: 0)
+            
+            uncheckedTodos.insert(newTodo, at: 0)
+//            print("newTodo.isDone: \(newTodo.isDone)")
+//            todoTableView.performBatchUpdates {
+//                todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
+//            } completion: { _ in
+//                self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
+//            }
+            
+            self.updateDataSource()
             
             self.view.makeToast("Added", position: .top)
             
@@ -363,7 +434,6 @@ class TodoTabController: UIViewController {
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
         view.backgroundColor = .white
         view.separatorStyle = .none
-        
         return view
     }()
     
@@ -406,47 +476,49 @@ class TodoTabController: UIViewController {
 
 // MARK: - TableView Delegate, DataSource
 
-extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let section = makeTodoSection(using: section)
-        switch section {
-            case .todo:
-                return uncheckedTodos.count
-            case .done:
-                return checkedTodos.count
-        }
-    }
+//extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
+extension TodoTabController: UITableViewDelegate {
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        let section = makeTodoSection(using: section)
+//        switch section {
+//            case .todo:
+//                return uncheckedTodos.count
+//            case .done:
+//                return checkedTodos.count
+//        }
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         viewTapped()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = makeTodoSection(using: indexPath.section)
-        
-        switch section {
-            case .todo:
-                let todoItem = uncheckedTodos[indexPath.row]
-                let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
-                cell.todoCellDelegate = self
-                cell.todoItem = todoItem
-                
-                let isLastCell = indexPath.row == uncheckedTodos.count - 1
-                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
-                return cell
-                
-            case .done:
-                let todoItem = checkedTodos[indexPath.row]
-                let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
-                cell.todoCellDelegate = self
-                cell.todoItem = todoItem
-                
-                let isLastCell = indexPath.row == checkedTodos.count - 1
-                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
-                
-                return cell
-        }
-    }
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let section = makeTodoSection(using: indexPath.section)
+//
+//        switch section {
+//            case .todo:
+//                let todoItem = uncheckedTodos[indexPath.row]
+//                let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
+//                cell.todoCellDelegate = self
+//                cell.todoItem = todoItem
+//
+//                let isLastCell = indexPath.row == uncheckedTodos.count - 1
+//                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+//                return cell
+//
+//            case .done:
+//                let todoItem = checkedTodos[indexPath.row]
+//                let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
+//                cell.todoCellDelegate = self
+//                cell.todoItem = todoItem
+//
+//                let isLastCell = indexPath.row == checkedTodos.count - 1
+//                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+//
+//                return cell
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let section = makeTodoSection(using: indexPath.section)
@@ -457,11 +529,15 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                     do {
                         try coreDataManager.delete(todo: deletingTodo)
                         uncheckedTodos.remove(at: indexPath.row)
-                        todoTableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            tableView.reloadData()
-                        }
+                        
+//                        todoTableView.performBatchUpdates {
+//                            tableView.deleteRows(at: [indexPath], with: .automatic)
+//                        } completion: { _ in
+//                            tableView.reloadData()
+//                        }
+                        
+                        self.updateDataSource()
+                        
                         self.view.makeToast("delete")
                     } catch {
                         self.view.makeToast("failed to delete todo ")
@@ -471,11 +547,14 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
                     do {
                         try coreDataManager.delete(todo: deletingTodo)
                         checkedTodos.remove(at: indexPath.row)
-                        todoTableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            tableView.reloadData()
-                        }
+                        
+                        self.updateDataSource()
+//                        todoTableView.performBatchUpdates {
+//                            tableView.deleteRows(at: [indexPath], with: .automatic)
+//                        } completion: { _ in
+//                            tableView.reloadData()
+//                        }
+                        
                         self.view.makeToast("delete")
                     } catch {
                         self.view.makeToast("failed to delete todo ")
@@ -528,9 +607,11 @@ extension TodoTabController: UITableViewDelegate, UITableViewDataSource {
         }
         return 40
     }
+    
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
             return 0
@@ -553,24 +634,55 @@ extension TodoTabController: UITextFieldDelegate {
 }
 
 extension TodoTabController: UncheckedTableCellDelegate {
-    func checkmarkTapped(_ cell: UncheckedTableCell) {
-        guard let targetTodo = cell.todoItem, let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { return }
+    func uncheckmarkTapped(_ cell: UncheckedTableCell) {
+        
+        self.updateDataSource()
+        
+//        guard let target = cell.todoItem else { fatalError() }
+        
+        
+        
+//        guard let targetTodo = cell.todoItem, // 여기에서 막히네.. ??
+//                let targetIndexRow = uncheckedTodos.firstIndex(of: targetTodo) else { fatalError() }
+//        print("selectedTargetTitle: \(target.title)")
+//        print("all uncheckedTodos title: ")
+//        uncheckedTodos.forEach { print($0.title)}
+        
+//        print("all checkedTodos title: ")
+//        checkedTodos.forEach { print($0.title)}
+        
+//        let first = uncheckedTodos.first { todo in
+//            todo.id == target.id
+//        }
+        
+//        print("has index? \(first)")
+        
+        guard let target = cell.todoItem else { fatalError() }
+        guard let targetIndexRow = uncheckedTodos.firstIndex(of: target) else { fatalError() }
+
+        
         do {
+//            try coreDataManager.toggleDoneState(todo: targetTodo)
+            try coreDataManager.toggleDoneState(todo: cell.todoItem!)
             
-            try coreDataManager.toggleDoneState(todo: targetTodo)
-            let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
+//            let targetIndexPath = IndexPath(row: targetIndexRow, section: 0)
             //            self.playSound()
             uncheckedTodos.remove(at: targetIndexRow)
-            checkedTodos.insert(targetTodo, at: 0)
+//            checkedTodos.insert(targetTodo, at: 0)
+            checkedTodos.insert(target, at: 0)
             
-            let newIndexPath = IndexPath(row: 0, section: 1)
+            self.updateDataSource()
             
-            todoTableView.performBatchUpdates {
-                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
-                
-            } completion: { _ in
-                self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .none)
-            }
+//            let newIndexPath = IndexPath(row: 0, section: 1)
+            
+//            todoTableView.performBatchUpdates {
+//                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+//            } completion: { _ in
+//                self.todoTableView.reloadRows(at: [newIndexPath, targetIndexPath], with: .none)
+//            }
+            
+            
+            
         } catch {
             self.view.makeToast("failed toggle")
         }
@@ -585,6 +697,7 @@ extension TodoTabController: UncheckedTableCellDelegate {
 
 extension TodoTabController: CheckedTableCellDelegate {
     func checkmarkTapped(_ cell: CheckedTableCell) {
+        
         guard let targetTodo = cell.todoItem, let targetIndexRow = checkedTodos.firstIndex(of: targetTodo) else { return }
         do {
             try coreDataManager.toggleDoneState(todo: targetTodo)
@@ -592,15 +705,18 @@ extension TodoTabController: CheckedTableCellDelegate {
             
             uncheckedTodos.insert(targetTodo, at: 0)
             checkedTodos.remove(at: targetIndexRow)
-            let newIndexPath = IndexPath(row: 0, section: 0)
             
-            todoTableView.performBatchUpdates {
-                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
-                //                AudioServicesPlaySystemSound(1003)
-            } completion: { success in
-                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .none)
-            }
+//            let newIndexPath = IndexPath(row: 0, section: 0)
+//
+//            todoTableView.performBatchUpdates {
+//                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
+//                //                AudioServicesPlaySystemSound(1003)
+//            } completion: { success in
+//                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .none)
+//            }
             
+            self.updateDataSource(shouldReload: true)
+//            snapshot
         } catch {
             self.view.makeToast("failed toggle")
         }

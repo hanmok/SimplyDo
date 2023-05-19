@@ -15,7 +15,7 @@ import AVFoundation
 // MARK: - Delegate
 
 protocol UncheckedTableCellDelegate: AnyObject {
-    func checkmarkTapped(_ cell: UncheckedTableCell)
+    func uncheckmarkTapped(_ cell: UncheckedTableCell)
     func titleTapped(_ cell: UncheckedTableCell)
 }
 
@@ -50,7 +50,10 @@ class UncheckedTableCell: UITableViewCell {
 //        contentView.clipsToBounds = true
 //        checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
 //        backgroundColor = UIColor(white: 0.85, alpha: 0.7)
+        lottieView.currentProgress = 0
     }
+    
+    
     
     func playSound() {
 //        guard let url = Bundle.main.url(forResource: "checked", withExtension: "wav") else { return }
@@ -85,7 +88,7 @@ class UncheckedTableCell: UITableViewCell {
         lottieView.currentTime = 0.7
         
         lottieView.play { _ in
-            self.todoCellDelegate?.checkmarkTapped(self)
+            self.todoCellDelegate?.uncheckmarkTapped(self)
         }
     }
     
