@@ -31,8 +31,11 @@ extension Todo {
     
     public var targetDate: Date {
         get { self.targetDate_ ?? Date() }
-        set { self.targetDate_ = newValue }
+        set { self.targetDate_ = newValue
+            self.formattedDate_ = Int64(newValue.getFormattedNumber())
+        }
     }
+
     
     public var title: String {
         get { self.title_ ?? "" }

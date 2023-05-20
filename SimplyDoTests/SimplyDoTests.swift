@@ -183,3 +183,16 @@ extension SimplyDoTests {
         XCTAssertEqual(estimatedFrame1.height, estimatedFrame2.height)
     }
 }
+
+extension SimplyDoTests {
+    func test_date() {
+        let date = Date()
+        let components = date.get(.day, .month, .year)
+        guard let day = components.day, let month = components.month, let year = components.year else { fatalError() }
+        
+//        XCTAssertNil(day)
+//        XCTAssertNil(date.makeNumber())
+        
+        XCTAssertNil(date.getFormattedNumber())
+    }
+}

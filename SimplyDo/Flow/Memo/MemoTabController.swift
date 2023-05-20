@@ -53,7 +53,7 @@ class MemoTabController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         setupTargets()
-        setupRightBarButton()
+//        setupRightBarButton()
         
         setupNavigationBar()
     }

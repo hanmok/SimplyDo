@@ -17,8 +17,6 @@ import AVFoundation
 
 // TODO: Turn Into DiffableTableView
 
-
-
 class TodoTabController: UIViewController {
     
     enum Section: Int, CaseIterable {
@@ -27,7 +25,6 @@ class TodoTabController: UIViewController {
     }
     
     var dataSource: UITableViewDiffableDataSource<Section, Todo>!
-    
     
     var coreDataManager: CoreDataManager
     init(coreDataManager: CoreDataManager) {
@@ -72,26 +69,21 @@ class TodoTabController: UIViewController {
         dataSource = UITableViewDiffableDataSource(tableView: todoTableView, cellProvider: { [weak self] tableView, indexPath, todoItem in
             
             guard let self = self else { fatalError() }
-//            print("section: \(Section(rawValue: indexPath.section))")
-            
             if Section(rawValue: indexPath.section) == .unchecked {
                 let cell = tableView.dequeueReusableCell(withIdentifier: UncheckedTableCell.reuseIdentifier, for: indexPath) as! UncheckedTableCell
-//                print("cell registered, item: \(todoItem.title)")
                 cell.todoCellDelegate = self
                 cell.todoItem = todoItem
+//                let isLastCell = indexPath.row == self.uncheckedTodos.count - 1
+//                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 
-                let isLastCell = indexPath.row == self.uncheckedTodos.count - 1
-                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 return cell
-                
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: CheckedTableCell.reuseIdentifier, for: indexPath) as! CheckedTableCell
-                
                 cell.todoCellDelegate = self
                 cell.todoItem = todoItem
                 
-                let isLastCell = indexPath.row == self.checkedTodos.count - 1
-                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
+//                let isLastCell = indexPath.row == self.checkedTodos.count - 1
+//                cell.contentView.applyCornerRadius(on: isLastCell ? .bottom : .none, radius: 10)
                 
                 return cell
             }
@@ -122,12 +114,7 @@ class TodoTabController: UIViewController {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             
-            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
-            
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-            
-            /* iOS 10 and earlier require the following line:
-             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
             
             guard let player = player else { return }
             
@@ -187,9 +174,6 @@ class TodoTabController: UIViewController {
     private func fetchTodos(workspaceTitle: String? = nil) {
         let lastUsedWorkspace = UserDefaults.standard.lastUsedWorkspace
         self.fetchData()
-//        DispatchQueue.main.async {
-//            self.todoTableView.reloadData()
-//        }
     }
     
     private func addWorkspaceAction() {
@@ -289,8 +273,6 @@ class TodoTabController: UIViewController {
     
     private func setupTableViewLayout() {
         todoTableView.delegate = self
-//        todoTableView.dataSource = self
-        
         todoTableView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(20)
@@ -305,11 +287,8 @@ class TodoTabController: UIViewController {
         do {
             let allTodos = try coreDataManager.fetchTodos(
                 predicate: TodoPredicate(workspaceTitle: latestWorkspace, completion: CompletionStatus.none))
-            
             checkedTodos = allTodos.filter { $0.isDone == true }
             uncheckedTodos = allTodos.filter { $0.isDone == false }
-//            print("checkedTodos.first: \(checkedTodos.first!.title)")
-//            print("uncheckedTodos.first: \(uncheckedTodos.first!.title)")
         } catch let error {
             print(error.localizedDescription)
         }
@@ -320,24 +299,11 @@ class TodoTabController: UIViewController {
             self.hideKeyboard()
             return
         }
-        
         do {
             let newTodo = try coreDataManager.createTodo(title: title, workspace: pickedWorkspaceForNewTodo, targetDate: targetDate)
-            
-//            let firstIndexPath = IndexPath(row: 0, section: 0)
-            
             uncheckedTodos.insert(newTodo, at: 0)
-//            print("newTodo.isDone: \(newTodo.isDone)")
-//            todoTableView.performBatchUpdates {
-//                todoTableView.insertRows(at: [firstIndexPath], with: .top) // view
-//            } completion: { _ in
-//                self.todoTableView.reloadRows(at: [firstIndexPath], with: .automatic)
-//            }
-            
             self.updateDataSource()
-            
             self.view.makeToast("Added", position: .top)
-            
         } catch let e {
             print(e.localizedDescription)
         }
@@ -428,10 +394,11 @@ class TodoTabController: UIViewController {
     }()
     
     private let todoTableView: UITableView = {
-        let view = UITableView()
+        let view = UITableView(frame: .zero, style: .insetGrouped)
         view.sectionHeaderTopPadding = 30.0
         view.register(UncheckedTableCell.self, forCellReuseIdentifier: UncheckedTableCell.reuseIdentifier)
         view.register(CheckedTableCell.self, forCellReuseIdentifier: CheckedTableCell.reuseIdentifier)
+//        view.style = .insetGrouped
         view.backgroundColor = .white
         view.separatorStyle = .none
         return view
@@ -579,23 +546,33 @@ extension TodoTabController: UITableViewDelegate {
         
         let view = PaddedLabel()
         view.layer.cornerRadius = 10
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+//        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.clipsToBounds = true
         view.backgroundColor = .indigo
         
         emptyView.addSubview(view)
+        
         view.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.bottom.equalToSuperview()
+//            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview()
+//            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(5)
         }
         
         if section == .todo && uncheckedTodos.count != 0 {
+            
+//            view.text = "오늘 할 것"
+//            view.attributedText = NSAttributedString(string: "오늘 할 것", attributes: [.foregroundColor: UIColor.indigo, .font: UIFont.systemFont(ofSize: 18, weight: .semibold)])
+            
             view.text = "오늘 할 것"
             view.textColor = .white
+//            view.textColor = .indigo
             return emptyView
         } else if section == .done && checkedTodos.count != 0 {
             view.text = "완료!"
             view.textColor = .white
+//            view.textColor = .indigo
             return emptyView
         }
         return nil
@@ -706,17 +683,7 @@ extension TodoTabController: CheckedTableCellDelegate {
             uncheckedTodos.insert(targetTodo, at: 0)
             checkedTodos.remove(at: targetIndexRow)
             
-//            let newIndexPath = IndexPath(row: 0, section: 0)
-//
-//            todoTableView.performBatchUpdates {
-//                todoTableView.moveRow(at: targetIndexPath, to: newIndexPath)
-//                //                AudioServicesPlaySystemSound(1003)
-//            } completion: { success in
-//                self.todoTableView.reloadRows(at: [targetIndexPath, newIndexPath], with: .none)
-//            }
-            
             self.updateDataSource(shouldReload: true)
-//            snapshot
         } catch {
             self.view.makeToast("failed toggle")
         }
@@ -753,6 +720,7 @@ extension TodoTabController {
             // Recreate the menu. This is necessary in order to get this block to
             // fire again on future taps of the bar button item.
             barButtonItem.menu = self.menu(for: barButtonItem)
+            
         }])
     }
 }

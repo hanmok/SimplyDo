@@ -74,8 +74,9 @@ class CheckedTableCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let inset2 = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        contentView.frame = contentView.frame.inset(by: inset2)
+        
+//        let inset2 = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+//        contentView.frame = contentView.frame.inset(by: inset2)
         
         contentView.clipsToBounds = true
         todoIcon.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)

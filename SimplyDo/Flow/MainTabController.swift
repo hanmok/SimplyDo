@@ -60,11 +60,14 @@ class MainTabController: UITabBarController, UINavigationControllerDelegate {
             unselectedImage: UIImage.unchecked.withTintColor(.magenta),
             selectedImage: UIImage.checked,
             rootViewController: TodoTabController(coreDataManager: coreDataManager))
+        todo.title = "Todo"
         
         let memo = templateNavigationController(
             unselectedImage: UIImage.unselectedMessageTab,
             selectedImage: UIImage.selectedMessageTab,
             rootViewController: MemoTabController(coreDataManager: coreDataManager))
+        memo.title = "Memo"
+        
         
 //        let tag = templateNavigationController(
 //            unselectedImage: UIImage.tag,

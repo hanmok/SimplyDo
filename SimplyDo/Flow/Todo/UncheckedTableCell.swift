@@ -125,12 +125,14 @@ class UncheckedTableCell: UITableViewCell {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        let inset2 = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        contentView.frame = contentView.frame.inset(by: inset2)
+//        let inset2 = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+//        contentView.frame = contentView.frame.inset(by: inset2)
         
         contentView.clipsToBounds = true
+        
         checkmarkButton.addTarget(self, action: #selector(self.checkmarkTapped), for: .touchUpInside)
         contentView.backgroundColor = UIColor(white: 0.85, alpha: 0.7)
+        
         let inset = 7
         let width = 26
         let mainInset = 16

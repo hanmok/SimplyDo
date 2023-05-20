@@ -16,6 +16,7 @@ extension String {
         public static let memo = "Memo"
         public static let workspace = "Workspace"
     }
+    
     public struct TodoAttributes {
         public static let createdAt = "createdAt_"
         public static let dueDate = "dueDate"
@@ -25,6 +26,7 @@ extension String {
         public static let targetDate = "targetDate_"
         public static let title = "title_"
 //        public static let tags = "tags"
+        public static let formattedDate = "formattedDate_" // Target Date
     }
     
     public struct MemoAttributes {

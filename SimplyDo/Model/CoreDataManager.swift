@@ -62,10 +62,19 @@ extension CoreDataManager {
         
         switch (predicate.shouldSortAscendingOrder, predicate.completion) {
             case (let isAscending, let status):
-                if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
+//                if [CompletionStatus.done, CompletionStatus.todo].contains(status) {
                     let arg = status == .done ? true : false
-                    fetchRequest.predicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
-                }
+                    let isDonePredicate = NSPredicate(format: "\(String.TodoAttributes.isDone) == %@", NSNumber(value: arg))
+                    
+                    // get formattedDate
+                    let targetDatePredicate = NSPredicate(format: "\(String.TodoAttributes.formattedDate) <= %d", Date().getFormattedNumber())
+                    
+                    let combinedPredicates =  NSCompoundPredicate(andPredicateWithSubpredicates: [isDonePredicate, targetDatePredicate])
+                    
+                    fetchRequest.predicate = combinedPredicates
+                
+//                }
+                
                 fetchRequest.sortDescriptors = [NSSortDescriptor(key: .TodoAttributes.createdAt, ascending: isAscending)]
         }
         do {
